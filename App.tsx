@@ -7,6 +7,9 @@ import FindYourPathMap from "./src/screen/Paths/FindYourPathMap";
 import tabBar from "./src/navigation/bottomNavigation/tabBar";
 import { createAppContainer } from "react-navigation";
 
+import { NavigationContainer } from "@react-navigation/native";
+import Drawer from "./src/navigation/drawer/Drawer";
+
 const tabNavigator = createBottomTabNavigator(
   {
     FindYourPath: {
@@ -38,16 +41,13 @@ const tabNavigator = createBottomTabNavigator(
     tabBarComponent: tabBar,
     tabBarOptions: {
       showLabel: false,
-      activeTintColor: "#F8F8F8",
+      activeTintColor: "#FDFDFB",
       inactiveTintColor: "#4c575c",
-      style: {
-        backgroundColor: "green"
-      },
-      tabStyle: {}
     }
   }
 );
 const AppNavigator = createAppContainer(tabNavigator);
 export default () => {
-  return <AppNavigator></AppNavigator>;
+  // return <AppNavigator></AppNavigator>;
+  return <NavigationContainer>{<Drawer></Drawer>}</NavigationContainer>;
 };
