@@ -1,75 +1,40 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerContentComponentProps,
   DrawerContentOptions,
-  DrawerItem
+  DrawerItem,
+  DrawerNavigationProp
 } from "@react-navigation/drawer";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated from "react-native-reanimated";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { createAppContainer } from "react-navigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+
 import { Feather, AntDesign } from "@expo/vector-icons";
-import { RouteProp } from "@react-navigation/native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import FindYourPathPhotos from "../../screen/Paths/FindYourPathPhotos";
-import FindYourPathMap from "../../screen/Paths/FindYourPathMap";
 import FindYourPath from "../../screen/Paths/FindYourPath";
+import DrawerScreen from "../../screen/Paths/DrawerScreen";
+import PathBottomNavigator from "../../screen/Paths/PathBottomNavigator";
 const styles = StyleSheet.create({
   stack: {
     flex: 1,
-    shadowColor: "#FFF",
-    shadowOffset: {
-      width: 0,
-      height: 8
-    },
-    shadowOpacity: 0.44,
-    shadowRadius: 10.32,
-    // elevation: 3,
     overflow: "hidden"
-    // borderWidth: 1,
   },
-  drawerStyles: { flex: 1, width: "50%", backgroundColor: "transparent" },
+  drawerStyles: { flex: 1, width: "60%", backgroundColor: "transparent" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
   drawerLabel: { color: "white", marginLeft: -16 }
 });
 
 const Drawer = createDrawerNavigator();
 
-interface ScreenProps {
-  children: JSX.Element;
-  navigation: any;
-  animatedStyle: {
-    borderRadius: Animated.Node<number>;
-    transform: {
-      scale: Animated.Node<number>;
-    }[];
-  };
-}
-const DrawerScreen = ({ navigation, animatedStyle, children }: ScreenProps) => {
-  return (
-    <Animated.View
-      //   style={[StyleSheet.flatten([styles.stack, animatedStyle]), {}]}
-      style={[
-        StyleSheet.flatten([animatedStyle]),
-        StyleSheet.absoluteFill,
-        { backgroundColor: "red" }
-      ]}
-    >
-      <SafeAreaView>
-        <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
-          <Feather
-            name="menu"
-            size={18}
-            color="black"
-            style={{ paddingHorizontal: 10 }}
-          />
-        </TouchableWithoutFeedback>
-        {children}
-      </SafeAreaView>
-    </Animated.View>
-  );
+export type RootStackParamList = {
+  FindYourPath: undefined;
+  FindYourPathMap: undefined;
+  FindYourPathPhotos: undefined;
 };
 
 const DrawerContent = (
@@ -79,7 +44,7 @@ const DrawerContent = (
     <DrawerContentScrollView
       {...props}
       scrollEnabled={false}
-      contentContainerStyle={{ flex: 1 }}
+      contentContainerStyle={{ flex: 1, width: 800 }}
     >
       <DrawerItem
         label="FindYourPath"
@@ -96,10 +61,17 @@ const DrawerContent = (
         icon={() => <AntDesign name="message1" color="white" size={16} />}
       />
       <DrawerItem
-        label="FindYourPathMaps"
+        label="FindYourPathMap"
         labelStyle={{ color: "white", marginLeft: -16 }}
         style={{ alignItems: "flex-start", marginVertical: 0 }}
-        onPress={() => props.navigation.navigate("FindYourPathMaps")}
+        onPress={() => props.navigation.navigate("FindYourPathMap")}
+        icon={() => <AntDesign name="phone" color="white" size={16} />}
+      />
+      <DrawerItem
+        label="PathNavigator"
+        labelStyle={{ color: "white", marginLeft: -16 }}
+        style={{ alignItems: "flex-start", marginVertical: 0 }}
+        onPress={() => props.navigation.navigate("PathNavigator")}
         icon={() => <AntDesign name="phone" color="white" size={16} />}
       />
     </DrawerContentScrollView>
@@ -116,29 +88,57 @@ export default () => {
   });
   const borderRadius = Animated.interpolate(progress, {
     inputRange: [0, 1],
-    outputRange: [0, 16]
+    outputRange: [0, 36]
   });
 
   const animatedStyle = { borderRadius, transform: [{ scale }] };
   return (
-    <LinearGradient style={{ flex: 1 }} colors={["#E94057", "#4A00E0"]}>
+    <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
+        edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
         drawerStyle={styles.drawerStyles}
         drawerContentOptions={{
-          activeBackgroundColor: "transparent",
+          activeBackgroundColor: "#2A4337",
           activeTintColor: "white",
           inactiveTintColor: "white"
         }}
-        sceneContainerStyle={{ backgroundColor: "transparent" }}
+        sceneContainerStyle={{ backgroundColor: "#2A4337" }}
         drawerContent={props => {
           setProgress(props.progress);
           return <DrawerContent {...props} />;
         }}
       >
-        <Drawer.Screen name="FindYourPathMap" component={FindYourPathMap} />
+        <Drawer.Screen name="FindYourPath">
+          {props => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <FindYourPath></FindYourPath>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
+        <Drawer.Screen name="FindYourPathMap">
+          {props => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <Text>FindYourPathMap</Text>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
+        <Drawer.Screen name="FindYourPathPhotos">
+          {props => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <Text>FindYourPathPhotos</Text>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
+        <Drawer.Screen name="PathNavigator">
+          {props => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <PathBottomNavigator></PathBottomNavigator>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
       </Drawer.Navigator>
     </LinearGradient>
   );

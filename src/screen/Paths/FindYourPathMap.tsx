@@ -8,7 +8,7 @@ export default () => {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
       }}
     >
       <Text style={{ textAlign: "center" }}>Map Map Map Map</Text>
