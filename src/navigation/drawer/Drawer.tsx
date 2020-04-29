@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -17,14 +17,10 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import { Feather, AntDesign } from "@expo/vector-icons";
 import FindYourPath from "../../screen/Paths/FindYourPath";
-import DrawerScreen from "../../screen/Paths/DrawerScreen";
-import PathBottomNavigator from "../../screen/Paths/PathBottomNavigator";
+import DrawerScreen from "./DrawerScreen";
+import PathBottomNavigator from "../bottomNavigation/PathBottomNavigator";
 const styles = StyleSheet.create({
-  stack: {
-    flex: 1,
-    overflow: "hidden"
-  },
-  drawerStyles: { flex: 1, width: "60%", backgroundColor: "transparent" },
+  drawerStyles: { flex: 1, width: "60%",backgroundColor: "#2A4337"},
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
   drawerLabel: { color: "white", marginLeft: -16 }
 });
@@ -44,7 +40,7 @@ const DrawerContent = (
     <DrawerContentScrollView
       {...props}
       scrollEnabled={false}
-      contentContainerStyle={{ flex: 1, width: 800 }}
+      contentContainerStyle={{ flex: 1}}
     >
       <DrawerItem
         label="FindYourPath"
@@ -93,9 +89,10 @@ export default () => {
 
   const animatedStyle = { borderRadius, transform: [{ scale }] };
   return (
-    <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
+    <LinearGradient style={{ flex: 1 }} colors={["#2A4337","#2A4337"]} >
       <Drawer.Navigator
         // hideStatusBar
+        
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -105,7 +102,7 @@ export default () => {
           activeTintColor: "white",
           inactiveTintColor: "white"
         }}
-        sceneContainerStyle={{ backgroundColor: "#2A4337" }}
+        sceneContainerStyle={{ backgroundColor: "#2A4337"}}
         drawerContent={props => {
           setProgress(props.progress);
           return <DrawerContent {...props} />;

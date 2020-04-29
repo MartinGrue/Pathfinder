@@ -7,12 +7,12 @@ import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
 
 const { width } = Dimensions.get("window");
-const height = 14;
+const height = 34;
 const getPath = (): string => {
 
   const draw = shape.line().curve(shape.curveBasis)([
     [0, 0],
-    [10, height],
+    [0, height],
     [width / 4, height],
     [width / 2, height],
     [(width * 3) / 4, height],
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     justifyContent: "flex-end",
-    minHeight: 100,
+    minHeight: 120,
     backgroundColor: "#2A4337"
   },
   content: {
