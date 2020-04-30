@@ -19,8 +19,10 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import FindYourPath from "../../screen/Paths/FindYourPath";
 import DrawerScreen from "./DrawerScreen";
 import PathBottomNavigator from "../bottomNavigation/PathBottomNavigator";
+import FindYourPathMap from "../../screen/Paths/FindYourPathMap";
+import FindYourPathPhotos from "../../screen/Paths/FindYourPathPhotos";
 const styles = StyleSheet.create({
-  drawerStyles: { flex: 1, width: "60%",backgroundColor: "#2A4337"},
+  drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
   drawerLabel: { color: "white", marginLeft: -16 }
 });
@@ -40,7 +42,7 @@ const DrawerContent = (
     <DrawerContentScrollView
       {...props}
       scrollEnabled={false}
-      contentContainerStyle={{ flex: 1}}
+      contentContainerStyle={{ flex: 1 }}
     >
       <DrawerItem
         label="FindYourPath"
@@ -89,10 +91,10 @@ export default () => {
 
   const animatedStyle = { borderRadius, transform: [{ scale }] };
   return (
-    <LinearGradient style={{ flex: 1 }} colors={["#2A4337","#2A4337"]} >
+    <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
-        
+
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -102,7 +104,7 @@ export default () => {
           activeTintColor: "white",
           inactiveTintColor: "white"
         }}
-        sceneContainerStyle={{ backgroundColor: "#2A4337"}}
+        sceneContainerStyle={{ backgroundColor: "#2A4337" }}
         drawerContent={props => {
           setProgress(props.progress);
           return <DrawerContent {...props} />;
@@ -118,14 +120,14 @@ export default () => {
         <Drawer.Screen name="FindYourPathMap">
           {props => (
             <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <Text>FindYourPathMap</Text>
+              <FindYourPathMap></FindYourPathMap>
             </DrawerScreen>
           )}
         </Drawer.Screen>
         <Drawer.Screen name="FindYourPathPhotos">
           {props => (
             <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <Text>FindYourPathPhotos</Text>
+              <FindYourPathPhotos></FindYourPathPhotos>
             </DrawerScreen>
           )}
         </Drawer.Screen>

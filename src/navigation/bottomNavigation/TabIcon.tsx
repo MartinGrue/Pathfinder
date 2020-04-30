@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 11,
-    marginBottom: 1,
-    marginTop: 1.5,
+    marginBottom: .5,
+    marginTop: .5,
   },
 });

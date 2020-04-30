@@ -9,7 +9,6 @@ import Svg, { Path } from "react-native-svg";
 const { width } = Dimensions.get("window");
 const height = 34;
 const getPath = (): string => {
-
   const draw = shape.line().curve(shape.curveBasis)([
     [0, 0],
     [0, height],
@@ -71,7 +70,6 @@ export default ({
                 ? inactiveTintColor
                 : undefined
           });
-
           return {
             ...(Icon as Object),
             key: "simple"
@@ -83,16 +81,12 @@ export default ({
 };
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    justifyContent: "flex-end",
-    minHeight: 120,
+    minHeight: 100,
     backgroundColor: "#2A4337"
   },
   content: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "center"
   }
 });

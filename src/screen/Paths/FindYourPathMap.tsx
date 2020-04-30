@@ -1,17 +1,26 @@
 import React from "react";
 import { Text, SafeAreaView } from "react-native";
 
-export default () => {
+interface Props {
+  defaultprop: string;
+}
+const FindYourPathMap = ({ defaultprop }: Props) => {
   return (
     <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#FDFDFB",
       }}
     >
-      <Text style={{ textAlign: "center" }}>Map Map Map Map</Text>
+      <Text style={{ textAlign: "center" }}>{defaultprop}</Text>
     </SafeAreaView>
   );
 };
+
+FindYourPathMap.defaultProps = {
+  defaultprop: "world",
+} as Partial<Props>;
+export default FindYourPathMap;

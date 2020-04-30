@@ -8,7 +8,8 @@ export default () => {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor:"#FDFDFB"
       }}
     >
       <Text style={{ textAlign: "center" }}>Photos Photos Photos</Text>
