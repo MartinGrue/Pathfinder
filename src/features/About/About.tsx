@@ -110,7 +110,6 @@ const LittleFloater = ({
     outputRange: [0, -444],
     extrapolate: Extrapolate.CLAMP,
   });
-  // const currentHeight = index * textHeight;
   const currentHeight = ceil(sub(index * textHeight, floor(abs(scrolly))));
   const xDiff = Math.abs(xMax - index * xOffset);
 

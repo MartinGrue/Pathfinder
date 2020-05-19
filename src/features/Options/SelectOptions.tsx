@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, SafeAreaView } from "react-native";
 
 export default () => {
@@ -11,7 +10,7 @@ export default () => {
         alignItems: "center",
       }}
     >
-      <Text style={{ textAlign: "center" }}>Emergency Contact</Text>
+      <Text style={{ textAlign: "center" }}>Options Options Options</Text>
     </SafeAreaView>
   );
 };

@@ -1,18 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { RootStackParamList } from "./Drawer";
+import { StyleSheet } from "react-native";
+import { DrawerParamList } from "./Drawer";
 import { DrawerNavigationProp } from "@react-navigation/drawer/lib/typescript/src/types";
 import Animated from "react-native-reanimated";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Feather } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DrawerHeader from "./DrawerHeader";
+
 interface FindYourPathMapProps {
   children: JSX.Element;
-  navigation: DrawerNavigationProp<
-    RootStackParamList,
-    keyof RootStackParamList
-  >;
+  navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
   animatedStyle: {
     borderRadius: Animated.Node<number>;
     transform: {
@@ -23,25 +18,17 @@ interface FindYourPathMapProps {
 export default ({
   navigation,
   animatedStyle,
-  children
+  children,
 }: FindYourPathMapProps) => {
   return (
     <Animated.View
-      //   style={[StyleSheet.flatten([styles.stack, animatedStyle]), {}]}
       style={[
         StyleSheet.flatten([animatedStyle]),
         StyleSheet.absoluteFill,
-        { backgroundColor: "#2A4337", flex: 1, overflow: "hidden" }
+        { backgroundColor: "#F3F2F1", overflow: "hidden" },
       ]}
     >
-      <View style={{backgroundColor: "#F3F2F1"}}>
-      <SafeAreaView>
-        <DrawerHeader {...{ navigation }}></DrawerHeader>
-      </SafeAreaView>
-      </View>
-
-
-      {children}
+      <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
     </Animated.View>
   );
 };

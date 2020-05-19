@@ -1,15 +1,13 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
   TouchableWithoutFeedback,
   Dimensions,
-  SafeAreaView
 } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RootStackParamList } from "./Drawer";
-import { SimpleLineIcons, Feather } from "@expo/vector-icons";
+import { DrawerParamList } from "./Drawer";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
@@ -18,25 +16,23 @@ const { width } = Dimensions.get("window");
 const height = 34;
 const getPath = (): string => {
   const draw = shape.line().curve(shape.curveBasis)([
-    [0, height], //M
-    [0, 0], //A sup von M
-    [width / 4, 0], //B sup von C
-    [width / 2, 0], //C
-    [(width * 3) / 4, 0], //D sup von C
-    [width - 10, 0], //E sup von F
-    [width, height] //F
+    [0, height],
+    [0, 0],
+    [width / 4, 0],
+    [width / 2, 0],
+    [(width * 3) / 4, 0],
+    [width - 10, 0],
+    [width, height],
   ]);
 
   return `${draw}`;
 };
 const d = getPath();
 interface DrawerHeaderProps {
-  navigation: DrawerNavigationProp<
-    RootStackParamList,
-    keyof RootStackParamList
-  >;
+  navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
+  children?: React.ReactNode;
 }
-const DrawerHeader = ({ navigation }: DrawerHeaderProps) => {
+const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
   return (
     <>
       <View style={styles.header}>
@@ -44,7 +40,7 @@ const DrawerHeader = ({ navigation }: DrawerHeaderProps) => {
           style={{
             flex: 1,
             justifyContent: "center",
-            alignItems: "flex-start"
+            alignItems: "flex-start",
           }}
         >
           <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
@@ -52,23 +48,10 @@ const DrawerHeader = ({ navigation }: DrawerHeaderProps) => {
               name="menu"
               size={18}
               color="#a3a19b"
-              style={{ paddingHorizontal: 10 }}
             />
           </TouchableWithoutFeedback>
         </View>
-        <Text style={styles.headerLocation}>San Francisco, US</Text>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
-        >
-          <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
-            <Feather
-              name="info"
-              size={28}
-              color="#a3a19b"
-              style={{ paddingHorizontal: 10 }}
-            />
-          </TouchableWithoutFeedback>
-        </View>
+        {children}
       </View>
       <View style={{ backgroundColor: "#F3F2F1" }}>
         <Svg width={width * 2} height={height}>
@@ -85,19 +68,17 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   header: {
     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: 12 * 2,
     paddingTop: 8 * 2.5,
-    paddingBottom: 12 * 1.5
+    paddingBottom: 12 * 1.5,
+    backgroundColor: "#F3F2F1",
   },
   headerTitle: {
-    color: "#2a4337"
+    color: "#2a4337",
   },
-  headerLocation: {
-    paddingVertical: 8 / 3
-  }
 });

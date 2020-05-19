@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "HelloWorld",
+    "name": "hickingapp",
     "slug": "hickingapp",
     "platforms": [
       "ios",
@@ -23,6 +23,12 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "com.tryhardcoding.mapcuny",
+      "config": {
+         "googleMaps": { "apiKey": "AIzaSyCHYvacLxG7odfjovNDb1GpTHon3BMIXlw" }   
+      }
+   }
   }
 }

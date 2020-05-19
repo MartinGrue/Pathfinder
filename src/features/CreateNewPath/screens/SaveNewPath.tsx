@@ -1,18 +1,18 @@
 import React from "react";
-import { Text, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default () => {
   return (
-    <SafeAreaView
+    <View
       style={{
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:"#FDFDFB"
+        backgroundColor: "#FDFDFB",
       }}
     >
-      <Text style={{ textAlign: "center" }}>Photos Photos Photos</Text>
-    </SafeAreaView>
+      <Text>Hello from SaveNewPath</Text>
+    </View>
   );
 };

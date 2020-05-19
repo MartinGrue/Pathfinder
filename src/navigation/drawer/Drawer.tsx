@@ -1,39 +1,30 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerContentComponentProps,
   DrawerContentOptions,
   DrawerItem,
-  DrawerNavigationProp
 } from "@react-navigation/drawer";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated from "react-native-reanimated";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { createAppContainer } from "react-navigation";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "react-navigation-tabs";
-
-import { Feather, AntDesign } from "@expo/vector-icons";
-import FindYourPath from "../../screen/Paths/FindYourPath";
+import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
-import PathBottomNavigator from "../bottomNavigation/PathBottomNavigator";
-import FindYourPathMap from "../../screen/Paths/FindYourPathMap";
-import FindYourPathPhotos from "../../screen/Paths/FindYourPathPhotos";
+import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
+import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
-  drawerLabel: { color: "white", marginLeft: -16 }
+  drawerLabel: { color: "white", marginLeft: -16 },
 });
 
-const Drawer = createDrawerNavigator();
-
-export type RootStackParamList = {
-  FindYourPath: undefined;
-  FindYourPathMap: undefined;
-  FindYourPathPhotos: undefined;
+export type DrawerParamList = {
+  FindYoutPathStackNavigatior: undefined;
+  CreateNewPath: undefined;
 };
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const DrawerContent = (
   props: DrawerContentComponentProps<DrawerContentOptions>
@@ -48,29 +39,15 @@ const DrawerContent = (
         label="FindYourPath"
         labelStyle={styles.drawerLabel}
         style={styles.drawerItem}
-        onPress={() => props.navigation.navigate("FindYourPath")}
+        onPress={() => props.navigation.navigate("FindYoutPathStackNavigatior")}
         icon={() => <AntDesign name="dashboard" color="white" size={16} />}
       />
       <DrawerItem
-        label="FindYourPathPhotos"
+        label="CreateNewPath"
         labelStyle={{ color: "white", marginLeft: -16 }}
         style={{ alignItems: "flex-start", marginVertical: 0 }}
-        onPress={() => props.navigation.navigate("FindYourPathPhotos")}
+        onPress={() => props.navigation.navigate("CreateNewPath")}
         icon={() => <AntDesign name="message1" color="white" size={16} />}
-      />
-      <DrawerItem
-        label="FindYourPathMap"
-        labelStyle={{ color: "white", marginLeft: -16 }}
-        style={{ alignItems: "flex-start", marginVertical: 0 }}
-        onPress={() => props.navigation.navigate("FindYourPathMap")}
-        icon={() => <AntDesign name="phone" color="white" size={16} />}
-      />
-      <DrawerItem
-        label="PathNavigator"
-        labelStyle={{ color: "white", marginLeft: -16 }}
-        style={{ alignItems: "flex-start", marginVertical: 0 }}
-        onPress={() => props.navigation.navigate("PathNavigator")}
-        icon={() => <AntDesign name="phone" color="white" size={16} />}
       />
     </DrawerContentScrollView>
   );
@@ -82,11 +59,11 @@ export default () => {
   );
   const scale = Animated.interpolate(progress, {
     inputRange: [0, 1],
-    outputRange: [1, 0.8]
+    outputRange: [1, 0.8],
   });
   const borderRadius = Animated.interpolate(progress, {
     inputRange: [0, 1],
-    outputRange: [0, 36]
+    outputRange: [0, 36],
   });
 
   const animatedStyle = { borderRadius, transform: [{ scale }] };
@@ -94,7 +71,7 @@ export default () => {
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
-
+        initialRouteName="CreateNewPath"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -102,39 +79,29 @@ export default () => {
         drawerContentOptions={{
           activeBackgroundColor: "#2A4337",
           activeTintColor: "white",
-          inactiveTintColor: "white"
+          inactiveTintColor: "white",
         }}
         sceneContainerStyle={{ backgroundColor: "#2A4337" }}
-        drawerContent={props => {
+        drawerContent={(props) => {
           setProgress(props.progress);
           return <DrawerContent {...props} />;
         }}
       >
-        <Drawer.Screen name="FindYourPath">
-          {props => (
+        <Drawer.Screen name="FindYoutPathStackNavigatior">
+          {(props) => (
             <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <FindYourPath></FindYourPath>
+              <FindYoutPathStackNavigatior
+                {...props}
+              ></FindYoutPathStackNavigatior>
             </DrawerScreen>
           )}
         </Drawer.Screen>
-        <Drawer.Screen name="FindYourPathMap">
-          {props => (
+        <Drawer.Screen name="CreateNewPath">
+          {(props) => (
             <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <FindYourPathMap></FindYourPathMap>
-            </DrawerScreen>
-          )}
-        </Drawer.Screen>
-        <Drawer.Screen name="FindYourPathPhotos">
-          {props => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <FindYourPathPhotos></FindYourPathPhotos>
-            </DrawerScreen>
-          )}
-        </Drawer.Screen>
-        <Drawer.Screen name="PathNavigator">
-          {props => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <PathBottomNavigator></PathBottomNavigator>
+              <CreateNewPathStackNavigator
+                {...props}
+              ></CreateNewPathStackNavigator>
             </DrawerScreen>
           )}
         </Drawer.Screen>
