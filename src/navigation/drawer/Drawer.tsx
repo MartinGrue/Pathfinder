@@ -13,6 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
 import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
+import RadialLine from "../../radialLineTest/RadialLine";
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
 export type DrawerParamList = {
   FindYoutPathStackNavigatior: undefined;
   CreateNewPath: undefined;
+  RadialLine: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -49,6 +51,13 @@ const DrawerContent = (
         onPress={() => props.navigation.navigate("CreateNewPath")}
         icon={() => <AntDesign name="message1" color="white" size={16} />}
       />
+      <DrawerItem
+        label="RadialLine"
+        labelStyle={{ color: "white", marginLeft: -16 }}
+        style={{ alignItems: "flex-start", marginVertical: 0 }}
+        onPress={() => props.navigation.navigate("RadialLine")}
+        icon={() => <AntDesign name="message1" color="white" size={16} />}
+      />
     </DrawerContentScrollView>
   );
 };
@@ -71,7 +80,7 @@ export default () => {
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
-        initialRouteName="CreateNewPath"
+        initialRouteName="RadialLine"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -102,6 +111,13 @@ export default () => {
               <CreateNewPathStackNavigator
                 {...props}
               ></CreateNewPathStackNavigator>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
+        <Drawer.Screen name="RadialLine">
+          {(props) => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <RadialLine></RadialLine>
             </DrawerScreen>
           )}
         </Drawer.Screen>
