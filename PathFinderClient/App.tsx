@@ -15,7 +15,7 @@ export default () => {
   const [isLoggedIn, setisLoggedIn] = useState(false);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ header: () => null }}>
+      <Stack.Navigator initialRouteName="MainFlow" screenOptions={{ header: () => null }}>
         <Stack.Screen name="SignIn" component={SignIn} />
 
         <Stack.Screen name="MainFlow" component={Drawer} />

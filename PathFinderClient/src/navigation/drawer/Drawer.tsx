@@ -80,7 +80,7 @@ export default () => {
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
-        initialRouteName="RadialLine"
+        initialRouteName="CreateNewPath"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -90,7 +90,7 @@ export default () => {
           activeTintColor: "white",
           inactiveTintColor: "white",
         }}
-        sceneContainerStyle={{ backgroundColor: "#2A4337" }}
+        sceneContainerStyle={{ backgroundColor: "#2A4337"}}
         drawerContent={(props) => {
           setProgress(props.progress);
           return <DrawerContent {...props} />;

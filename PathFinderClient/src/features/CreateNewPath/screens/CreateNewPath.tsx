@@ -16,10 +16,10 @@ const { width, height } = Dimensions.get("window");
 
 export default () => {
   return (
-    <View style={{ backgroundColor: theme.colors.white, flex: 1 }}>
-      <View style={styles.header}>
+    <View style={{ backgroundColor: theme.colors.white, flex:1 }}>
+      {/* <View style={styles.header}>
         <Text style={styles.headerText}>Create New Path</Text>
-      </View>
+      </View> */}
       <View style={styles.mapContainer}>
         <MapView
           style={{ flex: 2 }}
@@ -108,15 +108,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     position: "absolute",
-    bottom: -60,
+    bottom: -50,
     width: width,
   },
   locationInfoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: theme.sizes.radius,
-    paddingHorizontal: theme.sizes.padding,
-    paddingVertical: theme.sizes.padding / 2,
+    paddingHorizontal: theme.sizes.padding / 2,
+    paddingVertical: theme.sizes.padding / 4,
     width: width - theme.sizes.padding * 2,
     backgroundColor: theme.colors.white,
   },
@@ -135,25 +135,25 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  controlsContainer: { flex: 1 },
+  controlsContainer: { flex: 1,overflow: "hidden" },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(255,255,255,0.7)",
   },
   controlItemsContainer: {
-    marginHorizontal: 40,
-    marginTop: 65,
-    flexWrap: "wrap",
+    paddingTop: 50,
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "flex-start",
+    flexWrap: "wrap",
   },
   controlItem: {
     width: 125,
     height: 55,
     borderRadius: theme.sizes.radius,
     paddingHorizontal: theme.sizes.padding / 2,
-    paddingVertical: theme.sizes.padding / 1.5,
+    paddingVertical: theme.sizes.padding / 2,
     backgroundColor: theme.colors.primary,
     marginHorizontal: 10,
     marginVertical: 10,

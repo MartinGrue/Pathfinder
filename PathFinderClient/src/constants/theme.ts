@@ -5,6 +5,7 @@ const colors = {
   tertiary: "#b0b377",
   black: "#323643",
   white: "#FFFFFF",
+  white2:"#F3F2F1",
   gray: "#9DA3B4",
   gray2: "#C5CCD6",
 };
