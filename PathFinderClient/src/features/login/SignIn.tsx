@@ -1,17 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, useState, useContext } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Input } from "react-native-elements";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Animated, { Easing } from "react-native-reanimated";
+import Animated, { Easing, useCode } from "react-native-reanimated";
 import {
   TapGestureHandler,
   State,
   TouchableWithoutFeedback,
+  TapGestureHandlerStateChangeEvent,
 } from "react-native-gesture-handler";
 import { useMemoOne } from "use-memo-one";
 import { theme } from "../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import { RootStackParamList } from "../../../App";
+import { Context as AuthContext } from "../../contexts/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 
@@ -67,7 +69,26 @@ function runTiming(
 interface SingInProps {
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>;
 }
-export default ({navigation}:SingInProps) => {
+export default ({ navigation }: SingInProps) => {
+  const [signState, setsignState] = useState<State>(0);
+  type signStatusType = "Sign UP" | "Sign IN" | undefined;
+  const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
+
+  const { state, signup, signin } = useContext(AuthContext);
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  useCode(
+    () =>
+      block([
+        cond(
+          eq(signState, State.END),
+          set(buttonOpacity, runTiming(new Clock(), new Value(1), new Value(0)))
+        ),
+      ]),
+    [signState]
+  );
+
   const { buttonOpacity } = useMemoOne(
     () => ({
       buttonOpacity: new Value(1),
@@ -76,38 +97,25 @@ export default ({navigation}:SingInProps) => {
     }),
     []
   );
-  const onStateChange = event([
-    {
-      nativeEvent: {
-        state: (state: any) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(
-                buttonOpacity,
-                runTiming(new Clock(), new Value(1), new Value(0))
-              )
-            ),
-          ]),
+  const driveAnimation = (
+    value: Animated.Value<1>,
+    from: Animated.Value<0 | 1>,
+    to: Animated.Value<0 | 1>
+  ) => {
+    return event([
+      {
+        nativeEvent: {
+          state: (state: any) =>
+            block([
+              cond(
+                eq(state, State.END),
+                set(value, runTiming(new Clock(), from, to))
+              ),
+            ]),
+        },
       },
-    },
-  ]);
-  const onCloseState = event([
-    {
-      nativeEvent: {
-        state: (state: any) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(
-                buttonOpacity,
-                runTiming(new Clock(), new Value(0), new Value(1))
-              )
-            ),
-          ]),
-      },
-    },
-  ]);
+    ]);
+  };
   const buttonY = interpolate(buttonOpacity, {
     inputRange: [0, 1],
     outputRange: [100, 0],
@@ -139,6 +147,16 @@ export default ({navigation}:SingInProps) => {
     outputRange: [0, 2 * Math.PI],
     extrapolate: Extrapolate.CLAMP,
   });
+  const onHandlerStateChange = (
+    event: TapGestureHandlerStateChangeEvent,
+    status: signStatusType
+  ) => {
+    if (event.nativeEvent.state === State.BEGAN) {
+      setsignStatus(status);
+      console.log(signStatus);
+    }
+    setsignState(event.nativeEvent.state);
+  };
   return (
     <View
       style={{
@@ -169,30 +187,34 @@ export default ({navigation}:SingInProps) => {
         </Svg>
       </Animated.View>
       <View style={{ height: height / 3 }}>
-        <TapGestureHandler onHandlerStateChange={onStateChange}>
+        <TapGestureHandler
+          onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign UP")}
+        >
           <Animated.View
             style={{
-              marginTop: 50,
+              marginTop: 20,
               ...styles.button,
               opacity: buttonOpacity,
               transform: [{ translateY: buttonY }],
             }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>
           </Animated.View>
         </TapGestureHandler>
-        <Animated.View
-          style={{
-            ...styles.button,
-            backgroundColor: "#2E71DC",
-            opacity: buttonOpacity,
-            transform: [{ translateY: buttonY }],
-          }}
+        <TapGestureHandler
+          onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign IN")}
         >
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
-            SIGN IN WITH FACEBOOK
-          </Text>
-        </Animated.View>
+          <Animated.View
+            style={{
+              marginTop: 20,
+              ...styles.button,
+              opacity: buttonOpacity,
+              transform: [{ translateY: buttonY }],
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign IN</Text>
+          </Animated.View>
+        </TapGestureHandler>
         <Animated.View
           style={
             (StyleSheet.absoluteFill,
@@ -215,7 +237,13 @@ export default ({navigation}:SingInProps) => {
             })
           }
         >
-          <TapGestureHandler onHandlerStateChange={onCloseState}>
+          <TapGestureHandler
+            onHandlerStateChange={driveAnimation(
+              buttonOpacity,
+              new Animated.Value(0),
+              new Animated.Value(1)
+            )}
+          >
             <Animated.View style={styles.closeBtn}>
               <Animated.Text
                 style={{ fontSize: 15, transform: [{ rotate: rotateCross }] }}
@@ -225,6 +253,9 @@ export default ({navigation}:SingInProps) => {
             </Animated.View>
           </TapGestureHandler>
           <Input
+            onChangeText={(newemail) => {
+              setemail(newemail);
+            }}
             inputContainerStyle={{ marginBottom: 20 }}
             placeholder="youremail@address.com"
             leftIcon={{
@@ -234,6 +265,9 @@ export default ({navigation}:SingInProps) => {
             }}
           />
           <Input
+            onChangeText={(newpassword) => {
+              setpassword(newpassword);
+            }}
             inputContainerStyle={{ marginBottom: 20 }}
             placeholder="Password"
             leftIcon={{
@@ -243,8 +277,20 @@ export default ({navigation}:SingInProps) => {
             }}
           />
           <Animated.View style={styles.button}>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("MainFlow")}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                signStatus === "Sign IN"
+                  ? signin({ email, password }).then(
+                      navigation.navigate("MainFlow")
+                    )
+                  : signup({ email, password }).then(
+                      navigation.navigate("MainFlow")
+                    );
+              }}
+            >
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                {signStatus}
+              </Text>
             </TouchableWithoutFeedback>
           </Animated.View>
         </Animated.View>
