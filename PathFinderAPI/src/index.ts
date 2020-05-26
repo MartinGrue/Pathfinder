@@ -5,7 +5,6 @@ import authRoutes from './routes/authRoutes'
 import trackRoutes from './routes/trackRoutes'
 
 import { IUser } from './models/User';
-import requireAuth from './middleware/requireAuth';
 const app = express();
 declare module 'express-serve-static-core' {
   interface Request {
@@ -14,9 +13,7 @@ declare module 'express-serve-static-core' {
 }
 const hostname = '127.0.0.1';
 const port = 3000;
-app.use(bodyParser.json());
-app.use(authRoutes);
-app.use(trackRoutes);
+
 
 const mongoConnectionString =
   "mongodb+srv://root:root@cluster0-lgncb.mongodb.net/test?retryWrites=true&w=majority";
@@ -33,7 +30,13 @@ mongoose.connection.on("error", (error:any) => {
 app.get('/', (req, res) => {
   res.send(`Your email:`);
 });
+app.get('/bli', (req, res) => {
+  res.send(`Your email:`);
+});
 
 app.listen(5000, () => {
   console.log("Im listening");
 });
+app.use(bodyParser.json());
+app.use(authRoutes);
+app.use(trackRoutes);
