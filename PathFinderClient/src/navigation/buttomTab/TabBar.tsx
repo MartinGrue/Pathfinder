@@ -2,9 +2,9 @@ import React from "react";
 import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as shape from "d3-shape";
-import Svg, { Path } from "react-native-svg";
+import BottomViewCurve from "../../constants/BottomViewCurve";
 const { width } = Dimensions.get("window");
-const height = 34;
+const height = 30;
 
 const getPath = (): string => {
   const draw = shape.line().curve(shape.curveBasis)([
@@ -43,9 +43,13 @@ export default ({
 }: BottomTabBarProps) => {
   return (
     <View style={styles.container}>
-      <Svg width={width * 2} height={30}>
+      {/* <Svg width={width * 2} height={30}>
         <Path fill={"#2A4337"} d={d} />
-      </Svg>
+      </Svg> */}
+      <BottomViewCurve
+        {...{ width, height }}
+        color={"#2A4337"}
+      ></BottomViewCurve>
       <View pointerEvents="box-none" style={styles.content}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];

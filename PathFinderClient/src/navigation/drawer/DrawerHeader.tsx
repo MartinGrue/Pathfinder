@@ -11,6 +11,8 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
+import TopViewCurve from "../../constants/TopViewCurve";
+import { theme } from "../../constants/theme";
 
 const { width } = Dimensions.get("window");
 const height = 34;
@@ -44,19 +46,16 @@ const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
           }}
         >
           <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
-            <SimpleLineIcons
-              name="menu"
-              size={18}
-              color="#a3a19b"
-            />
+            <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
           </TouchableWithoutFeedback>
         </View>
         {children}
       </View>
-      <View style={{ backgroundColor: "#F3F2F1" }}>
-        <Svg width={width * 2} height={height}>
-          <Path fill="#FDFDFB" stroke-width="3" stroke="#FDFDFB" d={d} />
-        </Svg>
+      <View style={{ backgroundColor: theme.colors.white }}>
+        <TopViewCurve
+          {...{ width, height }}
+          color={theme.colors.white2}
+        ></TopViewCurve>
       </View>
     </>
   );
