@@ -20,7 +20,7 @@ export default ({ width, height, color }: BottomViewCurveProps) => {
       [width, 0],
       [width, 0],
 
-      [width, height],
+      [width, 0],
       [width, height],
 
       [width, 0],
@@ -37,7 +37,7 @@ export default ({ width, height, color }: BottomViewCurveProps) => {
   };
   const d = getPath();
   return (
-    <Svg width={width * 2} height={height - 4}>
+    <Svg width={width * 2} height={height}>
       <Path fill={color} d={d} />
     </Svg>
   );

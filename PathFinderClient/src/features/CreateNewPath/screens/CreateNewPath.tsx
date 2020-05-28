@@ -11,18 +11,16 @@ import MapView from "react-native-maps";
 import Typography from "../../../components/Typography";
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import TopViewCurve from "../../../constants/TopViewCurve";
 
 const { width, height } = Dimensions.get("window");
-
+const svgHeight = 30;
 export default () => {
   return (
-    <View style={{ backgroundColor: theme.colors.white, flex:1 }}>
-      {/* <View style={styles.header}>
-        <Text style={styles.headerText}>Create New Path</Text>
-      </View> */}
+    <View style={{  flex: 1 }}>
       <View style={styles.mapContainer}>
         <MapView
-          style={{ flex: 2 }}
+          style={{ flex: 2, backgroundColor: "red" }}
           initialRegion={{
             latitude: 37.78825,
             longitude: -122.4324,
@@ -93,6 +91,19 @@ export default () => {
           })}
         </View>
       </View>
+      <View
+        style={{
+          flex: 1,
+          position: "absolute",
+          height:svgHeight-4
+        }}
+      >
+        <TopViewCurve
+          height={svgHeight}
+          width={width}
+          color="white"
+        ></TopViewCurve>
+      </View>
     </View>
   );
 };
@@ -135,7 +146,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  controlsContainer: { flex: 1,overflow: "hidden" },
+  controlsContainer: { flex: 1, overflow: "hidden" },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(255,255,255,0.7)",

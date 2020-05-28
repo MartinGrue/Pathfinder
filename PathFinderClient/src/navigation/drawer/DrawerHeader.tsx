@@ -45,18 +45,16 @@ const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
             alignItems: "flex-start",
           }}
         >
-          <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
+          <TouchableWithoutFeedback
+            style={{ width: 30, height: 30 }}
+            onPress={() => navigation.openDrawer()}
+          >
             <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
           </TouchableWithoutFeedback>
         </View>
-        {children}
+        {/* TODO INSERT SCREEN HEADER TITLE TEXT HERE */}
       </View>
-      <View style={{ backgroundColor: theme.colors.white }}>
-        <TopViewCurve
-          {...{ width, height }}
-          color={theme.colors.white2}
-        ></TopViewCurve>
-      </View>
+      <View style={{ backgroundColor: theme.colors.white }}></View>
     </>
   );
 };
