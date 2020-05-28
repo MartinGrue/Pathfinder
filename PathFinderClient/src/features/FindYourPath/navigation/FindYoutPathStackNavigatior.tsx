@@ -23,7 +23,7 @@ export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
         flex: 1,
       }}
     >
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="FindYourPath">
         <Stack.Screen
           name="FindYourPath"
           component={FindYourPath}

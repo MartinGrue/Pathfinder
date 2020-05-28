@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  View,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-vector-icons/FontAwesome";
 import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
 const { width } = Dimensions.get("window");
@@ -76,12 +70,6 @@ export default ({
             }
           };
 
-          const onLongPress = () => {
-            navigation.emit({
-              type: "tabLongPress",
-              target: route.key,
-            });
-          };
           return (
             <TouchableOpacity
               key={index}
@@ -90,9 +78,13 @@ export default ({
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
-              onLongPress={onLongPress}
             >
-              <Icon name="compass" color={"white"} size={34} />
+              {options.tabBarIcon &&
+                options.tabBarIcon({
+                  focused: isFocused,
+                  color: "white",
+                  size: 34,
+                })}
             </TouchableOpacity>
           );
         })}
