@@ -181,7 +181,7 @@ export default ({ navigation }: SingInProps) => {
             href={require("../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg")}
             width={width}
             height={height + 50}
-            preserveAspectRatio="xMinYMin slice"
+            preserveAspectRatio="xMinYMax slice"
             clipPath="url(#clip)"
           />
         </Svg>
