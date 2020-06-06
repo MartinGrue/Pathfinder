@@ -4,10 +4,10 @@ const colors = {
   secondary: "#2A433F",
   tertiary: "#b0b377",
   black: "#323643",
-  white: "#FFFFFF",
+  white: "#FDFDFB",
   white2:"#F3F2F1",
   gray: "#9DA3B4",
-  gray2: "#C5CCD6",
+  gray2: "#a8a59f",
 };
 
 const sizes = {
