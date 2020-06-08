@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
-    paddingBottom: 45,
+    marginBottom: 45,
     backgroundColor: theme.colors.white,
   },
   infoContainer: {
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.gray2,
   },
   routingContainer: {
-    flex: 1,
+    flex: 1.2,
     justifyContent: "center",
   },
   routingContainer2: {
