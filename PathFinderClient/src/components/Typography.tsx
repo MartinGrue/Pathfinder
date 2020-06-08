@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { StyleSheet, Text, View, StyleProp, TextStyle } from "react-native";
-import {theme} from "../constants/theme";
+import { theme } from "../constants/theme";
 
 interface TextProps {
   h1: boolean;
@@ -11,14 +11,25 @@ interface TextProps {
   caption: boolean;
   small: boolean;
   size: number;
-  transform: number;
-  align: string;
+  transform: "none" | "capitalize" | "uppercase" | "lowercase";
+  align: "auto" | "left" | "right" | "center" | "justify";
   // styling
   regular: boolean;
   bold: boolean;
   semibold: boolean;
   medium: boolean;
-  weight: number;
+  weight:
+    | "normal"
+    | "bold"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900";
   light: boolean;
   center: boolean;
   right: boolean;
@@ -34,7 +45,7 @@ interface TextProps {
   white: boolean;
   gray: boolean;
   gray2: boolean;
-  style: any;
+  style: StyleProp<TextStyle>;
   children: ReactNode | string;
 }
 export default ({
@@ -72,7 +83,8 @@ export default ({
   style,
   children,
 }: Partial<TextProps>) => {
-  const textStyles : StyleProp<TextStyle> = [
+  const textStyles: StyleProp<TextStyle> = [
+
     styles.text,
     h1 && styles.h1,
     h2 && styles.h2,
@@ -143,6 +155,7 @@ const styles = StyleSheet.create({
   tertiary: { color: theme.colors.tertiary },
   black: { color: theme.colors.black },
   white: { color: theme.colors.white },
+  white2: { color: theme.colors.white2 },
   gray: { color: theme.colors.gray },
   gray2: { color: theme.colors.gray2 },
   // fonts
