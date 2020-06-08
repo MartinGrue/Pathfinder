@@ -7,7 +7,7 @@ import StackHeader from "../../../navigation/stack/StackHeader";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { DrawerParamList } from "../../../navigation/drawer/Drawer";
 import { ISavedPath } from "../../../components/PathCard";
-
+import Constants from "expo-constants";
 export type StackParamList = {
   FindYourPath: undefined;
   FindYourPathButtomTabNavigator: { savedPath: ISavedPath };
@@ -34,6 +34,13 @@ export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
         <Stack.Screen
           name="FindYourPathButtomTabNavigator"
           component={FindYourPathButtomTabNavigator}
+          options={{
+            headerStatusBarHeight: 0,
+            headerBackAllowFontScaling: true,
+            headerStyle: {
+              height: 45,
+            },
+          }}
         />
       </Stack.Navigator>
     </View>

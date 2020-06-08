@@ -57,7 +57,7 @@ export default ({ navigation, route }: TabNavigatonProp) => {
       >
         {(props) => (
           <FindYourPathDetails
-            savedPath={route.params.savedPath}
+            // savedPath={route.params.savedPath}
           ></FindYourPathDetails>
         )}
       </Tab.Screen>
@@ -65,7 +65,7 @@ export default ({ navigation, route }: TabNavigatonProp) => {
         name="FindYourPathMap"
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name={"map"} color={"white"} size={34} />
+            <Icon name={"map"} color={color} size={size} />
             ),
         }}
         component={FindYourPathMap}
