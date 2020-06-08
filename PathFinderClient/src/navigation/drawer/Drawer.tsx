@@ -80,7 +80,7 @@ export default () => {
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
         // hideStatusBar
-        initialRouteName="RadialLine"
+        initialRouteName="FindYoutPathStackNavigatior"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"

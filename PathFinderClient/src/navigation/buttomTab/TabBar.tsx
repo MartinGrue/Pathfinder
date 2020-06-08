@@ -4,7 +4,7 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import * as shape from "d3-shape";
 import BottomViewCurve from "../../constants/BottomViewCurve";
 const { width } = Dimensions.get("window");
-const height = 30;
+const height = 20;
 
 const getPath = (): string => {
   const draw = shape.line().curve(shape.curveBasis)([
@@ -87,7 +87,7 @@ export default ({
                 options.tabBarIcon({
                   focused: isFocused,
                   color: "white",
-                  size: 34,
+                  size: 24,
                 })}
             </TouchableOpacity>
           );
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     width: width,
-    height: 100,
+    height: 65,
     backgroundColor: "#00000000",
     position: "absolute",
     bottom: 0,
