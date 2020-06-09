@@ -1,5 +1,6 @@
 export type AuthState = {
   token: string | null;
+  errorMessage: string | null;
 };
 export type AuthActions =
   | {
@@ -12,6 +13,10 @@ export type AuthActions =
     }
   | {
       type: "signout";
+    }
+  | {
+      type: "add_error";
+      payload: string;
     };
 
 export interface IAuthContext {
@@ -37,6 +42,7 @@ export interface IAuthContext {
     dispatch: React.Dispatch<AuthActions>
   ) => () => Promise<void>;
   signout: (dispatch: React.Dispatch<AuthActions>) => () => Promise<void>;
+  [key: string]: any;
 }
 export interface IAuthContextMethods {
   tryLocalSignin: () => Promise<void>;
@@ -55,6 +61,7 @@ export interface IAuthContextMethods {
     password: string;
   }) => Promise<void>;
   signout: () => Promise<void>;
+  [key: string]: any;
 }
 export interface IAuthContextState {
   state: AuthState;

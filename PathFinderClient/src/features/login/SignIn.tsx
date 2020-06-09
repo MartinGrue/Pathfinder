@@ -1,5 +1,5 @@
-import React, { Component, useState, useContext } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { Component, useState, useContext, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions, Keyboard } from "react-native";
 import { Input } from "react-native-elements";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Animated, { Easing, useCode } from "react-native-reanimated";
@@ -13,7 +13,11 @@ import { useMemoOne } from "use-memo-one";
 import { theme } from "../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import { RootStackParamList } from "../../../App";
-import { Context as AuthContext } from "../../contexts/AuthContext";
+import {
+  Context as AuthContext,
+  Consumer,
+  Context,
+} from "../../contexts/AuthContext";
 
 const { width, height } = Dimensions.get("window");
 
@@ -74,10 +78,29 @@ export default ({ navigation }: SingInProps) => {
   type signStatusType = "Sign UP" | "Sign IN" | undefined;
   const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
 
-  const { state, signup, signin } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
 
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   useCode(
     () =>
       block([
@@ -124,7 +147,7 @@ export default ({ navigation }: SingInProps) => {
 
   const bgY = interpolate(buttonOpacity, {
     inputRange: [0, 1],
-    outputRange: [-height / 3 - 50, 0],
+    outputRange: [-height / 2 - 50, 0],
     extrapolate: Extrapolate.CLAMP,
   });
   const textInputZ = interpolate(buttonOpacity, {
@@ -186,35 +209,54 @@ export default ({ navigation }: SingInProps) => {
           />
         </Svg>
       </Animated.View>
-      <View style={{ height: height / 3 }}>
-        <TapGestureHandler
-          onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign UP")}
+      <View style={{ height: height / 2 }}>
+        <View
+          style={{
+            position: "absolute",
+            top: height / 4,
+            height: height / 4,
+            width: width,
+          }}
         >
-          <Animated.View
+          <View
             style={{
-              marginTop: 20,
-              ...styles.button,
-              opacity: buttonOpacity,
-              transform: [{ translateY: buttonY }],
+              flexDirection: "column",
+              justifyContent: "flex-start",
             }}
           >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>
-          </Animated.View>
-        </TapGestureHandler>
-        <TapGestureHandler
-          onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign IN")}
-        >
-          <Animated.View
-            style={{
-              marginTop: 20,
-              ...styles.button,
-              opacity: buttonOpacity,
-              transform: [{ translateY: buttonY }],
-            }}
-          >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign IN</Text>
-          </Animated.View>
-        </TapGestureHandler>
+            <TapGestureHandler
+              onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign UP")}
+            >
+              <Animated.View
+                style={{
+                  ...styles.button,
+                  opacity: buttonOpacity,
+                  transform: [{ translateY: buttonY }],
+                  marginBottom: 20,
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign UP
+                </Text>
+              </Animated.View>
+            </TapGestureHandler>
+            <TapGestureHandler
+              onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign IN")}
+            >
+              <Animated.View
+                style={{
+                  ...styles.button,
+                  opacity: buttonOpacity,
+                  transform: [{ translateY: buttonY }],
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign IN
+                </Text>
+              </Animated.View>
+            </TapGestureHandler>
+          </View>
+        </View>
         <Animated.View
           style={
             (StyleSheet.absoluteFill,
@@ -224,75 +266,94 @@ export default ({ navigation }: SingInProps) => {
               marginHorizontal: width / 8,
               opacity: textInputOpacity,
               zIndex: textInputZ,
-              backgroundColor: theme.colors.white,
               transform: [{ translateY: textInputY }],
-              height: height / 3,
-
               width: (width * 3) / 4,
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "space-around",
-              paddingTop: 50,
-              paddingBottom: 50,
+              height: height / 2,
             })
           }
         >
-          <TapGestureHandler
-            onHandlerStateChange={driveAnimation(
-              buttonOpacity,
-              new Animated.Value(0),
-              new Animated.Value(1)
-            )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between",
+              paddingBottom: (height * 1) / 20,
+            }}
           >
-            <Animated.View style={styles.closeBtn}>
-              <Animated.Text
-                style={{ fontSize: 15, transform: [{ rotate: rotateCross }] }}
-              >
-                X
-              </Animated.Text>
-            </Animated.View>
-          </TapGestureHandler>
-          <Input
-            onChangeText={(newemail) => {
-              setemail(newemail);
-            }}
-            inputContainerStyle={{ marginBottom: 20 }}
-            placeholder="youremail@address.com"
-            leftIcon={{
-              type: "font-awesome",
-              name: "envelope",
-              color: "white",
-            }}
-          />
-          <Input
-            onChangeText={(newpassword) => {
-              setpassword(newpassword);
-            }}
-            inputContainerStyle={{ marginBottom: 20 }}
-            placeholder="Password"
-            leftIcon={{
-              type: "font-awesome",
-              name: "lock",
-              color: "white",
-            }}
-          />
-          <Animated.View style={styles.button}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                signStatus === "Sign IN"
-                  ? signin({ email, password }).then(
-                      navigation.navigate("MainFlow")
-                    )
-                  : signup({ email, password }).then(
-                      navigation.navigate("MainFlow")
-                    );
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                {signStatus}
-              </Text>
-            </TouchableWithoutFeedback>
-          </Animated.View>
+            <View>
+              {!isKeyboardVisible && (
+                <TapGestureHandler
+                  onHandlerStateChange={driveAnimation(
+                    buttonOpacity,
+                    new Animated.Value(0),
+                    new Animated.Value(1)
+                  )}
+                >
+                  <Animated.View style={styles.closeBtn}>
+                    <Animated.Text
+                      style={{
+                        fontSize: 15,
+                        transform: [{ rotate: rotateCross }],
+                      }}
+                    >
+                      X
+                    </Animated.Text>
+                  </Animated.View>
+                </TapGestureHandler>
+              )}
+            </View>
+            <View>
+              <Input
+                value={email}
+                onChangeText={(newemail) => {
+                  setemail(newemail);
+                }}
+                placeholder="youremail@address.com"
+                leftIcon={{
+                  type: "font-awesome",
+                  name: "envelope",
+                  color: theme.colors.primary,
+                }}
+              />
+              <Input
+                style={{ marginBottom: 0 }}
+                onChangeText={(newpassword) => {
+                  setpassword(newpassword);
+                }}
+                placeholder="Password"
+                leftIcon={{
+                  type: "font-awesome",
+                  name: "lock",
+                  color: theme.colors.primary,
+                }}
+                errorMessage={authContext?.state.errorMessage!}
+                errorStyle={{ color: "red" }}
+              />
+            </View>
+            <View>
+              <Animated.View style={styles.button}>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    console.log("in onPRess");
+                    authContext &&
+                      (signStatus === "Sign IN"
+                        ? authContext.signin({ email, password }).then(
+                            () => {}
+                            // navigation.navigate("MainFlow")
+                          )
+                        : authContext.signup({ email, password }).then(
+                            // navigation.navigate("MainFlow")
+                            () => {}
+                          ));
+                  }}
+                >
+                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                    {signStatus}
+                  </Text>
+                </TouchableWithoutFeedback>
+              </Animated.View>
+            </View>
+          </View>
         </Animated.View>
       </View>
     </View>
