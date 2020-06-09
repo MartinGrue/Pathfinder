@@ -12,15 +12,9 @@ const createDataContext = (
   actions: IAuthContext,
   initialState: AuthState
 ) => {
-  const Context = React.createContext<IAuthContextInit>({
-    state: initialState,
-    tryLocalSignin: null,
-    signin: null,
-    signup: null,
-    signout: null,
-  });
+  const Context = React.createContext<IAuthContextInit | null>(null);
 
-  const Provider = ({ children }) => {
+  const Provider = ({ children }: any) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const boundActions = Object.getOwnPropertyNames(actions).reduce(
       (acc, item) => {
@@ -41,7 +35,9 @@ const createDataContext = (
       </Context.Provider>
     );
   };
-  return { Context, Provider };
+  const Consumer = Context.Consumer;
+
+  return { Context, Provider, Consumer };
 };
 
 export default createDataContext;

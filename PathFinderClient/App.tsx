@@ -23,7 +23,7 @@ export default () => {
         }}
       >
         <Stack.Navigator
-          initialRouteName="MainFlow"
+          initialRouteName="SignIn"
           screenOptions={{ header: () => null }}
         >
           <Stack.Screen name="SignIn" component={SignIn} />

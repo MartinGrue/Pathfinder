@@ -5,11 +5,12 @@ import NavigationService from "../utils/NavigationService";
 import { AuthState, AuthActions } from "./IAuthContext";
 const authReducer = (state: AuthState, action: AuthActions) => {
   switch (action.type) {
+    case "add_error":
+      return { ...state, errorMessage: action.payload };
     case "signup" || "signin":
-      console.log("inReducer");
-      console.log("token: ", action.payload);
-      return { token: action.payload };
+      return { ...state, token: action.payload };
     case "signout":
+      //implement signOut reducer
       console.log("signout");
     default:
       return state;
@@ -19,13 +20,14 @@ const authReducer = (state: AuthState, action: AuthActions) => {
 const signup = (dispatch: React.Dispatch<AuthActions>) => {
   return async ({ email, password }: { email: string; password: string }) => {
     try {
+      dispatch({ type: "add_error", payload: "An Error was found" });
       const token = await agent.User.signup({ email, password });
       const stringToken = JSON.stringify(token);
       await AsyncStorage.setItem("token", stringToken);
       dispatch({ type: "signup", payload: stringToken });
       const value = await AsyncStorage.getItem("token");
     } catch (error) {
-      console.log(error.message);
+      dispatch({ type: "add_error", payload: "An Error was found" });
     }
   };
 };
@@ -60,8 +62,8 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
     } catch (error) {}
   };
 };
-export const { Provider, Context } = createDataContext(
+export const { Provider, Context, Consumer } = createDataContext(
   authReducer,
   { signup, signin, tryLocalSignin, signout },
-  { token: null }
+  { token: null, errorMessage: "" }
 );
