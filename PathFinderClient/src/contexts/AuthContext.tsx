@@ -21,6 +21,7 @@ const authReducer = (state: AuthState, action: AuthActions) => {
 const signup = (dispatch: React.Dispatch<AuthActions>) => {
   return async ({ email, password }: { email: string; password: string }) => {
     try {
+      dispatch({ type: "add_error", payload: "An Error was found" });
       const token = await agent.User.signup({ email, password });
       const stringToken = JSON.stringify(token);
       await AsyncStorage.setItem("token", stringToken);
