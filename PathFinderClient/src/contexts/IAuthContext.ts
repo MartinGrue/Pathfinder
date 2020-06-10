@@ -40,12 +40,12 @@ export interface IAuthContext {
   }) => Promise<void>;
   tryLocalSignin: (
     dispatch: React.Dispatch<AuthActions>
-  ) => () => Promise<void>;
+  ) => () => Promise<boolean>;
   signout: (dispatch: React.Dispatch<AuthActions>) => () => Promise<void>;
   [key: string]: any;
 }
 export interface IAuthContextMethods {
-  tryLocalSignin: () => Promise<void>;
+  tryLocalSignin: () => Promise<boolean>;
   signin: ({
     email,
     password,
