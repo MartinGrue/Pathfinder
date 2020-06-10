@@ -34,7 +34,7 @@ app.get('/bli', (req, res) => {
   res.send(`Your email:`);
 });
 
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log("Im listening");
 });
 app.use(bodyParser.json());
