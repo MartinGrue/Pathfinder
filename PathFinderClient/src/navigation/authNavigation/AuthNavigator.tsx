@@ -36,8 +36,6 @@ export default () => {
         screenOptions={{ header: () => null }}
       >
         {isLoggedIn === undefined ? (
-          // No token found, user isn't signed in
-
           <>
             <Stack.Screen name="Init" component={InitScreen} />
           </>
