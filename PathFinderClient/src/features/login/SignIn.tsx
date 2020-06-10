@@ -12,12 +12,12 @@ import {
 import { useMemoOne } from "use-memo-one";
 import { theme } from "../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
-import { RootStackParamList } from "../../../App";
 import {
   Context as AuthContext,
   Consumer,
   Context,
 } from "../../contexts/AuthContext";
+import { RootStackParamList } from "../../navigation/authNavigation/AuthNavigator";
 
 const { width, height } = Dimensions.get("window");
 
