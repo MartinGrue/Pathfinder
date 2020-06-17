@@ -10,14 +10,15 @@ import {
   TapGestureHandlerStateChangeEvent,
 } from "react-native-gesture-handler";
 import { useMemoOne } from "use-memo-one";
-import { theme } from "../../constants/theme";
+import { theme } from "../../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import {
   Context as AuthContext,
   Consumer,
   Context,
-} from "../../contexts/AuthContext";
-import { RootStackParamList } from "../../navigation/authNavigation/AuthNavigator";
+} from "../../../contexts/AuthContext";
+import { RootStackParamList } from "../navigation/AuthNavigator";
+const img = require("../../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg")
 
 const { width, height } = Dimensions.get("window");
 
@@ -201,7 +202,7 @@ export default ({ navigation }: SingInProps) => {
             <Circle r={height + 50} cx={width / 2}></Circle>
           </ClipPath>
           <Image
-            href={require("../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg")}
+            href={img}
             width={width}
             height={height + 50}
             preserveAspectRatio="xMinYMax slice"
@@ -337,10 +338,11 @@ export default ({ navigation }: SingInProps) => {
                     console.log("in onPRess");
                     authContext &&
                       (signStatus === "Sign IN"
-                        ? authContext.signin({ email, password }).then(
-                            () => {}
-                            // navigation.navigate("MainFlow")
-                          )
+                        ? // ? authContext.signin({ email, password }).then(
+                          //     () => {}
+                          //     // navigation.navigate("MainFlow")
+                          //   )
+                          authContext.test()
                         : authContext.signup({ email, password }).then(
                             // navigation.navigate("MainFlow")
                             () => {}
