@@ -98,11 +98,7 @@ export default () => {
           height:svgHeight-4
         }}
       >
-        <TopViewCurve
-          height={svgHeight}
-          width={width}
-          color="white"
-        ></TopViewCurve>
+
       </View>
     </View>
   );

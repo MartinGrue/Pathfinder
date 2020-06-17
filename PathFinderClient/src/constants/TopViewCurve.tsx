@@ -40,7 +40,7 @@ export default ({ width, height, color }: BottomViewCurveProps) => {
     // <Svg width={width * 2} height={height}>
     //   <Path fill={color} d={d} />
     // </Svg>
-    <Svg width={width} height={height}>
+    <Svg width={width} height={height} >
       <Path
         fill={color}
         d={`m 0 0 L 0 ${height} Q 0 0  ${(width * 1) / 10} 0 L ${

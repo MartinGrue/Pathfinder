@@ -14,7 +14,6 @@ import Typography from "../../../components/Typography";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import TopViewCurve from "../../../constants/TopViewCurve";
 
 interface FindYourPathProps {
   navigation: StackNavigationProp<StackParamList, keyof StackParamList>;
@@ -73,11 +72,6 @@ export default ({ navigation }: FindYourPathProps) => {
   };
   return (
     <View style={{ backgroundColor: theme.colors.white }}>
-      <TopViewCurve
-        width={Dimensions.get("window").width}
-        height={30}
-        color={theme.colors.white2}
-      ></TopViewCurve>
       <View style={styles.header}>
         <Text style={styles.headerText}>Find Your Path</Text>
       </View>

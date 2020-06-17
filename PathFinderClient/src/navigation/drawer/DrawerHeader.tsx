@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Dimensions,
+  LayoutChangeEvent,
 } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { DrawerParamList } from "./Drawer";
@@ -13,6 +14,7 @@ import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
 import TopViewCurve from "../../constants/TopViewCurve";
 import { theme } from "../../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const height = 34;
@@ -34,47 +36,55 @@ interface DrawerHeaderProps {
   navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
   children?: React.ReactNode;
 }
+
 const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
+
   return (
-    <>
-      <View style={styles.header}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
+    <View style={styles.header} >
+      <View style={styles.content}>
+        <TouchableWithoutFeedback
+          style={{ width: 30, height: 30 }}
+          onPress={() => navigation.openDrawer()}
         >
-          <TouchableWithoutFeedback
-            style={{ width: 30, height: 30 }}
-            onPress={() => navigation.openDrawer()}
-          >
-            <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
-          </TouchableWithoutFeedback>
-        </View>
-        {/* TODO INSERT SCREEN HEADER TITLE TEXT HERE */}
+          <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
+        </TouchableWithoutFeedback>
       </View>
-      <View style={{ backgroundColor: theme.colors.white }}></View>
-    </>
+      {/* TODO INSERT SCREEN HEADER TITLE TEXT HERE */}
+      <View
+        style={{
+          position: "absolute",
+          backgroundColor: "transparent",
+          zIndex: 100,
+          top: 40,
+          left: 0,
+          right: 0,
+        }}
+      >
+        <TopViewCurve
+          height={50}
+          width={width}
+          color={theme.colors.white2}
+        ></TopViewCurve>
+      </View>
+    </View>
   );
 };
 
 export default DrawerHeader;
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-end",
-  },
   header: {
-    flexDirection: "row",
+    height:40,
+    flexDirection: "column",
     justifyContent: "center",
-    paddingHorizontal: 12 * 2,
-    paddingTop: 8 * 2.5,
-    paddingBottom: 12 * 1.5,
-    backgroundColor: "#F3F2F1",
   },
+  content: {
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   headerTitle: {
     color: "#2a4337",
   },
