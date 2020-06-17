@@ -9,10 +9,11 @@ const authReducer = (state: AuthState, action: AuthActions) => {
     case "signup":
       return { ...state, token: action.payload };
     case "signin":
-      return { ...state, token: action.payload, isLoading: false };
+      return { ...state, token: action.payload };
     case "signout":
-      //implement signOut reducer
-      console.log("signout");
+      return state;
+    case "setloading":
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
@@ -33,13 +34,16 @@ const signup = (dispatch: React.Dispatch<AuthActions>) => {
 };
 const tryLocalSignin = (dispatch: React.Dispatch<AuthActions>) => {
   return async () => {
+    dispatch({ type: "setloading", payload: true });
+
     const token = await AsyncStorage.getItem("token");
     if (token) {
       console.log("token found local");
       dispatch({ type: "signin", payload: token });
-
+      dispatch({ type: "setloading", payload: false });
       return true;
     } else {
+      dispatch({ type: "setloading", payload: false });
       return false;
     }
   };
@@ -62,8 +66,9 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
     } catch (error) {}
   };
 };
+
 export const { Provider, Context, Consumer } = createDataContext(
   authReducer,
   { signup, signin, tryLocalSignin, signout },
-  { token: null, errorMessage: "" }
+  { token: null, errorMessage: "", isLoading: false }
 );

@@ -1,6 +1,7 @@
 export type AuthState = {
   token: string | null;
   errorMessage: string | null;
+  isLoading: boolean | null;
 };
 export type AuthActions =
   | {
@@ -17,7 +18,8 @@ export type AuthActions =
   | {
       type: "add_error";
       payload: string;
-    };
+    }
+  | { type: "setloading"; payload: boolean };
 
 export interface IAuthContext {
   signin: (
