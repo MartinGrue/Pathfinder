@@ -3,7 +3,6 @@ import { View, ScrollView } from "react-native";
 import { ISavedPath } from "../../../components/PathCard";
 import { Text } from "react-native-elements";
 import { StyleSheet, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as d3 from "d3-shape";
 import Svg, {
   Path,
@@ -15,10 +14,7 @@ import Svg, {
   SvgXml,
   G,
 } from "react-native-svg";
-import Marker from "react-native-svg";
-import { scaleTime, scaleLinear } from "d3-scale";
 
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { theme } from "../../../constants/theme";
 import Typography from "../../../components/Typography";
 const { width, height: wHeight } = Dimensions.get("window");

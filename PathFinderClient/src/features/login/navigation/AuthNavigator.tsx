@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import NavigationService from "../../../utils/NavigationService";
 import SignIn from "../screens/SignIn";

@@ -12,13 +12,9 @@ import {
 import { useMemoOne } from "use-memo-one";
 import { theme } from "../../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
-import {
-  Context as AuthContext,
-  Consumer,
-  Context,
-} from "../../../contexts/AuthContext";
+import { Context as AuthContext } from "../../../contexts/AuthContext";
 import { RootStackParamList } from "../navigation/AuthNavigator";
-const img = require("../../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg")
+const img = require("../../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg");
 
 const { width, height } = Dimensions.get("window");
 
