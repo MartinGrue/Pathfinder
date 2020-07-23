@@ -11,7 +11,6 @@ import MapView from "react-native-maps";
 import Typography from "../../../components/Typography";
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import TopViewCurve from "../../../constants/TopViewCurve";
 
 const { width, height } = Dimensions.get("window");
 const svgHeight = 30;

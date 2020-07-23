@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Dimensions,
+  LayoutChangeEvent,
 } from "react-native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { DrawerParamList } from "./Drawer";
@@ -13,6 +14,7 @@ import * as shape from "d3-shape";
 import Svg, { Path } from "react-native-svg";
 import TopViewCurve from "../../constants/TopViewCurve";
 import { theme } from "../../constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const height = 34;

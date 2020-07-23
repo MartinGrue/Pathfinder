@@ -14,7 +14,6 @@ import Typography from "../../../components/Typography";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import TopViewCurve from "../../../constants/TopViewCurve";
 
 interface FindYourPathProps {
   navigation: StackNavigationProp<StackParamList, keyof StackParamList>;

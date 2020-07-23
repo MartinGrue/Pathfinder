@@ -14,9 +14,9 @@ const authReducer = (state: AuthState, action: AuthActions) => {
     case "signin":
       return { ...state, token: action.payload };
     case "signout":
-      return { ...state, token: null };
     case "setloading":
       return { ...state, isLoading: action.payload };
+      return { ...state, token: null };
     default:
       return state;
   }
@@ -69,8 +69,8 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
     } catch (error) {}
   };
 };
-
 const clearError = (dispatch: React.Dispatch<AuthActions>) => {
+
   return () => dispatch({ type: "clear_error" });
 };
 export const { Provider, Context, Consumer } = createDataContext(
