@@ -14,6 +14,20 @@ import { theme } from "../../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
 import { RootStackParamList } from "../navigation/AuthNavigator";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+
+const SignupSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  email: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+});
+
 const img = require("../../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg");
 
 const { width, height } = Dimensions.get("window");
@@ -299,58 +313,76 @@ export default ({ navigation }: SingInProps) => {
                 </TapGestureHandler>
               )}
             </View>
-            <View>
-              <Input
-                value={email}
-                onChangeText={(newemail) => {
-                  setemail(newemail);
-                }}
-                placeholder="youremail@address.com"
-                leftIcon={{
-                  type: "font-awesome",
-                  name: "envelope",
-                  color: theme.colors.primary,
-                }}
-              />
-              <Input
-                style={{ marginBottom: 0 }}
-                onChangeText={(newpassword) => {
-                  setpassword(newpassword);
-                }}
-                placeholder="Password"
-                leftIcon={{
-                  type: "font-awesome",
-                  name: "lock",
-                  color: theme.colors.primary,
-                }}
-                errorMessage={authContext?.state.errorMessage!}
-                errorStyle={{ color: "red" }}
-              />
-            </View>
-            <View>
-              <Animated.View style={styles.button}>
-                <TouchableWithoutFeedback
-                  onPress={() => {
-                    console.log("in onPRess");
-                    authContext &&
-                      (signStatus === "Sign IN"
-                        ? // ? authContext.signin({ email, password }).then(
-                          //     () => {}
-                          //     // navigation.navigate("MainFlow")
-                          //   )
-                          authContext.test()
-                        : authContext.signup({ email, password }).then(
-                            // navigation.navigate("MainFlow")
-                            () => {}
-                          ));
-                  }}
-                >
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    {signStatus}
-                  </Text>
-                </TouchableWithoutFeedback>
-              </Animated.View>
-            </View>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              onSubmit={(values) => console.log(values)}
+              validationSchema={SignupSchema}
+            >
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                touched,
+              }) => (
+                <View             style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}>
+                  <Input
+                    value={values.email}
+                    onChangeText={handleChange("email")}
+                    placeholder="youremail@address.com"
+                    leftIcon={{
+                      type: "font-awesome",
+                      name: "envelope",
+                      color: errors.email ? "red" : theme.colors.primary,
+                    }}
+                    errorMessage={errors.email}
+                  />
+                  <Input
+                    value={values.password}
+                    style={{ marginBottom: 30 }}
+                    onChangeText={handleChange("password")}
+                    placeholder="Password"
+                    leftIcon={{
+                      type: "font-awesome",
+                      name: "lock",
+                      // color: theme.colors.primary,
+                      color: errors.password ? "red" : theme.colors.primary,
+                    }}
+                    // errorMessage={authContext?.state.errorMessage!}
+                    errorMessage={errors.password}
+                  />
+                  <View>
+                    <Animated.View style={[styles.button]}>
+                      <TouchableWithoutFeedback
+                        onPress={() => {
+                          console.log("in submit button");
+                          handleSubmit();
+                          // authContext &&
+                          //   (signStatus === "Sign IN"
+                          //     ? // ? authContext.signin({ email, password }).then(
+                          //       //     () => {}
+                          //       //     // navigation.navigate("MainFlow")
+                          //       //   )
+                          //     : authContext.signup({ email, password }).then(
+                          //         // navigation.navigate("MainFlow")
+                          //         () => {}
+                          //       ));
+                        }}
+                      >
+                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                          {signStatus}
+                        </Text>
+                      </TouchableWithoutFeedback>
+                    </Animated.View>
+                  </View>
+                </View>
+              )}
+            </Formik>
           </View>
         </Animated.View>
       </View>
