@@ -32,19 +32,12 @@ const getPath = (): string => {
 const d = getPath();
 interface DrawerHeaderProps {
   navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
-  children?: React.ReactNode;
 }
-const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
+const DrawerHeader = ({ navigation }: DrawerHeaderProps) => {
   return (
     <>
-      <View style={styles.header}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "flex-start",
-          }}
-        >
+      <View style={styles.headerContainer}>
+        <View style={styles.headerNavigation}>
           <TouchableWithoutFeedback
             style={{ width: 30, height: 30 }}
             onPress={() => navigation.openDrawer()}
@@ -52,9 +45,9 @@ const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
             <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
           </TouchableWithoutFeedback>
         </View>
+        <View style={styles.headerContent}></View>
         {/* TODO INSERT SCREEN HEADER TITLE TEXT HERE */}
       </View>
-      <View style={{ backgroundColor: theme.colors.white }}></View>
     </>
   );
 };
@@ -62,12 +55,7 @@ const DrawerHeader = ({ navigation, children }: DrawerHeaderProps) => {
 export default DrawerHeader;
 
 const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-end",
-  },
-  header: {
+  headerContainer: {
     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: 12 * 2,
@@ -75,7 +63,17 @@ const styles = StyleSheet.create({
     paddingBottom: 12 * 1.5,
     backgroundColor: "#F3F2F1",
   },
+  headerNavigation: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+  },
   headerTitle: {
     color: "#2a4337",
+  },
+  headerContent: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
   },
 });

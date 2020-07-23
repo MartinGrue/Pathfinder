@@ -13,6 +13,8 @@ import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
 import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
+import SelectOptions from "../../features/Options/screens/SelectOptions";
+import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
 export type DrawerParamList = {
   FindYoutPathStackNavigatior: undefined;
   CreateNewPath: undefined;
-  RadialLine: undefined;
+  Options: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -50,6 +52,13 @@ const DrawerContent = (
         onPress={() => props.navigation.navigate("CreateNewPath")}
         icon={() => <AntDesign name="message1" color="white" size={16} />}
       />
+      <DrawerItem
+        label="Options"
+        labelStyle={{ color: "white", marginLeft: -16 }}
+        style={{ alignItems: "flex-start", marginVertical: 0 }}
+        onPress={() => props.navigation.navigate("Options")}
+        icon={() => <AntDesign name="message1" color="white" size={16} />}
+      />
     </DrawerContentScrollView>
   );
 };
@@ -71,8 +80,7 @@ export default () => {
   return (
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
-        // hideStatusBar
-        initialRouteName="FindYoutPathStackNavigatior"
+        initialRouteName="Options"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -106,7 +114,13 @@ export default () => {
             </DrawerScreen>
           )}
         </Drawer.Screen>
-       
+        <Drawer.Screen name="Options">
+          {(props) => (
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <OptionsStackNavigator {...props}></OptionsStackNavigator>
+            </DrawerScreen>
+          )}
+        </Drawer.Screen>
       </Drawer.Navigator>
     </LinearGradient>
   );

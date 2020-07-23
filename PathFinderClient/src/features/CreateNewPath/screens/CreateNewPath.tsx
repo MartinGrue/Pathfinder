@@ -17,10 +17,23 @@ const { width, height } = Dimensions.get("window");
 const svgHeight = 30;
 export default () => {
   return (
-    <View style={{  flex: 1 }}>
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          position: "absolute",
+          height: svgHeight - 4,
+          zIndex: 2,
+        }}
+      >
+        <TopViewCurve
+          height={svgHeight}
+          width={width}
+          color= {theme.colors.white2}
+        ></TopViewCurve>
+      </View>
       <View style={styles.mapContainer}>
         <MapView
-          style={{ flex: 2, backgroundColor: "red" }}
+          style={{ flex: 2 }}
           initialRegion={{
             latitude: 37.78825,
             longitude: -122.4324,
@@ -90,19 +103,6 @@ export default () => {
             );
           })}
         </View>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          position: "absolute",
-          height:svgHeight-4
-        }}
-      >
-        <TopViewCurve
-          height={svgHeight}
-          width={width}
-          color="white"
-        ></TopViewCurve>
       </View>
     </View>
   );

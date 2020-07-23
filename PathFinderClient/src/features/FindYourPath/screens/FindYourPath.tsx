@@ -72,7 +72,7 @@ export default ({ navigation }: FindYourPathProps) => {
     );
   };
   return (
-    <View style={{ backgroundColor: theme.colors.white }}>
+    <View style={{ backgroundColor: theme.colors.white, flex:1 }}>
       <TopViewCurve
         width={Dimensions.get("window").width}
         height={30}
