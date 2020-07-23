@@ -1,6 +1,7 @@
 export type AuthState = {
   token: string | null;
   errorMessage: string | null;
+  isLoading: boolean | null;
 };
 export type AuthActions =
   | {
@@ -17,18 +18,16 @@ export type AuthActions =
   | {
       type: "add_error";
       payload: string;
+    }
+  | {
+      type: "clear_error";
+    }
+  | {
+      type: "setloading";
+      payload: boolean;
     };
 
 export interface IAuthContext {
-  signin: (
-    dispatch: React.Dispatch<AuthActions>
-  ) => ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
   signup: (
     dispatch: React.Dispatch<AuthActions>
   ) => ({
@@ -38,10 +37,21 @@ export interface IAuthContext {
     email: string;
     password: string;
   }) => Promise<void>;
+  signin: (
+    dispatch: React.Dispatch<AuthActions>
+  ) => ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  signout: (dispatch: React.Dispatch<AuthActions>) => () => Promise<void>;
+  clearError: (dispatch: React.Dispatch<AuthActions>) => () => void;
   tryLocalSignin: (
     dispatch: React.Dispatch<AuthActions>
   ) => () => Promise<boolean>;
-  signout: (dispatch: React.Dispatch<AuthActions>) => () => Promise<void>;
+
   [key: string]: any;
 }
 export interface IAuthContextMethods {
@@ -62,6 +72,7 @@ export interface IAuthContextMethods {
   }) => Promise<void>;
   signout: () => Promise<void>;
   [key: string]: any;
+  clearError: () => void;
 }
 export interface IAuthContextState {
   state: AuthState;

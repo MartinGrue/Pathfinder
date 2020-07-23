@@ -2,17 +2,21 @@ import createDataContext from "./createDataContext";
 import agent from "../app/api/agent";
 import { AsyncStorage } from "react-native";
 import { AuthState, AuthActions } from "./IAuthContext";
+
 const authReducer = (state: AuthState, action: AuthActions) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
+    case "clear_error":
+      return { ...state, errorMessage: "" };
     case "signup":
       return { ...state, token: action.payload };
     case "signin":
-      return { ...state, token: action.payload, isLoading: false };
+      return { ...state, token: action.payload };
     case "signout":
-      //implement signOut reducer
-      console.log("signout");
+      return { ...state, token: null };
+    case "setloading":
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
@@ -27,19 +31,22 @@ const signup = (dispatch: React.Dispatch<AuthActions>) => {
       dispatch({ type: "signup", payload: stringToken });
       const value = await AsyncStorage.getItem("token");
     } catch (error) {
-      dispatch({ type: "add_error", payload: "An Error was found" });
+      dispatch({ type: "add_error", payload: "Error in sign up" });
     }
   };
 };
 const tryLocalSignin = (dispatch: React.Dispatch<AuthActions>) => {
   return async () => {
+    dispatch({ type: "setloading", payload: true });
+
     const token = await AsyncStorage.getItem("token");
     if (token) {
       console.log("token found local");
       dispatch({ type: "signin", payload: token });
-
+      dispatch({ type: "setloading", payload: false });
       return true;
     } else {
+      dispatch({ type: "setloading", payload: false });
       return false;
     }
   };
@@ -62,8 +69,12 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
     } catch (error) {}
   };
 };
+
+const clearError = (dispatch: React.Dispatch<AuthActions>) => {
+  return () => dispatch({ type: "clear_error" });
+};
 export const { Provider, Context, Consumer } = createDataContext(
   authReducer,
-  { signup, signin, tryLocalSignin, signout },
-  { token: null, errorMessage: "" }
+  { signup, signin, tryLocalSignin, signout, clearError },
+  { token: null, errorMessage: "", isLoading: false }
 );
