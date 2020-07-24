@@ -14,8 +14,9 @@ import { theme } from "../../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
 import { RootStackParamList } from "../navigation/AuthNavigator";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikState } from "formik";
 import * as Yup from "yup";
+import SignInUpForm from "./SignInUpForm";
 
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
@@ -84,11 +85,11 @@ function runTiming(
 interface SingInProps {
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>;
 }
+export type signStatusType = "Sign UP" | "Sign IN" | undefined;
+
 export default ({ navigation }: SingInProps) => {
   const [signState, setsignState] = useState<State>(0);
-  type signStatusType = "Sign UP" | "Sign IN" | undefined;
   const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
-
   const authContext = useContext(AuthContext);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -313,76 +314,9 @@ export default ({ navigation }: SingInProps) => {
                 </TapGestureHandler>
               )}
             </View>
-            <Formik
-              initialValues={{ email: "", password: "" }}
-              onSubmit={(values) => console.log(values)}
-              validationSchema={SignupSchema}
-            >
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                touched,
-              }) => (
-                <View             style={{
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}>
-                  <Input
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    placeholder="youremail@address.com"
-                    leftIcon={{
-                      type: "font-awesome",
-                      name: "envelope",
-                      color: errors.email ? "red" : theme.colors.primary,
-                    }}
-                    errorMessage={errors.email}
-                  />
-                  <Input
-                    value={values.password}
-                    style={{ marginBottom: 30 }}
-                    onChangeText={handleChange("password")}
-                    placeholder="Password"
-                    leftIcon={{
-                      type: "font-awesome",
-                      name: "lock",
-                      // color: theme.colors.primary,
-                      color: errors.password ? "red" : theme.colors.primary,
-                    }}
-                    // errorMessage={authContext?.state.errorMessage!}
-                    errorMessage={errors.password}
-                  />
-                  <View>
-                    <Animated.View style={[styles.button]}>
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          console.log("in submit button");
-                          handleSubmit();
-                          // authContext &&
-                          //   (signStatus === "Sign IN"
-                          //     ? // ? authContext.signin({ email, password }).then(
-                          //       //     () => {}
-                          //       //     // navigation.navigate("MainFlow")
-                          //       //   )
-                          //     : authContext.signup({ email, password }).then(
-                          //         // navigation.navigate("MainFlow")
-                          //         () => {}
-                          //       ));
-                        }}
-                      >
-                        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                          {signStatus}
-                        </Text>
-                      </TouchableWithoutFeedback>
-                    </Animated.View>
-                  </View>
-                </View>
-              )}
-            </Formik>
+            <SignInUpForm
+              signStatus={signStatus}
+            ></SignInUpForm>
           </View>
         </Animated.View>
       </View>
