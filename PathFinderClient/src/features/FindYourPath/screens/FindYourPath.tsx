@@ -14,6 +14,7 @@ import Typography from "../../../components/Typography";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import TopViewCurve from "../../../constants/TopViewCurve";
 
 interface FindYourPathProps {
   navigation: StackNavigationProp<StackParamList, keyof StackParamList>;
@@ -41,9 +42,22 @@ export default ({ navigation }: FindYourPathProps) => {
         onPress={() => handleTab(tab)}
         style={[styles.tab]}
       >
-        <Typography size={16} medium gray={!isActive} secondary={isActive}>
+        {/* <Typography
+          size={16}
+          medium
+          gray={!isActive}
+          secondary={isActive}
+        ></Typography> */}
+        <Text
+          style={{
+            marginVertical: 4,
+            fontSize: 16,
+            fontWeight: "500",
+            color: isActive ? theme.colors.secondary : theme.colors.gray,
+          }}
+        >
           {tab}
-        </Typography>
+        </Text>
         <View
           style={[
             styles.tabPoint,
@@ -71,7 +85,7 @@ export default ({ navigation }: FindYourPathProps) => {
     );
   };
   return (
-    <View style={{ backgroundColor: theme.colors.white, flex:1 }}>
+    <View style={{ backgroundColor: theme.colors.white, flex: 1 }}>
       <TopViewCurve
         width={Dimensions.get("window").width}
         height={30}

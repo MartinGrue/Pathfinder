@@ -1,16 +1,11 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, View, Dimensions, ImageBackground } from "react-native";
 import { theme } from "../../../constants/theme";
 import MapView from "react-native-maps";
-import Typography from "../../../components/Typography";
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { Text } from "react-native-elements";
+import TopViewCurve from "../../../constants/TopViewCurve";
 
 const { width, height } = Dimensions.get("window");
 const svgHeight = 30;
@@ -27,7 +22,7 @@ export default () => {
         <TopViewCurve
           height={svgHeight}
           width={width}
-          color= {theme.colors.white2}
+          color={theme.colors.white2}
         ></TopViewCurve>
       </View>
       <View style={styles.mapContainer}>
@@ -54,22 +49,26 @@ export default () => {
             ].map((item) => {
               return (
                 <View style={styles.locationInfo} key={item.name}>
-                  <Typography
-                    size={14}
-                    light
-                    color="white"
-                    style={{ marginVertical: 4 }}
+                  <Text
+                    style={{
+                      marginVertical: 4,
+                      fontSize: 14,
+                      fontWeight: "200",
+                      color: "white",
+                    }}
                   >
                     {item.name}
-                  </Typography>
-                  <Typography
-                    size={18}
-                    bold
-                    color="white"
-                    style={{ marginVertical: 4 }}
+                  </Text>
+                  <Text
+                    style={{
+                      marginVertical: 4,
+                      fontSize: 14,
+                      fontWeight: "bold",
+                      color: "white",
+                    }}
                   >
                     {item.value}
-                  </Typography>
+                  </Text>
                 </View>
               );
             })}
@@ -89,14 +88,16 @@ export default () => {
           {["Record", "Cancel", "Pause", "Save"].map((num) => {
             return (
               <View key={Math.random()} style={styles.controlItem}>
-                <Typography
-                  size={18}
-                  bold
-                  color="white"
-                  style={{ marginRight: 10 }}
+                <Text
+                  style={{
+                    marginRight: 10,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    color: "white",
+                  }}
                 >
                   {num}
-                </Typography>
+                </Text>
                 <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
               </View>
             );
