@@ -16,20 +16,15 @@ export default () => {
   const [isLoggedIn, setisLoggedIn] = useState<boolean | undefined>(undefined);
   const authContext = useContext(AuthContext);
   useEffect(() => {
-    authContext && console.log(authContext.state.token);
     authContext &&
       authContext.tryLocalSignin().then((value) => {
         setisLoggedIn(value);
       });
-    authContext && console.log(authContext.state.token);
+    // authContext && console.log("this is a token: " + authContext.state.token);
   }, []);
 
   if (authContext && authContext.state.isLoading) {
-    return (
-      <>
-        <InitScreen></InitScreen>
-      </>
-    );
+    return <InitScreen></InitScreen>;
   }
   return (
     <>
@@ -39,17 +34,16 @@ export default () => {
         }}
       >
         <Stack.Navigator
-          // initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
-          initialRouteName="SignIn"
+          initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
           screenOptions={{ header: () => null }}
         >
-          <>
+          {/* <>
             <Stack.Screen name="SignIn" component={SignIn} />
           </>
           <>
             <Stack.Screen name="MainFlow" component={Drawer} />
-          </>
-          {/* {authContext && authContext.state.token === null ? (
+          </> */}
+          {authContext && authContext.state.token === null ? (
             <>
               <Stack.Screen name="SignIn" component={SignIn} />
             </>
@@ -57,7 +51,7 @@ export default () => {
             <>
               <Stack.Screen name="MainFlow" component={Drawer} />
             </>
-          )} */}
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </>

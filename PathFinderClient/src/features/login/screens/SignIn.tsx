@@ -12,7 +12,6 @@ import {
 import { useMemoOne } from "use-memo-one";
 import { theme } from "../../../constants/theme";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
-import { Context as AuthContext } from "../../../contexts/AuthContext";
 import { RootStackParamList } from "../navigation/AuthNavigator";
 import { Formik, Form, Field, FormikState } from "formik";
 import * as Yup from "yup";
@@ -90,10 +89,8 @@ export type signStatusType = "Sign UP" | "Sign IN" | undefined;
 export default ({ navigation }: SingInProps) => {
   const [signState, setsignState] = useState<State>(0);
   const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
-  const authContext = useContext(AuthContext);
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -314,9 +311,7 @@ export default ({ navigation }: SingInProps) => {
                 </TapGestureHandler>
               )}
             </View>
-            <SignInUpForm
-              signStatus={signStatus}
-            ></SignInUpForm>
+            <SignInUpForm signStatus={signStatus}></SignInUpForm>
           </View>
         </Animated.View>
       </View>

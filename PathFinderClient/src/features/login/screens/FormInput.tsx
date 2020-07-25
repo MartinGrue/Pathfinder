@@ -49,7 +49,7 @@ export default ({
           name: iconName,
           color: !touched ? "black" : error ? "red" : "green",
         }}
-        errorStyle={!touched ? { opacity: 0, height: 15 } : { height: 15 }}
+        errorStyle={{ height: 15, opacity: !touched ? 0 : 1, fontWeight: "100", fontSize: 13}}
         errorMessage={error}
         secureTextEntry={secureTextEntry}
       />

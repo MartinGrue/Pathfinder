@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Animated,
   TouchableWithoutFeedback,
   Button,
 } from "react-native";
 import { Formik, useFormik, FormikState } from "formik";
-import { Input } from "react-native-elements";
+import { Text } from "react-native-elements";
 import { theme } from "../../../constants/theme";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
 import { signStatusType } from "./SignIn";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Context as AuthContext } from "../../../contexts/AuthContext";
 
 const SignupSchema = Yup.object().shape({
   password: Yup.string()
@@ -30,9 +30,16 @@ interface SingInUpFormProps {
   signStatus: signStatusType;
 }
 export default ({ signStatus }: SingInUpFormProps) => {
+  const authContext = useContext(AuthContext);
+
   const formik = useFormik({
     initialValues: { email: "", password: "" },
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => {
+      console.log(values);
+      console.log(signStatus);
+      signStatus === "Sign IN" && authContext?.signin(values);
+      signStatus === "Sign UP" && authContext?.signup(values);
+    },
     validationSchema: SignupSchema,
   });
   useEffect(() => {
@@ -69,6 +76,9 @@ export default ({ signStatus }: SingInUpFormProps) => {
           secureTextEntry={true}
           iconName="lock"
         ></FormInput>
+        <View>
+          <Text style={{ height: 50, backgroundColor: "red" }}>test</Text>
+        </View>
         <View>
           <Animated.View>
             <TouchableOpacity

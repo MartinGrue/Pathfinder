@@ -14,9 +14,9 @@ const authReducer = (state: AuthState, action: AuthActions) => {
     case "signin":
       return { ...state, token: action.payload };
     case "signout":
+      return { ...state, token: null };
     case "setloading":
       return { ...state, isLoading: action.payload };
-      return { ...state, token: null };
     default:
       return state;
   }
@@ -29,9 +29,9 @@ const signup = (dispatch: React.Dispatch<AuthActions>) => {
       const stringToken = JSON.stringify(token);
       await AsyncStorage.setItem("token", stringToken);
       dispatch({ type: "signup", payload: stringToken });
-      const value = await AsyncStorage.getItem("token");
     } catch (error) {
       dispatch({ type: "add_error", payload: "Error in sign up" });
+      console.log("Error in sign up");
     }
   };
 };
@@ -42,10 +42,12 @@ const tryLocalSignin = (dispatch: React.Dispatch<AuthActions>) => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
       console.log("token found local");
+      console.log("this is a token in store: " + token);
       dispatch({ type: "signin", payload: token });
       dispatch({ type: "setloading", payload: false });
       return true;
     } else {
+      dispatch({ type: "add_error", payload: "Error in trylocalsignup" });
       dispatch({ type: "setloading", payload: false });
       return false;
     }
@@ -57,7 +59,6 @@ const signin = (dispatch: React.Dispatch<AuthActions>) => {
       const token = await agent.User.signin({ email, password });
       await AsyncStorage.setItem("token", JSON.stringify(token));
       dispatch({ type: "signin", payload: token });
-      const value = await AsyncStorage.getItem("token");
     } catch (error) {}
   };
 };
@@ -70,7 +71,6 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
   };
 };
 const clearError = (dispatch: React.Dispatch<AuthActions>) => {
-
   return () => dispatch({ type: "clear_error" });
 };
 export const { Provider, Context, Consumer } = createDataContext(
