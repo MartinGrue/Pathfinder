@@ -1,10 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import CustomIcon from "../../../../assets/CATYCATHERINE0000213.svg";
+import { theme } from "../../../constants/theme";
 export default () => {
   return (
     <View style={styles.container}>
-      <CustomIcon width={120} height={120} />
+      <CustomIcon width={220} height={220} fill={theme.colors.white2} />
     </View>
   );
 };
@@ -12,21 +13,8 @@ export default () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: theme.colors.primary,
     justifyContent: "center",
     alignItems: "center",
-  },
-  button: {
-    backgroundColor: "white",
-    height: 50,
-    marginHorizontal: 20,
-    borderRadius: 35,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 5,
-    shadowOffset: { width: 2, height: 2 },
-    shadowColor: "black",
-    shadowOpacity: 0.2,
-    elevation: 10,
   },
 });
