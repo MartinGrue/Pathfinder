@@ -42,7 +42,8 @@
     "react-navigation-stack": "^2.5.1",
     "react-navigation-tabs": "^2.8.13",
     "use-memo-one": "^1.1.1",
-    "yup": "^0.29.1"
+    "yup": "^0.29.1",
+    "expo-location": "~8.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

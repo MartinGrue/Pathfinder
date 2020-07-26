@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Dimensions, ImageBackground } from "react-native";
 import { theme } from "../../../constants/theme";
-import MapView from "react-native-maps";
+import MapView, { Polyline } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { Text } from "react-native-elements";
 import TopViewCurve from "../../../constants/TopViewCurve";
+import { requestPermissionsAsync } from "expo-location";
 
 const { width, height } = Dimensions.get("window");
 const svgHeight = 30;
+const points: { latitude: number; longitude: number }[] = [
+  ...Array<{ latitude: number; longitude: number }>(20),
+].map((v, i) => {
+  return { latitude: 37.78825 + i * 0.001, longitude: -122.4324 + i * 0.001 };
+});
 export default () => {
+  const [err, seterr] = useState<string>("");
+  const [checkedPermission, setcheckedPermission] = useState(false);
+  const startWatching = async () => {
+    try {
+      const status = await requestPermissionsAsync();
+      if (!status.granted) {
+        seterr("Permission to access location was denied");
+      }
+      setcheckedPermission(true);
+    } catch (error) {
+      console.log("denied location: " + error);
+    }
+  };
+  useEffect(() => {
+    startWatching();
+  }, []);
+
+  if (!checkedPermission) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.white }}></View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <View
@@ -26,6 +54,7 @@ export default () => {
         ></TopViewCurve>
       </View>
       <View style={styles.mapContainer}>
+        {err ? <Text>Location not enabled</Text> : null}
         <MapView
           style={{ flex: 2 }}
           initialRegion={{
@@ -34,7 +63,9 @@ export default () => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-        ></MapView>
+        >
+          <Polyline coordinates={points}></Polyline>
+        </MapView>
         <View style={styles.locationInfoFlexWrapper}>
           <LinearGradient
             style={[styles.locationInfoContainer, styles.shadow]}
@@ -80,9 +111,7 @@ export default () => {
           source={require("../../../../assets/backgroundImages/ControllsBackground_downscaled.png")}
           style={StyleSheet.absoluteFillObject}
           resizeMode="cover"
-        >
-          <Text>Hello</Text>
-        </ImageBackground>
+        ></ImageBackground>
         <View style={styles.overlay}></View>
         <View style={styles.controlItemsContainer}>
           {["Record", "Cancel", "Pause", "Save"].map((num) => {
