@@ -11,7 +11,7 @@ router.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
   try {
     console.log("in signup")
-    const user = new User({ email, password });  
+    const user = new User({ email, password, bla:"asdad" });  
     await user.save();
     const payload: IPayload = {userId:user._id}
     const token = jsonwebtoken.sign(payload, "Token_KEY_GOES_HERE");
