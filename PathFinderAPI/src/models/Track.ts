@@ -1,5 +1,12 @@
 import mongoose, {Schema, Document, Model, model} from 'mongoose';
 
+export interface IPoint extends Document {
+  email: string;
+  password: string;
+}export interface ITrack extends Document {
+  email: string;
+  password: string;
+}
 const pointSchema:Schema = new mongoose.Schema({
   timestamp: Number,
   cords: {
@@ -11,13 +18,7 @@ const pointSchema:Schema = new mongoose.Schema({
     speed: Number
   }
 });
-export interface IPoint extends Document {
-  email: string;
-  password: string;
-}export interface ITrack extends Document {
-  email: string;
-  password: string;
-}
+
 const trackSchema = new mongoose.Schema<ITrack>({
     userId: {
       type: mongoose.Schema.Types.ObjectId,
