@@ -11,10 +11,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
-import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
-import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
-import SelectOptions from "../../features/Options/screens/SelectOptions";
-import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
@@ -28,10 +24,15 @@ export type DrawerParamList = {
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
+interface DrawerComponentProps {
+  props: DrawerContentComponentProps<DrawerContentOptions>;
+  setProgress: React.Dispatch<React.SetStateAction<Animated.Node<number>>>;
+}
 
-const DrawerContent = (
-  props: DrawerContentComponentProps<DrawerContentOptions>
-) => {
+const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
+  React.useEffect(() => {
+    setProgress(props.progress);
+  }, []);
   return (
     <DrawerContentScrollView
       {...props}
@@ -71,6 +72,7 @@ export default () => {
     inputRange: [0, 1],
     outputRange: [1, 0.8],
   });
+
   const borderRadius = Animated.interpolate(progress, {
     inputRange: [0, 1],
     outputRange: [0, 36],
@@ -92,33 +94,38 @@ export default () => {
         }}
         sceneContainerStyle={{ backgroundColor: "#2A4337" }}
         drawerContent={(props) => {
-          setProgress(props.progress);
-          return <DrawerContent {...props} />;
+          return (
+            <DrawerContent
+              props={props}
+              setProgress={setProgress}
+            ></DrawerContent>
+          );
+
+          // setProgress(props.progress);
         }}
       >
         <Drawer.Screen name="FindYoutPathStackNavigatior">
           {(props) => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <FindYoutPathStackNavigatior
-                {...props}
-              ></FindYoutPathStackNavigatior>
-            </DrawerScreen>
+            <DrawerScreen
+              {...props}
+              animatedStyle={animatedStyle}
+            ></DrawerScreen>
           )}
         </Drawer.Screen>
         <Drawer.Screen name="CreateNewPath">
           {(props) => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <CreateNewPathStackNavigator
-                {...props}
-              ></CreateNewPathStackNavigator>
-            </DrawerScreen>
+            <DrawerScreen
+              {...props}
+              animatedStyle={animatedStyle}
+            ></DrawerScreen>
           )}
         </Drawer.Screen>
         <Drawer.Screen name="Options">
           {(props) => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
-              <OptionsStackNavigator {...props}></OptionsStackNavigator>
-            </DrawerScreen>
+            <DrawerScreen
+              {...props}
+              animatedStyle={animatedStyle}
+            ></DrawerScreen>
           )}
         </Drawer.Screen>
       </Drawer.Navigator>

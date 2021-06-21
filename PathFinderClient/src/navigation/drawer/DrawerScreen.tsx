@@ -5,8 +5,8 @@ import { DrawerNavigationProp } from "@react-navigation/drawer/lib/typescript/sr
 import Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface FindYourPathMapProps {
-  children: JSX.Element;
+interface DrawerScreenProps {
+  // children: JSX.Element;
   navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
   animatedStyle: {
     borderRadius: Animated.Node<number>;
@@ -18,8 +18,8 @@ interface FindYourPathMapProps {
 export default ({
   navigation,
   animatedStyle,
-  children,
-}: FindYourPathMapProps) => {
+}: // children,
+DrawerScreenProps) => {
   return (
     <Animated.View
       style={[
@@ -28,7 +28,7 @@ export default ({
         { backgroundColor: "#F3F2F1", overflow: "hidden" },
       ]}
     >
-      <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>{/* {children} */}</SafeAreaView>
     </Animated.View>
   );
 };
