@@ -6,6 +6,7 @@ import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 export type RootStackParamList = {
   SignIn: {};
   MainFlow: {};
@@ -27,7 +28,7 @@ export default () => {
     return <InitScreen></InitScreen>;
   }
   return (
-    <>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <NavigationContainer
         ref={(navigatorRef) => {
           NavigationService.setTopLevelNavigator(navigatorRef);
@@ -54,6 +55,6 @@ export default () => {
           )}
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </SafeAreaView>
   );
 };

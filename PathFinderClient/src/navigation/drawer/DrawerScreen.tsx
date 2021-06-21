@@ -1,12 +1,11 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { DrawerParamList } from "./Drawer";
 import { DrawerNavigationProp } from "@react-navigation/drawer/lib/typescript/src/types";
 import Animated from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 interface DrawerScreenProps {
-  // children: JSX.Element;
+  children: JSX.Element;
   navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
   animatedStyle: {
     borderRadius: Animated.Node<number>;
@@ -15,21 +14,18 @@ interface DrawerScreenProps {
     }[];
   };
 }
-export default ({
-  navigation,
-  animatedStyle,
-}: // children,
-DrawerScreenProps) => {
+export default ({ navigation, animatedStyle, children }: DrawerScreenProps) => {
   return (
     <Animated.View
       style={[
         StyleSheet.flatten([animatedStyle]),
         StyleSheet.absoluteFill,
-        { backgroundColor: "#F3F2F1", overflow: "hidden" },
+        {
+          overflow: "hidden",
+        },
       ]}
     >
-      <SafeAreaView style={{ flex: 1 }}>{/* {children} */}</SafeAreaView>
+      <View style={{ flex: 1, backgroundColor: "#2A4337" }}>{children}</View>
     </Animated.View>
   );
 };
-const styles = StyleSheet.create({});

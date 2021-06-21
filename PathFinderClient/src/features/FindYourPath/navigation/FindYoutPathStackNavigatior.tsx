@@ -8,6 +8,7 @@ import { DrawerParamList } from "../../../navigation/drawer/Drawer";
 import { ISavedPath } from "../../../components/PathCard";
 import Constants from "expo-constants";
 import DrawerHeader from "../../../navigation/drawer/DrawerHeader";
+import { NavigationContainer } from "@react-navigation/native";
 export type StackParamList = {
   FindYourPath: undefined;
   FindYourPathButtomTabNavigator: { savedPath: ISavedPath };
@@ -18,9 +19,18 @@ interface FindYoutPathStackNavigatiorProps {
 }
 export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
   return (
-    <View
-      style={{
-        flex: 1,
+    <NavigationContainer
+      independent={true}
+      theme={{
+        dark: false,
+        colors: {
+          primary: "#2A4337",
+          background: "#2A4337",
+          card: "#2A4337",
+          text: "#2A4337",
+          border: "#2A4337",
+          notification: "#2A4337",
+        },
       }}
     >
       <Stack.Navigator initialRouteName="FindYourPath">
@@ -43,6 +53,6 @@ export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
           }}
         />
       </Stack.Navigator>
-    </View>
+    </NavigationContainer>
   );
 };
