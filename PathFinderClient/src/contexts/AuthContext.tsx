@@ -56,7 +56,9 @@ const tryLocalSignin = (dispatch: React.Dispatch<AuthActions>) => {
 const signin = (dispatch: React.Dispatch<AuthActions>) => {
   return async ({ email, password }: { email: string; password: string }) => {
     try {
-      const token = await agent.User.signin({ email, password });
+      // const token = await agent.User.signin({ email, password });
+      const token = "test";
+
       await AsyncStorage.setItem("token", JSON.stringify(token));
       dispatch({ type: "signin", payload: token });
     } catch (error) {}

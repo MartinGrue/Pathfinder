@@ -11,6 +11,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
+
+
+import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
+
+
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
   drawerItem: { alignItems: "flex-start", marginVertical: 0 },
@@ -106,10 +111,11 @@ export default () => {
       >
         <Drawer.Screen name="FindYoutPathStackNavigatior">
           {(props) => (
-            <DrawerScreen
-              {...props}
-              animatedStyle={animatedStyle}
-            ></DrawerScreen>
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <FindYoutPathStackNavigatior
+                {...props}
+              ></FindYoutPathStackNavigatior>
+            </DrawerScreen>
           )}
         </Drawer.Screen>
         <Drawer.Screen name="CreateNewPath">
