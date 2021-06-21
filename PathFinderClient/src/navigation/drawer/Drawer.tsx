@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -12,13 +12,15 @@ import Animated from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 
-
-import FindYoutPathStackNavigatior from "../../features/FindYourPath/navigation/FindYoutPathStackNavigatior";
-
+import FindYoutPathStackNavigatior from "../../featutes/FindYourPath/navigation/FindYoutPathStackNavigatior";
+import CreateNewPathStackNavigator from "../../featutes/CreateNewPath/navigation/CreateNewPathStackNavigator";
+// import SelectOptions from "../../features/Options/screens/SelectOptions";
+// import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
-  drawerItem: { alignItems: "flex-start", marginVertical: 0 },
+  contentContainerStyle: {},
+  drawerItem: {},
   drawerLabel: { color: "white", marginLeft: -16 },
 });
 
@@ -42,28 +44,28 @@ const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
     <DrawerContentScrollView
       {...props}
       scrollEnabled={false}
-      contentContainerStyle={{ flex: 1 }}
+      contentContainerStyle={styles.contentContainerStyle}
     >
       <DrawerItem
         label="FindYourPath"
         labelStyle={styles.drawerLabel}
         style={styles.drawerItem}
         onPress={() => props.navigation.navigate("FindYoutPathStackNavigatior")}
-        icon={() => <AntDesign name="dashboard" color="white" size={16} />}
+        icon={() => <AntDesign name="dashboard" color="white" size={26} />}
       />
       <DrawerItem
         label="CreateNewPath"
-        labelStyle={{ color: "white", marginLeft: -16 }}
-        style={{ alignItems: "flex-start", marginVertical: 0 }}
+        labelStyle={styles.drawerLabel}
+        style={styles.drawerItem}
         onPress={() => props.navigation.navigate("CreateNewPath")}
-        icon={() => <AntDesign name="message1" color="white" size={16} />}
+        icon={() => <AntDesign name="message1" color="white" size={26} />}
       />
       <DrawerItem
         label="Options"
-        labelStyle={{ color: "white", marginLeft: -16 }}
-        style={{ alignItems: "flex-start", marginVertical: 0 }}
+        labelStyle={styles.drawerLabel}
+        style={styles.drawerItem}
         onPress={() => props.navigation.navigate("Options")}
-        icon={() => <AntDesign name="message1" color="white" size={16} />}
+        icon={() => <AntDesign name="message1" color="white" size={26} />}
       />
     </DrawerContentScrollView>
   );
@@ -87,7 +89,7 @@ export default () => {
   return (
     <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
       <Drawer.Navigator
-        initialRouteName="Options"
+        initialRouteName="FindYoutPathStackNavigatior"
         edgeWidth={80}
         drawerType="slide"
         overlayColor="transparent"
@@ -120,19 +122,21 @@ export default () => {
         </Drawer.Screen>
         <Drawer.Screen name="CreateNewPath">
           {(props) => (
-            <DrawerScreen
-              {...props}
-              animatedStyle={animatedStyle}
-            ></DrawerScreen>
+            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+              <CreateNewPathStackNavigator
+                {...props}
+              ></CreateNewPathStackNavigator>
+            </DrawerScreen>
           )}
         </Drawer.Screen>
         <Drawer.Screen name="Options">
-          {(props) => (
-            <DrawerScreen
-              {...props}
-              animatedStyle={animatedStyle}
-            ></DrawerScreen>
-          )}
+          {(props) =>
+            // <DrawerScreen
+            //   {...props}
+            //   animatedStyle={animatedStyle}
+            // ></DrawerScreen>
+            null
+          }
         </Drawer.Screen>
       </Drawer.Navigator>
     </LinearGradient>
