@@ -12,8 +12,8 @@ import Animated from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 
-import FindYoutPathStackNavigatior from "../../featutes/FindYourPath/navigation/FindYoutPathStackNavigatior";
-import CreateNewPathStackNavigator from "../../featutes/CreateNewPath/navigation/CreateNewPathStackNavigator";
+import FindYoutPathStackNavigatior from "../../features///FindYourPath/navigation/FindYoutPathStackNavigatior";
+import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
 // import SelectOptions from "../../features/Options/screens/SelectOptions";
 // import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 
