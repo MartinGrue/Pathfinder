@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -14,12 +14,14 @@ import DrawerScreen from "./DrawerScreen";
 
 import FindYoutPathStackNavigatior from "../../features///FindYourPath/navigation/FindYoutPathStackNavigatior";
 import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
+import { Avatar, ListItem } from "react-native-elements";
+import Typography from "../../components/Typography";
 // import SelectOptions from "../../features/Options/screens/SelectOptions";
 // import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 
 const styles = StyleSheet.create({
   drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
-  contentContainerStyle: {},
+  contentContainerStyle: { flex: 1 },
   drawerItem: {},
   drawerLabel: { color: "white", marginLeft: -16 },
 });
@@ -46,6 +48,26 @@ const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
       scrollEnabled={false}
       contentContainerStyle={styles.contentContainerStyle}
     >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Avatar
+          size="large"
+          rounded
+          source={require("../../../assets/hqdefault.jpg")}
+          containerStyle={{ margin: 20 }}
+          avatarStyle={{ borderWidth: 2, borderColor: "white" }}
+          title={"Sam Walters"}
+        />
+        <View style={{}}>
+          <Typography white weight="bold">
+            Sam Walters
+          </Typography>
+          <Typography gray weight="100" style={{paddingTop:5}}>
+            View Profile
+          </Typography>
+        </View>
+      </View>
+
+      {/* <View style={{ flex: 0.5, backgroundColor: "#fcba03" }}> */}
       <DrawerItem
         label="FindYourPath"
         labelStyle={styles.drawerLabel}
@@ -67,6 +89,8 @@ const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
         onPress={() => props.navigation.navigate("Options")}
         icon={() => <AntDesign name="message1" color="white" size={26} />}
       />
+
+      {/* </View> */}
     </DrawerContentScrollView>
   );
 };
