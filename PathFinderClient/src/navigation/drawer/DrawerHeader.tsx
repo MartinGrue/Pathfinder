@@ -37,20 +37,18 @@ interface DrawerHeaderProps {
 }
 const DrawerHeader = ({ navigation }: DrawerHeaderProps) => {
   return (
-    <>
+    <SafeAreaView>
       <View style={styles.headerContainer}>
-        <View style={styles.headerNavigation}>
-          <TouchableWithoutFeedback
-            style={{ width: 30, height: 30 }}
-            onPress={() => navigation.openDrawer()}
-          >
-            <SimpleLineIcons name="menu" size={18} color="#a3a19b" />
-          </TouchableWithoutFeedback>
-        </View>
+        <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
+          <View style={styles.headerNavigation}>
+            <SimpleLineIcons name="menu" size={20} color="#a3a19b" />
+          </View>
+        </TouchableWithoutFeedback>
+
         <View style={styles.headerContent}></View>
         {/* TODO INSERT SCREEN HEADER TITLE TEXT HERE */}
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -60,15 +58,14 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    paddingHorizontal: 12 * 2,
-    paddingTop: 8 * 2.5,
-    paddingBottom: 12 * 1.5,
+
     backgroundColor: "#F3F2F1",
   },
   headerNavigation: {
-    flex: 1,
+    width: 70,
+    height: 70,
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
   headerTitle: {
     color: "#2a4337",

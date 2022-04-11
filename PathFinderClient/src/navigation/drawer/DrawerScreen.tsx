@@ -13,14 +13,12 @@ interface DrawerScreenProps {
   children: JSX.Element;
   navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
 }
-export default ({ navigation, children }: DrawerScreenProps) => {
+export default ({ children }: DrawerScreenProps) => {
   const progress = useDrawerProgress() as Readonly<SharedValue<number>>;
 
   const animatedScreenStyle = useAnimatedStyle(() => {
     const scale = interpolate(progress.value, [0, 1], [1, 0.8]);
-
     const borderRadius = interpolate(progress.value, [0, 1], [0, 36]);
-
     return { borderRadius, transform: [{ scale }] };
   });
 

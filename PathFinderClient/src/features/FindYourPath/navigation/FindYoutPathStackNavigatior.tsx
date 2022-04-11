@@ -21,20 +21,27 @@ export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
   return (
     <NavigationContainer
       independent={true}
-      theme={{
-        dark: false,
-        colors: {
-          primary: "#2A4337",
-          background: "#2A4337",
-          card: "#2A4337",
-          text: "#2A4337",
-          border: "#2A4337",
-          notification: "#2A4337",
-        },
-      }}
+      // theme={{
+      //   dark: false,
+      //   colors: {
+      //     primary: "#2A4337",
+      //     background: "#2A4337",
+      //     card: "#2A4337",
+      //     text: "#2A4337",
+      //     border: "#2A4337",
+      //     notification: "#2A4337",
+      //   },
+      // }}
     >
       <Stack.Navigator initialRouteName="FindYourPath">
         <Stack.Screen
+          name="FindYourPath"
+          component={() => <></>}
+          options={{
+            header: () => <DrawerHeader {...{ navigation }}></DrawerHeader>,
+          }}
+        ></Stack.Screen>
+        {/* <Stack.Screen
           name="FindYourPath"
           component={FindYourPath}
           options={{
@@ -51,7 +58,7 @@ export default ({ navigation }: FindYoutPathStackNavigatiorProps) => {
               height: 45,
             },
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

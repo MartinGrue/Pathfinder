@@ -6,7 +6,6 @@ import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
-import { SafeAreaView } from "react-native";
 export type RootStackParamList = {
   SignIn: {};
   MainFlow: {};
@@ -28,24 +27,23 @@ export default () => {
   //   return <InitScreen></InitScreen>;
   // }
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer
-        ref={(navigatorRef) => {
-          NavigationService.setTopLevelNavigator(navigatorRef);
-        }}
+    <NavigationContainer
+      ref={(navigatorRef) => {
+        NavigationService.setTopLevelNavigator(navigatorRef);
+      }}
+    >
+      <Stack.Navigator
+        initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
+        screenOptions={{ header: () => null }}
+        // headerMode="none"
       >
-        <Stack.Navigator
-          initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
-          screenOptions={{ header: () => null }}
-          // headerMode="none"
-        >
-          {/* <>
+        {/* <>
             <Stack.Screen name="SignIn" component={SignIn} />
           </> */}
-          <>
-            <Stack.Screen name="MainFlow" component={Drawer} />
-          </>
-          {/* {authContext && authContext.state.token === null ? (
+        <>
+          <Stack.Screen name="MainFlow" component={Drawer} />
+        </>
+        {/* {authContext && authContext.state.token === null ? (
             <>
               <Stack.Screen name="SignIn" component={SignIn} />
             </>
@@ -54,9 +52,8 @@ export default () => {
               <Stack.Screen name="MainFlow" component={Drawer} />
             </>
           )} */}
-          {/* <Stack.Screen name="SignIn" component={SignIn} /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+        {/* <Stack.Screen name="SignIn" component={SignIn} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
