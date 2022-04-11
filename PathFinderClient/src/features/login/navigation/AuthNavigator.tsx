@@ -6,7 +6,7 @@ import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native";
 export type RootStackParamList = {
   SignIn: {};
   MainFlow: {};
@@ -14,7 +14,7 @@ export type RootStackParamList = {
 };
 const Stack = createStackNavigator<RootStackParamList>();
 export default () => {
-  const [isLoggedIn, setisLoggedIn] = useState<boolean | undefined>(undefined);
+  const [isLoggedIn, setisLoggedIn] = useState<boolean | undefined>(true);
   const authContext = useContext(AuthContext);
   useEffect(() => {
     authContext &&
@@ -24,9 +24,9 @@ export default () => {
     // authContext && console.log("this is a token: " + authContext.state.token);
   }, []);
 
-  if (authContext && authContext.state.isLoading) {
-    return <InitScreen></InitScreen>;
-  }
+  // if (authContext && authContext.state.isLoading) {
+  //   return <InitScreen></InitScreen>;
+  // }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer
@@ -36,15 +36,15 @@ export default () => {
       >
         <Stack.Navigator
           initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
-          // screenOptions={{ header: () => null }}
-          headerMode="none"
+          screenOptions={{ header: () => null }}
+          // headerMode="none"
         >
           {/* <>
             <Stack.Screen name="SignIn" component={SignIn} />
-          </>
+          </> */}
           <>
             <Stack.Screen name="MainFlow" component={Drawer} />
-          </> */}
+          </>
           {/* {authContext && authContext.state.token === null ? (
             <>
               <Stack.Screen name="SignIn" component={SignIn} />
@@ -54,7 +54,7 @@ export default () => {
               <Stack.Screen name="MainFlow" component={Drawer} />
             </>
           )} */}
-          <Stack.Screen name="SignIn" component={SignIn} />
+          {/* <Stack.Screen name="SignIn" component={SignIn} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

@@ -4,18 +4,22 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerContentComponentProps,
-  DrawerContentOptions,
   DrawerItem,
+  useDrawerProgress,
 } from "@react-navigation/drawer";
 import { LinearGradient } from "expo-linear-gradient";
-import Animated from "react-native-reanimated";
+import Animated, {
+  interpolate,
+  SharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 
 import FindYoutPathStackNavigatior from "../../features///FindYourPath/navigation/FindYoutPathStackNavigatior";
 import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
-import { Avatar, ListItem } from "react-native-elements";
 import Typography from "../../components/Typography";
+import { Avatar } from "@rneui/base";
 // import SelectOptions from "../../features/Options/screens/SelectOptions";
 // import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 
@@ -32,16 +36,15 @@ export type DrawerParamList = {
   Options: undefined;
 };
 
-const Drawer = createDrawerNavigator<DrawerParamList>();
 interface DrawerComponentProps {
-  props: DrawerContentComponentProps<DrawerContentOptions>;
-  setProgress: React.Dispatch<React.SetStateAction<Animated.Node<number>>>;
+  props: DrawerContentComponentProps;
+  // setProgress: React.Dispatch<React.SetStateAction<Animated.Node<number>>>;
 }
 
-const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
-  React.useEffect(() => {
-    setProgress(props.progress);
-  }, []);
+const DrawerContent = ({ props }: DrawerComponentProps) => {
+  // React.useEffect(() => {
+  //   setProgress(progress);
+  // }, []);
   return (
     <DrawerContentScrollView
       {...props}
@@ -61,7 +64,7 @@ const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
           <Typography white weight="bold">
             Sam Walters
           </Typography>
-          <Typography gray weight="100" style={{paddingTop:5}}>
+          <Typography gray weight="100" style={{ paddingTop: 5 }}>
             View Profile
           </Typography>
         </View>
@@ -96,73 +99,69 @@ const DrawerContent = ({ props, setProgress }: DrawerComponentProps) => {
 };
 
 export default () => {
-  const [progress, setProgress] = React.useState<Animated.Node<number>>(
-    new Animated.Value(0)
-  );
-  const scale = Animated.interpolate(progress, {
-    inputRange: [0, 1],
-    outputRange: [1, 0.8],
-  });
+  // const [progress, setProgress] = React.useState<Animated.Node<number>>(
+  //   new Animated.Value(0)
+  // );
+  const Drawer = createDrawerNavigator<DrawerParamList>();
 
-  const borderRadius = Animated.interpolate(progress, {
-    inputRange: [0, 1],
-    outputRange: [0, 36],
-  });
-
-  const animatedStyle = { borderRadius, transform: [{ scale }] };
   return (
-    <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
-      <Drawer.Navigator
-        initialRouteName="FindYoutPathStackNavigatior"
-        edgeWidth={80}
-        drawerType="slide"
-        overlayColor="transparent"
-        drawerStyle={styles.drawerStyles}
-        drawerContentOptions={{
-          activeBackgroundColor: "#2A4337",
-          activeTintColor: "white",
-          inactiveTintColor: "white",
-        }}
-        sceneContainerStyle={{ backgroundColor: "#2A4337" }}
-        drawerContent={(props) => {
-          return (
-            <DrawerContent
-              props={props}
-              setProgress={setProgress}
-            ></DrawerContent>
-          );
+    // <LinearGradient style={{ flex: 1 }} colors={["#2A4337", "#2A4337"]}>
+    <Drawer.Navigator
+      initialRouteName="FindYoutPathStackNavigatior"
+      screenOptions={{
+        header: () => <></>,
+        drawerType: "slide",
+        swipeEdgeWidth: 80,
+        overlayColor: "transparent",
+        drawerStyle: styles.drawerStyles,
+        sceneContainerStyle: { backgroundColor: "#2A4337" },
+      }}
+      // edgeWidth={80}
+      // overlayColor="transparent"
+      // drawerStyle={styles.drawerStyles}
+      // drawerContentOptions={{
+      //   activeBackgroundColor: "#2A4337",
+      //   activeTintColor: "white",
+      //   inactiveTintColor: "white",
+      // }}
+      // sceneContainerStyle={{ backgroundColor: "#2A4337" }}
 
-          // setProgress(props.progress);
-        }}
-      >
-        <Drawer.Screen name="FindYoutPathStackNavigatior">
+      drawerContent={(props) => {
+        return (
+          <DrawerContent
+            props={props}
+            // setProgress={setProgress}
+          ></DrawerContent>
+        );
+
+        // setProgress(props.progress);
+      }}
+    >
+      {/* <Drawer.Screen name="FindYoutPathStackNavigatior">
           {(props) => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+            <DrawerScreen {...{ ...props, animatedScreenStyle }}>
               <FindYoutPathStackNavigatior
                 {...props}
               ></FindYoutPathStackNavigatior>
             </DrawerScreen>
           )}
-        </Drawer.Screen>
-        <Drawer.Screen name="CreateNewPath">
+        </Drawer.Screen> */}
+      {/* <Drawer.Screen name="CreateNewPath">
           {(props) => (
-            <DrawerScreen {...props} animatedStyle={animatedStyle}>
+            <DrawerScreen {...{ ...props, animatedScreenStyle }}>
               <CreateNewPathStackNavigator
                 {...props}
               ></CreateNewPathStackNavigator>
             </DrawerScreen>
           )}
-        </Drawer.Screen>
-        <Drawer.Screen name="Options">
-          {(props) =>
-            // <DrawerScreen
-            //   {...props}
-            //   animatedStyle={animatedStyle}
-            // ></DrawerScreen>
-            null
-          }
-        </Drawer.Screen>
-      </Drawer.Navigator>
-    </LinearGradient>
+        </Drawer.Screen> */}
+      <Drawer.Screen name="Options">
+        {(props) => (
+          <DrawerScreen {...props}>
+            <View></View>
+          </DrawerScreen>
+        )}
+      </Drawer.Screen>
+    </Drawer.Navigator>
   );
 };

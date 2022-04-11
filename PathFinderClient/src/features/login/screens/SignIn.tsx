@@ -10,10 +10,10 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { RectButton } from "react-native-gesture-handler";
 import Svg, { Image } from "react-native-svg";
 import { RootStackParamList } from "../navigation/AuthNavigator";
 import SignInUpForm from "./SignInUpForm";
+import { RectButton } from "react-native-gesture-handler";
 
 const img = require("../../../../assets/backgroundImages/715e8b73080499.5bfdacd4b40c6.jpg");
 
@@ -85,7 +85,15 @@ export default ({ navigation }: SingInProps) => {
 
     return { transform: [{ rotate: `${rotate}rad` }] };
   });
-
+  const SignUpPress: () => void = () => {
+    setsignStatus("Sign UP");
+  };
+  const SignInPress: () => void = () => {
+    setsignStatus("Sign IN");
+  };
+  const CancelPress: () => void = () => {
+    setsignStatus(undefined);
+  };
   return (
     <View
       style={{
@@ -123,23 +131,13 @@ export default ({ navigation }: SingInProps) => {
           }}
         >
           <Animated.View style={[buttonStyle]}>
-            <RectButton
-              style={[styles.button]}
-              onPress={() => {
-                setsignStatus("Sign UP");
-              }}
-            >
+            <RectButton {...{ onPress: SignUpPress, style: styles.button }}>
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>
             </RectButton>
           </Animated.View>
 
           <Animated.View style={[buttonStyle]}>
-            <RectButton
-              style={[styles.button]}
-              onPress={() => {
-                setsignStatus("Sign IN");
-              }}
-            >
+            <RectButton {...{ onPress: SignInPress, style: styles.button }}>
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign IN</Text>
             </RectButton>
           </Animated.View>
@@ -155,10 +153,7 @@ export default ({ navigation }: SingInProps) => {
           <Animated.View style={[animatedFormStyle]}>
             {!isKeyboardVisible && (
               <RectButton
-                style={styles.closeBtn}
-                onPress={() => {
-                  setsignStatus(undefined);
-                }}
+                {...{ onPress: CancelPress, style: styles.cancelBtn }}
               >
                 <Animated.View style={[animatedCloseBtnStyle]}>
                   <Text
@@ -200,7 +195,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     elevation: 10,
   },
-  closeBtn: {
+  cancelBtn: {
     width: 40,
     height: 40,
     backgroundColor: "white",
