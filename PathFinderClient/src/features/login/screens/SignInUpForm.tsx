@@ -7,7 +7,7 @@ import {
   Button,
 } from "react-native";
 import { Formik, useFormik, FormikState } from "formik";
-import { Text } from "react-native-elements";
+import { Text } from "@rneui/themed";
 import { theme } from "../../../constants/theme";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
@@ -46,59 +46,52 @@ export default ({ signStatus }: SingInUpFormProps) => {
     formik.resetForm();
   }, [signStatus]);
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        <FormInput
-          name={"email"}
-          value={formik.values.email}
-          onChangeText={formik.handleChange}
-          placeholder="email"
-          error={formik.errors.email}
-          touched={formik.touched.email}
-          setFieldTouched={formik.setFieldTouched}
-          secureTextEntry={false}
-          iconName="envelope"
-        ></FormInput>
-        <FormInput
-          name={"password"}
-          value={formik.values.password}
-          onChangeText={formik.handleChange}
-          placeholder="password"
-          error={formik.errors.password}
-          touched={formik.touched.password}
-          setFieldTouched={formik.setFieldTouched}
-          secureTextEntry={true}
-          iconName="lock"
-        ></FormInput>
-        <View>
+    <View>
+      <FormInput
+        name={"email"}
+        value={formik.values.email}
+        onChangeText={formik.handleChange}
+        placeholder="email"
+        error={formik.errors.email}
+        touched={formik.touched.email}
+        setFieldTouched={formik.setFieldTouched}
+        secureTextEntry={false}
+        iconName="envelope"
+      ></FormInput>
+
+      <FormInput
+        name={"password"}
+        value={formik.values.password}
+        onChangeText={formik.handleChange}
+        placeholder="password"
+        error={formik.errors.password}
+        touched={formik.touched.password}
+        setFieldTouched={formik.setFieldTouched}
+        secureTextEntry={true}
+        iconName="lock"
+      ></FormInput>
+      {/* <View>
           <Text style={{ height: 50, backgroundColor: "red" }}>test</Text>
-        </View>
-        <View>
-          <Animated.View>
-            <TouchableOpacity
-              activeOpacity={0.9}
-              style={[styles.button]}
-              disabled={!formik.isValid}
-              onPress={() => {
-                formik.validateForm(formik.values).then(() => {
-                  formik.handleSubmit();
-                  console.log(formik.isValid);
-                  formik.resetForm;
-                });
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                {signStatus}
-              </Text>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
+        </View> */}
+      <View>
+        <Animated.View>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={[styles.button]}
+            disabled={!formik.isValid}
+            onPress={() => {
+              formik.validateForm(formik.values).then(() => {
+                formik.handleSubmit();
+                console.log(formik.isValid);
+                formik.resetForm;
+              });
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {signStatus}
+            </Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
     </View>
   );
@@ -108,11 +101,10 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
     height: 50,
-    marginHorizontal: 20,
     borderRadius: 35,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 5,
+    marginVertical: 20,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 0.2,

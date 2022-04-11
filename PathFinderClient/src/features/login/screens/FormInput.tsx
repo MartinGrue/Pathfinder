@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FormikErrors, FormikTouched } from "formik/dist/types";
-import { Input } from "react-native-elements";
+import { Input } from "@rneui/themed";
 
 interface FormInputProps {
   name: string;
@@ -39,19 +39,26 @@ export default ({
   return (
     <View>
       <Input
+        style={{ color: "white" }}
         value={value}
-        style={{ marginBottom: 30 }}
         onChangeText={onChangeText(name)}
         onBlur={() => setFieldTouched(name)}
         placeholder={placeholder}
+        placeholderTextColor="white"
         leftIcon={{
           type: "font-awesome",
           name: iconName,
-          color: !touched ? "black" : error ? "red" : "green",
+          color: !touched ? "white" : error ? "red" : "green",
         }}
-        errorStyle={{ height: 15, opacity: !touched ? 0 : 1, fontWeight: "100", fontSize: 13}}
+        errorStyle={{
+          height: 15,
+          opacity: !touched ? 0 : 1,
+          fontWeight: "100",
+          fontSize: 13,
+        }}
         errorMessage={error}
         secureTextEntry={secureTextEntry}
+        shake={() => {}}
       />
     </View>
   );

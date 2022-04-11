@@ -1,96 +1,42 @@
-import React, { Component, useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Keyboard } from "react-native";
-import { Input } from "react-native-elements";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Animated, { Easing, useCode } from "react-native-reanimated";
-import {
-  TapGestureHandler,
-  State,
-  TouchableWithoutFeedback,
-  TapGestureHandlerStateChangeEvent,
-} from "react-native-gesture-handler";
-import { useMemoOne } from "use-memo-one";
-import { theme } from "../../../constants/theme";
-import Svg, { Image, Circle, ClipPath } from "react-native-svg";
+import Animated, {
+  Easing,
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { RectButton } from "react-native-gesture-handler";
+import Svg, { Image } from "react-native-svg";
 import { RootStackParamList } from "../navigation/AuthNavigator";
-import { Formik, Form, Field, FormikState } from "formik";
-import * as Yup from "yup";
 import SignInUpForm from "./SignInUpForm";
 
-const SignupSchema = Yup.object().shape({
-  password: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  email: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-});
-
-const img = require("../../../../assets/backgroundImages/16005d75049113.5c41a9a794781.jpg");
+const img = require("../../../../assets/backgroundImages/715e8b73080499.5bfdacd4b40c6.jpg");
 
 const { width, height } = Dimensions.get("window");
 
-const {
-  Value,
-  event,
-  block,
-  cond,
-  eq,
-  set,
-  Clock,
-  startClock,
-  stopClock,
-  debug,
-  timing,
-  clockRunning,
-  interpolate,
-  Extrapolate,
-} = Animated;
-
-function runTiming(
-  clock: Animated.Clock,
-  value: Animated.Value<number>,
-  dest: Animated.Value<number>
-) {
-  const state = {
-    finished: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-    frameTime: new Value(0),
-  };
-
-  const config = {
-    duration: 1000,
-    toValue: new Value(0),
-    easing: Easing.inOut(Easing.ease),
-  };
-
-  return block([
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.time, 0),
-      set(state.position, value),
-      set(state.frameTime, 0),
-      set(config.toValue, dest),
-      startClock(clock),
-    ]),
-    timing(clock, state, config),
-    cond(state.finished, debug("stop clock", stopClock(clock))),
-    state.position,
-  ]);
-}
 interface SingInProps {
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>;
 }
 export type signStatusType = "Sign UP" | "Sign IN" | undefined;
 
 export default ({ navigation }: SingInProps) => {
-  const [signState, setsignState] = useState<State>(0);
+  const easing = Easing.inOut(Easing.ease);
+
   const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  
+  const animate = useSharedValue(1);
+  const progress = useDerivedValue(() => {
+    return withTiming(animate.value, { duration: 1000, easing });
+  });
+  useEffect(() => {
+    animate.value = signStatus ? 0 : 1;
+  }, [animate, signStatus]);
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -110,210 +56,126 @@ export default ({ navigation }: SingInProps) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-  useCode(
-    () =>
-      block([
-        cond(
-          eq(signState, State.END),
-          set(buttonOpacity, runTiming(new Clock(), new Value(1), new Value(0)))
-        ),
-      ]),
-    [signState]
-  );
 
-  const { buttonOpacity } = useMemoOne(
-    () => ({
-      buttonOpacity: new Value(1),
-      buttonY: new Value(0),
-      bgY: new Value(0),
-    }),
-    []
-  );
-  const driveAnimation = (
-    value: Animated.Value<1>,
-    from: Animated.Value<0 | 1>,
-    to: Animated.Value<0 | 1>
-  ) => {
-    return event([
-      {
-        nativeEvent: {
-          state: (state: any) =>
-            block([
-              cond(
-                eq(state, State.END),
-                set(value, runTiming(new Clock(), from, to))
-              ),
-            ]),
-        },
-      },
-    ]);
-  };
-  const buttonY = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [100, 0],
-    extrapolate: Extrapolate.CLAMP,
+  const buttonStyle = useAnimatedStyle(() => {
+    const opacity = progress.value;
+
+    const translateY = interpolate(
+      progress.value,
+      [0, 1],
+      [100, 0],
+      Extrapolate.CLAMP
+    );
+    return { opacity, transform: [{ translateY }] };
   });
 
-  const bgY = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [-height / 2 - 50, 0],
-    extrapolate: Extrapolate.CLAMP,
+  const animatedFormStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(progress.value, [0, 1], [1, 0]);
+    const translateY = interpolate(
+      progress.value,
+      [0, 1],
+      [0, 100],
+      Extrapolate.CLAMP
+    );
+    const zIndex = interpolate(progress.value, [0, 1], [50, -1]);
+    return { opacity, transform: [{ translateY }], zIndex };
   });
-  const textInputZ = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [1, -1],
-    extrapolate: Extrapolate.CLAMP,
+  const animatedCloseBtnStyle = useAnimatedStyle(() => {
+    const rotate = interpolate(progress.value, [0, 1], [0, 2 * Math.PI]);
+
+    return { transform: [{ rotate: `${rotate}rad` }] };
   });
-  const textInputY = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [0, 100],
-    extrapolate: Extrapolate.CLAMP,
-  });
-  const textInputOpacity = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [1, 0],
-    extrapolate: Extrapolate.CLAMP,
-  });
-  const rotateCross = interpolate(buttonOpacity, {
-    inputRange: [0, 1],
-    outputRange: [0, 2 * Math.PI],
-    extrapolate: Extrapolate.CLAMP,
-  });
-  const onHandlerStateChange = (
-    event: TapGestureHandlerStateChangeEvent,
-    status: signStatusType
-  ) => {
-    if (event.nativeEvent.state === State.BEGAN) {
-      setsignStatus(status);
-      console.log(signStatus);
-    }
-    setsignState(event.nativeEvent.state);
-  };
+
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: "white",
+        alignItems: "center",
         justifyContent: "flex-end",
       }}
     >
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFill,
-          {
-            transform: [{ translateY: bgY }],
-          },
-        ]}
-      >
-        <Svg height={height + 50} width={width}>
-          <ClipPath id="clip">
-            <Circle r={height + 50} cx={width / 2}></Circle>
-          </ClipPath>
-          <Image
-            href={img}
-            width={width}
-            height={height + 50}
-            preserveAspectRatio="xMinYMax slice"
-            clipPath="url(#clip)"
-          />
+      <View style={[StyleSheet.absoluteFill]}>
+        <Svg
+          height={height}
+          width={width}
+          viewBox="0 0 1200 743"
+          preserveAspectRatio="xMinYMid slice"
+        >
+          <Image href={img} />
         </Svg>
-      </Animated.View>
-      <View style={{ height: height / 2 }}>
+      </View>
+      <View
+        style={{
+          height: height / 2,
+          width: (width * 3) / 4,
+        }}
+      >
         <View
           style={{
             position: "absolute",
             top: height / 4,
-            height: height / 4,
-            width: width,
+            width: "100%",
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "stretch",
+            justifyContent: "center",
           }}
         >
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "flex-start",
-            }}
-          >
-            <TapGestureHandler
-              onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign UP")}
+          <Animated.View style={[buttonStyle]}>
+            <RectButton
+              style={[styles.button]}
+              onPress={() => {
+                setsignStatus("Sign UP");
+              }}
             >
-              <Animated.View
-                style={{
-                  ...styles.button,
-                  opacity: buttonOpacity,
-                  transform: [{ translateY: buttonY }],
-                  marginBottom: 20,
-                }}
-              >
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  Sign UP
-                </Text>
-              </Animated.View>
-            </TapGestureHandler>
-            <TapGestureHandler
-              onHandlerStateChange={(e) => onHandlerStateChange(e, "Sign IN")}
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>
+            </RectButton>
+          </Animated.View>
+
+          <Animated.View style={[buttonStyle]}>
+            <RectButton
+              style={[styles.button]}
+              onPress={() => {
+                setsignStatus("Sign IN");
+              }}
             >
-              <Animated.View
-                style={{
-                  ...styles.button,
-                  opacity: buttonOpacity,
-                  transform: [{ translateY: buttonY }],
-                }}
-              >
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  Sign IN
-                </Text>
-              </Animated.View>
-            </TapGestureHandler>
-          </View>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign IN</Text>
+            </RectButton>
+          </Animated.View>
         </View>
-        <Animated.View
-          style={
-            (StyleSheet.absoluteFill,
-            {
-              position: "absolute",
-              top: 0,
-              marginHorizontal: width / 8,
-              opacity: textInputOpacity,
-              zIndex: textInputZ,
-              transform: [{ translateY: textInputY }],
-              width: (width * 3) / 4,
-              height: height / 2,
-            })
-          }
+
+        <View
+          style={{
+            position: "absolute",
+            width: "100%",
+            top: isKeyboardVisible ? 100 : 0,
+          }}
         >
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "space-between",
-              paddingBottom: (height * 1) / 20,
-            }}
-          >
-            <View>
-              {!isKeyboardVisible && (
-                <TapGestureHandler
-                  onHandlerStateChange={driveAnimation(
-                    buttonOpacity,
-                    new Animated.Value(0),
-                    new Animated.Value(1)
-                  )}
-                >
-                  <Animated.View style={styles.closeBtn}>
-                    <Animated.Text
-                      style={{
-                        fontSize: 15,
-                        transform: [{ rotate: rotateCross }],
-                      }}
-                    >
-                      X
-                    </Animated.Text>
-                  </Animated.View>
-                </TapGestureHandler>
-              )}
+          <Animated.View style={[animatedFormStyle]}>
+            {!isKeyboardVisible && (
+              <RectButton
+                style={styles.closeBtn}
+                onPress={() => {
+                  setsignStatus(undefined);
+                }}
+              >
+                <Animated.View style={[animatedCloseBtnStyle]}>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                    }}
+                  >
+                    X
+                  </Text>
+                </Animated.View>
+              </RectButton>
+            )}
+            <View style={{ marginTop: 20 }}>
+              <SignInUpForm signStatus={signStatus}></SignInUpForm>
             </View>
-            <SignInUpForm signStatus={signStatus}></SignInUpForm>
-          </View>
-        </Animated.View>
+          </Animated.View>
+        </View>
       </View>
     </View>
   );
@@ -326,9 +188,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
+    marginBottom: 20,
     backgroundColor: "white",
     height: 50,
-    marginHorizontal: 20,
     borderRadius: 35,
     alignItems: "center",
     justifyContent: "center",
@@ -347,11 +209,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     top: -20,
+
     left: (width * 3) / 8 - 20,
     shadowOffset: { width: 2, height: 2 },
     shadowColor: "black",
     shadowOpacity: 0.2,
     elevation: 10,
   },
-  textInput: {},
 });

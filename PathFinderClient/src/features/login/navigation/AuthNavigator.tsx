@@ -28,7 +28,7 @@ export default () => {
     return <InitScreen></InitScreen>;
   }
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer
         ref={(navigatorRef) => {
           NavigationService.setTopLevelNavigator(navigatorRef);
@@ -36,7 +36,8 @@ export default () => {
       >
         <Stack.Navigator
           initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
-          screenOptions={{ header: () => null }}
+          // screenOptions={{ header: () => null }}
+          headerMode="none"
         >
           {/* <>
             <Stack.Screen name="SignIn" component={SignIn} />
@@ -44,7 +45,7 @@ export default () => {
           <>
             <Stack.Screen name="MainFlow" component={Drawer} />
           </> */}
-          {authContext && authContext.state.token === null ? (
+          {/* {authContext && authContext.state.token === null ? (
             <>
               <Stack.Screen name="SignIn" component={SignIn} />
             </>
@@ -52,7 +53,8 @@ export default () => {
             <>
               <Stack.Screen name="MainFlow" component={Drawer} />
             </>
-          )}
+          )} */}
+          <Stack.Screen name="SignIn" component={SignIn} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
