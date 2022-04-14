@@ -8,7 +8,10 @@ import { StackParamList } from "./FindYoutPathStackNavigatior";
 import { StackNavigationProp } from "@react-navigation/stack";
 import FindYourPathDetails from "../screens/FindYourPathDetails";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { View } from "react-native";
+import DrawerHeader from "../../../navigation/drawer/DrawerHeader";
 
+//Specifying undefined means that the route doesn't have params
 export type TabParamList = {
   FindYourPathDetails: undefined;
   FindYourPathMap: undefined;
@@ -25,40 +28,41 @@ export type TabParamList = {
 //   FindYourPathMap: undefined;
 // };
 
-const Tab = createBottomTabNavigator<TabParamList>();
-type TabNavigatorRouteProp = RouteProp<
-  StackParamList,
-  "FindYourPathButtomTabNavigator"
->;
+// type TabNavigatorRouteProp = RouteProp<
+//   StackParamList,
+//   "FindYourPathButtomTabNavigator"
+// >;
 
-type TabNavigatorNavigationProp = StackNavigationProp<
-  StackParamList,
-  "FindYourPathButtomTabNavigator"
->;
-interface TabNavigatonProp {
-  route: TabNavigatorRouteProp;
-  navigation: TabNavigatorNavigationProp;
-}
-export default ({ navigation, route }: TabNavigatonProp) => {
+// type TabNavigatorNavigationProp = StackNavigationProp<
+//   StackParamList,
+//   "FindYourPathButtomTabNavigator"
+// >;
+// interface TabNavigatonProp {
+//   route: TabNavigatorRouteProp;
+//   navigation: TabNavigatorNavigationProp;
+// }
+
+const Tab = createBottomTabNavigator<TabParamList>();
+
+export default () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: "#e91e63",
-      }}
+      // tabBarOptions={{
+      //   activeTintColor: "#e91e63",
+      // }}
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen
         name="FindYourPathDetails"
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name={"compass"} color={"white"} size={34} />
-            ),
+          header: () => <></>,
+          tabBarIcon: () => <Icon name={"compass"} color={"white"} size={34} />,
         }}
       >
         {(props) => (
-          <FindYourPathDetails
-            // savedPath={route.params.savedPath}
-          ></FindYourPathDetails>
+          <View style={{ flex: 1 }}>
+            <FindYourPathDetails></FindYourPathDetails>
+          </View>
         )}
       </Tab.Screen>
       <Tab.Screen
@@ -66,7 +70,7 @@ export default ({ navigation, route }: TabNavigatonProp) => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name={"map"} color={color} size={size} />
-            ),
+          ),
         }}
         component={FindYourPathMap}
       ></Tab.Screen>

@@ -1,7 +1,6 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { ISavedPath } from "../../../components/PathCard";
-import { Text } from "react-native-elements";
 import { StyleSheet, Dimensions } from "react-native";
 import * as d3 from "d3-shape";
 import Svg, {
@@ -17,7 +16,17 @@ import Svg, {
 
 import { theme } from "../../../constants/theme";
 import Typography from "../../../components/Typography";
-const { width, height: wHeight } = Dimensions.get("window");
+import {
+  CompositeNavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { RectButton } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
+import SvgCircle from "./SvgCircle";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { TabParamList } from "../navigation/FindYourPathButtomTabNavigator";
+import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
 
 const markerRendering = `<svg xmlns="http://www.w3.org/2000/svg"
 width="125" height="125" viewBox="0 0 125 125">
@@ -41,98 +50,10 @@ const moonIcon = `<svg height="448pt" viewBox="-12 0 448 448.04455" width="448pt
 100.289062-224.0000005 224 0 123.714844 100.2851565 224 224.0000005 224zm0 0"/>
 </svg>`;
 
-var points = [
-  [0, 5],
-  [5, 11],
-  [6, 15],
-  [7, 66],
-  [8, 55],
-  [9, 77],
-  [5, 100],
-  [6, 66],
-  [7, 24],
-  [8, 43],
-  [9, 100],
-  [5, 45],
-  [6, 67],
-  [7, 58],
-  [8, 99],
-  [9, 45],
-  [5, 32],
-  [6, 1],
-  [7, 12],
-  [8, 11],
-  [9, 64],
-  [5, 8],
-  [6, 34],
-  [7, 45],
-  [8, 23],
-  [9, 23],
-
-  [5, 11],
-  [6, 21],
-  [7, 1],
-  [8, 3],
-  [9, 35],
-  [10, 12],
-  [11, 11],
-  [12, 13],
-  [13, 14],
-  [14, 11],
-  [15, 10],
-  [16, 10],
-  [17, 11],
-
-  [1, 11],
-  [1, 10],
-  [1, 10],
-  [1, 10],
-  [1, 11],
-  [1, 11],
-  [1, 11],
-  [1, 11],
-] as [number, number][];
-
-const getPath = (): string => {
-  var d5 = d3
-    .areaRadial()
-    .outerRadius((d, i) => {
-      return d[1] / 20 + 45;
-    })
-    .angle((d, i) => {
-      return (i / (points.length - 1)) * Math.PI * 2;
-    })
-    .innerRadius((d, i) => {
-      return 45;
-    })
-    .curve(d3.curveBasis);
-  //   return `${d}`;
-  return `${d5(points)}`;
-};
-const d = getPath();
-
-const getPartinalPath = (): string => {
-  const partialData = points.slice(0, Math.floor(points.length * 0.3));
-  var d5 = d3
-    .areaRadial()
-    .outerRadius((d, i) => {
-      return d[1] / 20 + 45;
-    })
-    .angle((d, i) => {
-      return (i / (points.length - 1)) * Math.PI * 2;
-    })
-    .innerRadius((d, i) => {
-      return 45;
-    })
-    .curve(d3.curveBasis);
-  //   return `${d}`;
-  return `${d5(partialData)}`;
-};
-const dPartial = getPartinalPath();
-// type ProfileScreenNavigationProp = CompositeNavigationProp<
-//   BottomTabNavigationProp<TabParamList>,
-//   StackNavigationProp<StackParamList, "FindYourPathButtomTabNavigator">
-// >;
+type NavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<TabParamList>,
+  StackNavigationProp<StackParamList, "FindYourPathButtomTabNavigator">
+>;
 
 // type TabNavigatorRouteProp = RouteProp<TabParamList, "DetailsStack2">;
 
@@ -144,184 +65,211 @@ const dPartial = getPartinalPath();
 interface FindYourPathDetailsProps {
   savedPath: ISavedPath;
 }
+
 export default () => {
+  const navigation = useNavigation<NavigationProp>();
+  const onPressBack: () => void = () => {
+    console.log("pressed");
+    navigation.navigate("FindYourPath");
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.infoContainer}>
-        <View style={styles.infoLeft}>
-          <View
-            style={{
-              marginRight: 10,
-              backgroundColor: theme.colors.white2,
-              width: 30,
-              height: 30,
-              borderRadius: 20,
-              justifyContent: "center",
+    <View>
+      <Animated.View>
+        <RectButton
+          {...{
+            onPress: onPressBack,
+            style: {
+              marginBottom: 20,
+              backgroundColor: "white",
+              height: 50,
+              borderRadius: 35,
               alignItems: "center",
-            }}
-          >
-            <SvgXml xml={moonIcon} width={10} height={10} />
-          </View>
-          <Typography size={16} medium gray2>
-            23km
-          </Typography>
-        </View>
-        <View style={styles.infoRight}>
-          <Typography size={16} medium gray2>
-            23km
-          </Typography>
-          <View
-            style={{
-              marginLeft: 10,
-              backgroundColor: theme.colors.white2,
-              width: 30,
-              height: 30,
-              borderRadius: 20,
               justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <SvgXml xml={cursorIcon} width={10} height={10} />
-          </View>
-        </View>
-      </View>
-      <View style={styles.svgContainer}>
-        <View style={{ aspectRatio: 1 }}>
-          {/* <Svg width={width} height="320"> */}
-          <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <Path
-              y={50}
-              x={50}
-              stroke-width="1"
-              stroke={theme.colors.white2}
-              fill={theme.colors.white2}
-              d={d}
-            />
-            <Path
-              y={50}
-              x={50}
-              stroke-width="1"
-              stroke={theme.colors.primary}
-              fill={theme.colors.primary}
-              d={dPartial}
-            />
-            <ClipPath id="clip">
-              <Circle r={37.5} cx={50} cy={50}></Circle>
-            </ClipPath>
-            <G>
-              <Image
-                href={require("../../../../assets/backgroundImages/2d97b675051427.5c41b8c7ccdb8.jpg")}
-                width={width / 2}
-                height={80}
-                y={10}
-                preserveAspectRatio="xMidYMax slice"
-                clipPath="url(#clip)"
-              />
-              <Rect
-                opacity={0.5}
-                fill="grey"
-                width={width / 2}
-                height={80}
-                y={10}
-                clipPath="url(#clip)"
-              />
-            </G>
-          </Svg>
-        </View>
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: "center",
-            alignItems: "center",
+              marginVertical: 5,
+              shadowOffset: { width: 2, height: 2 },
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              elevation: 10,
+            },
           }}
         >
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Text
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>GO BACK</Text>
+        </RectButton>
+      </Animated.View>
+
+      <View style={styles.container}>
+        {/*Top level container should not be flex: 1, should be handled by navigation component */}
+        <View style={styles.infoContainer}>
+          <View style={styles.infoLeft}>
+            <View
               style={{
-                includeFontPadding: false,
-                height: 40,
+                marginRight: 10,
+                backgroundColor: theme.colors.white2,
+                width: 30,
+                height: 30,
+                borderRadius: 20,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Typography
-                bold
-                white
-                size={40}
-                style={{
-                  includeFontPadding: false,
-                  textAlignVertical: "top",
-                  fontWeight: "800",
-                }}
-              >
-                6.8
-              </Typography>
-              <Typography white size={20}>
-                km
-              </Typography>
-              <Typography> </Typography>
-            </Text>
-            <Typography small white size={15}>
-              of 10km left
+              <SvgXml xml={moonIcon} width={10} height={10} />
+            </View>
+            <Typography size={16} medium gray2>
+              23km
             </Typography>
           </View>
-        </View>
-      </View>
-      <View style={styles.statsContainer}>
-        <View style={styles.stats}>
-          <Typography size={16} medium gray2>
-            Elevation
-          </Typography>
-          <Typography size={16} bold primary>
-            348m
-          </Typography>
-        </View>
-        <View style={[styles.stats]}>
-          <Typography size={16} medium gray2>
-            Elapsed Time
-          </Typography>
-          <Typography size={16} bold primary>
-            02:21:56
-          </Typography>
-        </View>
-      </View>
-      <View style={styles.routingContainer}>
-        <View style={styles.routingContainer2}>
-          <View style={styles.directionIcon}>
-            <SvgXml xml={markerRendering} width={25} height={25} />
-          </View>
-          <View style={styles.directionText}>
-            <Typography size={16} small gray2>
-              02:21:56
+          <View style={styles.infoRight}>
+            <Typography size={16} medium gray2>
+              23km
             </Typography>
-            <Typography size={22} bold primary>
-              02:21:56
-            </Typography>
+            <View
+              style={{
+                marginLeft: 10,
+                backgroundColor: theme.colors.white2,
+                width: 30,
+                height: 30,
+                borderRadius: 20,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <SvgXml xml={cursorIcon} width={10} height={10} />
+              </View>
+            </View>
           </View>
         </View>
+        <SvgCircle></SvgCircle>
       </View>
     </View>
+
+    // <View style={{ flex: 1 }}>
+    //   <Animated.View>
+    //     <RectButton
+    //       {...{
+    //         onPress: onPressBack,
+    //         style: {
+    //           marginBottom: 20,
+    //           backgroundColor: "white",
+    //           height: 50,
+    //           borderRadius: 35,
+    //           alignItems: "center",
+    //           justifyContent: "center",
+    //           marginVertical: 5,
+    //           shadowOffset: { width: 2, height: 2 },
+    //           shadowColor: "black",
+    //           shadowOpacity: 0.2,
+    //           elevation: 10,
+    //         },
+    //       }}
+    //     >
+    //       <Text style={{ fontSize: 20, fontWeight: "bold" }}>GO BACK</Text>
+    //     </RectButton>
+    //   </Animated.View>
+    //   {/* <View style={{backgroundColor:"magenta", alignItems:"center", justifyContent:"center", flex:1}}><Text>FILL</Text></View>
+    //    */}
+    //   <View style={styles.container}>
+    //     <View style={styles.infoContainer}>
+    //       <View style={styles.infoLeft}>
+    //         <View
+    //           style={{
+    //             marginRight: 10,
+    //             backgroundColor: theme.colors.white2,
+    //             width: 30,
+    //             height: 30,
+    //             borderRadius: 20,
+    //             justifyContent: "center",
+    //             alignItems: "center",
+    //           }}
+    //         >
+    //           <SvgXml xml={moonIcon} width={10} height={10} />
+    //         </View>
+    //         <Typography size={16} medium gray2>
+    //           23km
+    //         </Typography>
+    //       </View>
+    //       <View style={styles.infoRight}>
+    //         <Typography size={16} medium gray2>
+    //           23km
+    //         </Typography>
+
+    //         <View
+    //           style={{
+    //             marginLeft: 10,
+    //             backgroundColor: theme.colors.white2,
+    //             width: 30,
+    //             height: 30,
+    //             borderRadius: 20,
+    //             justifyContent: "center",
+    //             alignItems: "center",
+    //           }}
+    //         >
+    //           <SvgXml xml={cursorIcon} width={10} height={10} />
+    //         </View>
+    //       </View>
+    //     </View>
+    //     <View style={styles.svgContainer}>
+    //     <View style={{ aspectRatio: 1 }}>
+    //       {/* <Svg width={width} height="320"> */}
+    //       <Svg height="100%" width="100%" viewBox="0 0 100 100">
+    //         <Path
+    //           y={50}
+    //           x={50}
+    //           stroke-width="1"
+    //           stroke={theme.colors.white2}
+    //           fill={theme.colors.white2}
+    //           d={d}
+    //         />
+    //         <Path
+    //           y={50}
+    //           x={50}
+    //           stroke-width="1"
+    //           stroke={theme.colors.primary}
+    //           fill={theme.colors.primary}
+    //           d={dPartial}
+    //         />
+    //         <ClipPath id="clip">
+    //           <Circle r={37.5} cx={50} cy={50}></Circle>
+    //         </ClipPath>
+    //         <G>
+    //           <Image
+    //             href={require("../../../../assets/backgroundImages/2d97b675051427.5c41b8c7ccdb8.jpg")}
+    //             width={width / 2}
+    //             height={80}
+    //             y={10}
+    //             preserveAspectRatio="xMidYMax slice"
+    //             clipPath="url(#clip)"
+    //           />
+    //           <Rect
+    //             opacity={0.5}
+    //             fill="grey"
+    //             width={width / 2}
+    //             height={80}
+    //             y={10}
+    //             clipPath="url(#clip)"
+    //           />
+    //         </G>
+    //       </Svg>
+    //     </View>
+    //   </View>
+    //   </View>
+
+    // </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // backgroundColor: "magenta",
+    // flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
     marginBottom: 45,
     backgroundColor: theme.colors.white,
   },
   infoContainer: {
-    flex: 0.4,
+    // flex: 0.4,
     marginRight: theme.sizes.base * 2,
     marginLeft: theme.sizes.base * 2,
     flexDirection: "row",
@@ -338,13 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  svgContainer: {
-    flex: 2,
-    flexDirection: "column",
-    alignItems: "center",
-  },
   statsContainer: {
-    flex: 0.5,
+    // flex: 0.5,
     flexDirection: "column",
     justifyContent: "flex-start",
   },
@@ -360,7 +303,7 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.gray2,
   },
   routingContainer: {
-    flex: 1.2,
+    // flex: 1.2,
     justifyContent: "center",
   },
   routingContainer2: {

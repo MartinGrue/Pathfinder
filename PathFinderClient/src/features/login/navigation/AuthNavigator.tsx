@@ -6,6 +6,7 @@ import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
+import { View } from "react-native";
 export type RootStackParamList = {
   SignIn: {};
   MainFlow: {};
@@ -30,6 +31,18 @@ export default () => {
     <NavigationContainer
       ref={(navigatorRef) => {
         NavigationService.setTopLevelNavigator(navigatorRef);
+      }}
+      //This is needed to prevent some white pixel flickering on drawer movement
+      theme={{
+        dark: false,
+        colors: {
+          primary: "#2A4337",
+          background: "#2A4337",
+          card: "#2A4337",
+          text: "#2A4337",
+          border: "#2A4337",
+          notification: "#2A4337",
+        },
       }}
     >
       <Stack.Navigator

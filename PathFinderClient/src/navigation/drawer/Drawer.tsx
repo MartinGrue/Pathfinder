@@ -17,13 +17,6 @@ import { Avatar } from "@rneui/base";
 // import SelectOptions from "../../features/Options/screens/SelectOptions";
 // import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 
-const styles = StyleSheet.create({
-  drawerStyles: { flex: 1, width: "60%", backgroundColor: "#2A4337" },
-  contentContainerStyle: { flex: 1 },
-  drawerItem: {},
-  drawerLabel: { color: "white", marginLeft: -16 },
-});
-
 export type DrawerParamList = {
   FindYoutPathStackNavigatior: undefined;
   CreateNewPath: undefined;
@@ -97,12 +90,15 @@ export default () => {
         swipeEdgeWidth: 80,
         overlayColor: "transparent",
         drawerStyle: styles.drawerStyles,
-        sceneContainerStyle: { backgroundColor: "#2A4337" },
+        sceneContainerStyle: {
+          backgroundColor: "#2A4337",
+        },
       }}
       drawerContent={(props) => <DrawerContent props={props}></DrawerContent>}
     >
       <Drawer.Screen name="FindYoutPathStackNavigatior">
         {(props) => (
+          
           <DrawerScreen {...props}>
             <FindYoutPathStackNavigatior
               {...props}
@@ -129,3 +125,15 @@ export default () => {
     </Drawer.Navigator>
   );
 };
+const styles = StyleSheet.create({
+  drawerStyles: {
+    flex: 1,
+    width: "60%",
+    backgroundColor: "#2A4337",
+    borderWidth: 2,
+    borderColor: "#2A4337",
+  },
+  contentContainerStyle: { flex: 1, backgroundColor: "#2A4337" },
+  drawerItem: {},
+  drawerLabel: { color: "white", marginLeft: -16 },
+});

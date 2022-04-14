@@ -8,6 +8,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useDrawerProgress } from "@react-navigation/drawer";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface DrawerScreenProps {
   children: JSX.Element;
@@ -32,7 +33,10 @@ export default ({ children }: DrawerScreenProps) => {
         },
       ]}
     >
-      <View style={{ flex: 1, backgroundColor: "white" }}>{children}</View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "green" }}>
+        <View style={{ flex: 1 }}>{children}</View>
+        {/* {children} */}
+      </SafeAreaView>
     </Animated.View>
   );
 };

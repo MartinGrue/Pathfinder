@@ -90,6 +90,7 @@ export default ({ navigation }: SingInProps) => {
   };
   const SignInPress: () => void = () => {
     setsignStatus("Sign IN");
+    console.log("hi")
   };
   const CancelPress: () => void = () => {
     setsignStatus(undefined);
@@ -130,6 +131,7 @@ export default ({ navigation }: SingInProps) => {
             justifyContent: "center",
           }}
         >
+          
           <Animated.View style={[buttonStyle]}>
             <RectButton {...{ onPress: SignUpPress, style: styles.button }}>
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>

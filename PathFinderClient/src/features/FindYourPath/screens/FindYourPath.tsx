@@ -3,9 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
   Dimensions,
+  Animated,
 } from "react-native";
 import PathCard, { savedPaths, ISavedPath } from "../../../components/PathCard";
 import { theme } from "../../../constants/theme";
@@ -13,7 +13,11 @@ import Typography from "../../../components/Typography";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import {
+  RectButton,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import TopViewCurve from "../../../constants/TopViewCurve";
 
 interface FindYourPathProps {
@@ -30,11 +34,11 @@ export default ({ navigation }: FindYourPathProps) => {
   };
   const handleTab = (tab: string) => {
     setactive(tab);
-
     const filtered = savedPaths.filter((path) => path.difficulty === tab);
     setactivePaths(filtered);
   };
   const renderTab = (tab: string) => {
+    console.log(tab);
     const isActive = active === tab;
     return (
       <TouchableOpacity
@@ -42,19 +46,13 @@ export default ({ navigation }: FindYourPathProps) => {
         onPress={() => handleTab(tab)}
         style={[styles.tab]}
       >
-        {/* <Typography
-          size={16}
-          medium
-          gray={!isActive}
-          secondary={isActive}
-        ></Typography> */}
         <Text
-          style={{
-            marginVertical: 4,
-            fontSize: 16,
-            fontWeight: "500",
-            color: isActive ? theme.colors.secondary : theme.colors.gray,
-          }}
+        // style={{
+        //   marginVertical: 4,
+        //   fontSize: 16,
+        //   fontWeight: "500",
+        //   // color: isActive ? theme.colors.secondary : theme.colors.gray,
+        // }}
         >
           {tab}
         </Text>
@@ -85,13 +83,32 @@ export default ({ navigation }: FindYourPathProps) => {
     );
   };
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
-      <TopViewCurve
-        width={Dimensions.get("window").width}
-        height={30}
-        color={theme.colors.white2}
-      ></TopViewCurve>
+    <View style={{ backgroundColor: "white" }}>
       <View style={styles.header}>
+        <Animated.View>
+          <RectButton
+            {...{
+              onPress: () => {
+                console.log("hi");
+              },
+              style: {
+                marginBottom: 20,
+                backgroundColor: "white",
+                height: 50,
+                borderRadius: 35,
+                alignItems: "center",
+                justifyContent: "center",
+                marginVertical: 5,
+                shadowOffset: { width: 2, height: 2 },
+                shadowColor: "black",
+                shadowOpacity: 0.2,
+                elevation: 10,
+              },
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>GO BACK</Text>
+          </RectButton>
+        </Animated.View>
         <Text style={styles.headerText}>Find Your Path</Text>
       </View>
       <View style={styles.tabsContainer}>
@@ -116,19 +133,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   headerText: { fontSize: 26, fontWeight: "bold" },
-  tabsContainer: { marginBottom: theme.sizes.base * 3 },
+  tabsContainer: {
+    backgroundColor: "blue",
+  },
   tabs: {
-    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     marginVertical: theme.sizes.base,
     marginHorizontal: theme.sizes.base * 2,
+    backgroundColor: "green",
   },
   tab: {
     flexDirection: "column",
     alignItems: "center",
     marginRight: theme.sizes.base * 2,
-    paddingBottom: theme.sizes.base * 2,
+    backgroundColor: "red",
   },
   tabPoint: {
     marginVertical: theme.sizes.base * 0.5,
@@ -141,6 +160,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   imageContainer: {
+    backgroundColor: "magenta",
     flexWrap: "wrap",
     flexDirection: "row",
     paddingHorizontal: theme.sizes.base,
