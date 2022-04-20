@@ -6,7 +6,14 @@ import {
   TouchableWithoutFeedback,
   Button,
 } from "react-native";
-import { Formik, useFormik, FormikState } from "formik";
+import {
+  Formik,
+  useFormik,
+  FormikState,
+  FormikConfig,
+  useFormikContext,
+  Form,
+} from "formik";
 import { Text } from "@rneui/themed";
 import { theme } from "../../../constants/theme";
 import * as Yup from "yup";
@@ -15,7 +22,7 @@ import { signStatusType } from "./SignIn";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
 
-const SignupSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
@@ -29,70 +36,68 @@ const SignupSchema = Yup.object().shape({
 interface SingInUpFormProps {
   signStatus: signStatusType;
 }
+// export type Values = { email: string; password: string };
+export type Values = Record<"email" | "password", string>;
+
+const SubmitButton = ({ signStatus }: { signStatus: signStatusType }) => {
+  const { isValid, handleSubmit, values, resetForm, validateForm } =
+    useFormikContext<Values>();
+
+  return (
+    <Animated.View>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        style={[styles.button]}
+        disabled={!isValid}
+        onPress={() => {
+          validateForm(values).then(() => {
+            handleSubmit();
+            console.log(isValid);
+            resetForm;
+          });
+        }}
+      >
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>{signStatus}</Text>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
 export default ({ signStatus }: SingInUpFormProps) => {
   const authContext = useContext(AuthContext);
 
-  const formik = useFormik({
+  // useEffect(() => {
+  //   resetForm();
+  // }, [signStatus]);
+
+  const formikConfig: FormikConfig<Values> = {
+    validationSchema,
     initialValues: { email: "", password: "" },
-    onSubmit: (values) => {
+    onSubmit: (values: Values) => {
       console.log(values);
       console.log(signStatus);
       signStatus === "Sign IN" && authContext?.signin(values);
       signStatus === "Sign UP" && authContext?.signup(values);
     },
-    validationSchema: SignupSchema,
-  });
-  useEffect(() => {
-    formik.resetForm();
-  }, [signStatus]);
+  };
   return (
     <View>
-      <FormInput
-        name={"email"}
-        value={formik.values.email}
-        onChangeText={formik.handleChange}
-        placeholder="email"
-        error={formik.errors.email}
-        touched={formik.touched.email}
-        setFieldTouched={formik.setFieldTouched}
-        secureTextEntry={false}
-        iconName="envelope"
-      ></FormInput>
-
-      <FormInput
-        name={"password"}
-        value={formik.values.password}
-        onChangeText={formik.handleChange}
-        placeholder="password"
-        error={formik.errors.password}
-        touched={formik.touched.password}
-        setFieldTouched={formik.setFieldTouched}
-        secureTextEntry={true}
-        iconName="lock"
-      ></FormInput>
-      {/* <View>
-          <Text style={{ height: 50, backgroundColor: "red" }}>test</Text>
-        </View> */}
-      <View>
-        <Animated.View>
-          <TouchableOpacity
-            activeOpacity={0.9}
-            style={[styles.button]}
-            disabled={!formik.isValid}
-            onPress={() => {
-              formik.validateForm(formik.values).then(() => {
-                formik.handleSubmit();
-                console.log(formik.isValid);
-                formik.resetForm;
-              });
-            }}
-          >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-              {signStatus}
-            </Text>
-          </TouchableOpacity>
-        </Animated.View>
-      </View>
+      <Formik {...formikConfig}>
+        <>
+          <FormInput
+            name="email"
+            placeholder="email"
+            secureTextEntry={false}
+            iconName="envelope"
+          ></FormInput>
+          <FormInput
+            name={"password"}
+            placeholder="password"
+            secureTextEntry={true}
+            iconName="lock"
+          ></FormInput>
+          <SubmitButton {...{ signStatus }}></SubmitButton>
+        </>
+      </Formik>
     </View>
   );
 };
