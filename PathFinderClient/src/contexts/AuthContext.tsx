@@ -17,6 +17,8 @@ const authReducer = (state: AuthState, action: AuthActions) => {
       return { ...state, token: null };
     case "setloading":
       return { ...state, isLoading: action.payload };
+    case "setHeaderText":
+      return { ...state, headerText: action.payload };
     default:
       return state;
   }
@@ -75,8 +77,12 @@ const signout = (dispatch: React.Dispatch<AuthActions>) => {
 const clearError = (dispatch: React.Dispatch<AuthActions>) => {
   return () => dispatch({ type: "clear_error" });
 };
+const setHeaderText =
+  (dispatch: React.Dispatch<AuthActions>) => (text: string) =>
+    dispatch({ type: "setHeaderText", payload: text });
+
 export const { Provider, Context, Consumer } = createDataContext(
   authReducer,
-  { signup, signin, tryLocalSignin, signout, clearError },
-  { token: null, errorMessage: "", isLoading: false }
+  { signup, signin, tryLocalSignin, signout, clearError, setHeaderText },
+  { token: null, errorMessage: "", isLoading: false, headerText: null }
 );

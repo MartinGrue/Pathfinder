@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Animated } from "react-native";
 import PathCard, { savedPaths, IPath } from "../../../components/PathCard";
 import { theme } from "../../../constants/theme";
@@ -9,12 +9,24 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/core";
+import {
+  RouteProp,
+  useNavigation,
+  useNavigationState,
+  useRoute,
+} from "@react-navigation/core";
 import { Path } from "react-native-svg";
+import { Context } from "../../../contexts/AuthContext";
+import {
+  TabNavigatorRouteProp,
+  TabParamList,
+} from "../navigation/FindYourPathButtomTabNavigator";
 
 export default () => {
   const navigation =
     useNavigation<StackNavigationProp<StackParamList, keyof StackParamList>>();
+  const navState = useNavigationState((s) => s);
+  const { setHeaderText, state } = useContext(Context)!;
 
   const tabs = ["Easy", "Moderate", "Difficult", "Extreme"];
 
@@ -24,6 +36,7 @@ export default () => {
   );
   const onCardPress = (path: IPath) => {
     navigation.navigate("FindYourPathButtomTabNavigator", { path });
+    setHeaderText(path.name);
   };
   const handleTab = (tab: string) => {
     setactive(tab);
@@ -77,6 +90,7 @@ export default () => {
       </TouchableWithoutFeedback>
     );
   };
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.header}>
@@ -87,9 +101,11 @@ export default () => {
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          // paddingBottom: (activePaths.length / 2) * 90,
-        }}
+        contentContainerStyle={
+          {
+            // paddingBottom: (activePaths.length / 2) * 90,
+          }
+        }
       >
         <View style={styles.imageContainer}>
           {activePaths.map((savedPath) => renderCard(savedPath))}
@@ -101,24 +117,21 @@ export default () => {
 
 const styles = StyleSheet.create({
   header: {
+    marginTop: theme.sizes.base,
     paddingHorizontal: 32,
   },
   headerText: { fontSize: 26, fontWeight: "bold" },
-  tabsContainer: {
-    backgroundColor: "blue",
-  },
+  tabsContainer: {},
   tabs: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginVertical: theme.sizes.base,
     marginHorizontal: theme.sizes.base * 2,
-    backgroundColor: "green",
   },
   tab: {
     flexDirection: "column",
     alignItems: "center",
     marginRight: theme.sizes.base * 2,
-    backgroundColor: "red",
   },
   tabPoint: {
     marginVertical: theme.sizes.base * 0.5,
@@ -132,7 +145,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    backgroundColor: "magenta",
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "center",

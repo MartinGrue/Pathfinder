@@ -61,7 +61,7 @@ export default () => {
         }}
       >
         {(props) => (
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor:"white" }}>
             <FindYourPathDetails></FindYourPathDetails>
           </View>
         )}

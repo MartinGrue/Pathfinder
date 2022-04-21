@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -18,6 +18,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/core";
 import { DrawerActions, useRoute } from "@react-navigation/native";
 import { TabNavigatorRouteProp } from "../../features/FindYourPath/navigation/FindYourPathButtomTabNavigator";
+import { Context } from "../../contexts/AuthContext";
+import Typography from "../../components/Typography";
+import { Text } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 const DRAWER_HEIGHT = 50;
@@ -26,8 +30,9 @@ interface DrawerHeaderProps {
 }
 const DrawerHeader = () => {
   const navigation = useNavigation();
-  const route = useRoute<TabNavigatorRouteProp>();
-  console.log("path in header: ",route.path);
+  const { state } = useContext(Context)!;
+
+  // console.log("path in header: ", state.headerText);
 
   return (
     <View style={styles.headerContainer}>
@@ -39,6 +44,10 @@ const DrawerHeader = () => {
             <SimpleLineIcons name="menu" size={20} color="#a3a19b" />
           </View>
         </TouchableWithoutFeedback>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{state.headerText}</Text>
+        </View>
+        <AntDesign name="infocirlceo" color="#a3a19b" size={26} />
       </View>
       <View style={[styles.curve]}>
         <TopViewCurve
@@ -64,19 +73,24 @@ const styles = StyleSheet.create({
   headerNavigationContainer: {
     height: "100%",
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginHorizontal: theme.sizes.base * 2,
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
   },
+  header: {},
+  headerText: { fontSize: 15, fontWeight: "bold" },
+
   headerNavigation: {
+    padding: 10,
+    // backgroundColor: "grey",
     justifyContent: "center",
     alignItems: "center",
   },
-  headerTitle: {
-    color: "#2a4337",
-  },
+
   curve: {
     position: "absolute",
-    top: 50,
+    top: DRAWER_HEIGHT,
     zIndex: 100,
   },
   headerContent: {

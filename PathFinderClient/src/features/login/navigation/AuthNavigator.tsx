@@ -6,7 +6,7 @@ import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Context as AuthContext } from "../../../contexts/AuthContext";
-import { View } from "react-native";
+import { theme } from "../../../constants/theme";
 export type RootStackParamList = {
   SignIn: {};
   MainFlow: {};
@@ -36,8 +36,8 @@ export default () => {
       theme={{
         dark: false,
         colors: {
-          primary: "#2A4337",
-          background: "#2A4337",
+          primary: theme.colors.primary,
+          background: theme.colors.primary,
           card: "#2A4337",
           text: "#2A4337",
           border: "#2A4337",
@@ -48,7 +48,6 @@ export default () => {
       <Stack.Navigator
         initialRouteName={isLoggedIn ? "MainFlow" : "SignIn"}
         screenOptions={{ header: () => null }}
-        // headerMode="none"
       >
         {authContext && token === null ? (
           <Stack.Screen name="SignIn" component={SignIn} />

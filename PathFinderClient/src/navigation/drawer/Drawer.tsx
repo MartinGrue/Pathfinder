@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -17,6 +17,10 @@ import Typography from "../../components/Typography";
 import { Avatar } from "@rneui/base";
 // import SelectOptions from "../../features/Options/screens/SelectOptions";
 // import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { theme } from "../../constants/theme";
+import { SvgXml } from "react-native-svg";
+import { emergencyIcon, mountainIcon, saveIcon, starIcon } from "./DrawerIcons";
 
 export type DrawerParamList = {
   FindYoutPathStackNavigatior: undefined;
@@ -57,23 +61,75 @@ const DrawerContent = ({ props }: DrawerComponentProps) => {
       <DrawerItem
         label="FindYourPath"
         labelStyle={styles.drawerLabel}
-        style={styles.drawerItem}
         onPress={() => props.navigation.navigate("FindYoutPathStackNavigatior")}
-        icon={() => <AntDesign name="dashboard" color="white" size={26} />}
+        icon={() => (
+          <SvgXml
+            xml={starIcon}
+            width={26}
+            height={26}
+            fill={theme.colors.white2}
+          />
+        )}
       />
       <DrawerItem
-        label="CreateNewPath"
+        label="Mountain Safety"
         labelStyle={styles.drawerLabel}
-        style={styles.drawerItem}
-        onPress={() => props.navigation.navigate("CreateNewPath")}
-        icon={() => <AntDesign name="message1" color="white" size={26} />}
+        onPress={() => {}}
+        icon={() => (
+          <SvgXml
+            xml={mountainIcon}
+            width={26}
+            height={26}
+            fill={theme.colors.white2}
+          />
+        )}
       />
+      <DrawerItem
+        label="Emergency Contacts"
+        labelStyle={styles.drawerLabel}
+        onPress={() => props.navigation.navigate("Options")}
+        icon={() => (
+          <SvgXml
+            xml={emergencyIcon}
+            width={26}
+            height={26}
+            fill={theme.colors.white2}
+          />
+        )}
+      />
+      <DrawerItem
+        label="Saved Paths"
+        labelStyle={styles.drawerLabel}
+        onPress={() => {}}
+        icon={() => (
+          <SvgXml
+            xml={saveIcon}
+            width={26}
+            height={26}
+            fill={theme.colors.white2}
+          />
+        )}
+      ></DrawerItem>
+      <DrawerItem
+        label=""
+        onPress={() => {}}
+        style={{
+          width: "100%",
+          height: 10,
+          // marginTop: 10,
+          transform: [{ translateY: 5 }],
+          borderTopWidth: 0.75,
+          borderTopColor: theme.colors.white2,
+          // backgroundColor: "blue",
+        }}
+      ></DrawerItem>
       <DrawerItem
         label="Options"
         labelStyle={styles.drawerLabel}
-        style={styles.drawerItem}
         onPress={() => props.navigation.navigate("Options")}
-        icon={() => <AntDesign name="message1" color="white" size={26} />}
+        icon={() => (
+          <AntDesign name="message1" color={theme.colors.white2} size={26} />
+        )}
       />
     </DrawerContentScrollView>
   );
@@ -88,23 +144,36 @@ export default () => {
     overlayColor: "transparent",
     drawerStyle: styles.drawerStyles,
     sceneContainerStyle: {
-      backgroundColor: "#2A4337",
+      backgroundColor: theme.colors.primary,
     },
   };
   return (
-    <Drawer.Navigator
-      initialRouteName="FindYoutPathStackNavigatior"
-      screenOptions={screenOptions}
-      drawerContent={(props) => <DrawerContent props={props}></DrawerContent>}
-    >
-      <Drawer.Screen name="FindYoutPathStackNavigatior">
-        {() => (
-          <DrawerScreen>
-            <FindYoutPathStackNavigatior />
-          </DrawerScreen>
-        )}
-      </Drawer.Screen>
-      {/* <Drawer.Screen name="CreateNewPath">
+    <>
+      {/* Yes this is necessary, to make the borders animate and at the same time get safeareaView without flickering */}
+      <SafeAreaView
+        style={{ flex: 0, backgroundColor: theme.colors.white2 }}
+        edges={["top"]}
+      ></SafeAreaView>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: theme.colors.primary }}
+        edges={["bottom"]}
+      >
+        {/* <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.white2 }}> */}
+        <Drawer.Navigator
+          initialRouteName="FindYoutPathStackNavigatior"
+          screenOptions={screenOptions}
+          drawerContent={(props) => (
+            <DrawerContent props={props}></DrawerContent>
+          )}
+        >
+          <Drawer.Screen name="FindYoutPathStackNavigatior">
+            {() => (
+              <DrawerScreen>
+                <FindYoutPathStackNavigatior />
+              </DrawerScreen>
+            )}
+          </Drawer.Screen>
+          {/* <Drawer.Screen name="CreateNewPath">
           {(props) => (
             <DrawerScreen {...{ ...props, animatedScreenStyle }}>
               <CreateNewPathStackNavigator
@@ -113,25 +182,27 @@ export default () => {
             </DrawerScreen>
           )}
         </Drawer.Screen> */}
-      <Drawer.Screen name="Options">
-        {() => (
-          <DrawerScreen>
-            <View></View>
-          </DrawerScreen>
-        )}
-      </Drawer.Screen>
-    </Drawer.Navigator>
+          <Drawer.Screen name="Options">
+            {() => (
+              <DrawerScreen>
+                <View></View>
+              </DrawerScreen>
+            )}
+          </Drawer.Screen>
+        </Drawer.Navigator>
+        {/* </SafeAreaView> */}
+      </SafeAreaView>
+    </>
   );
 };
 const styles = StyleSheet.create({
   drawerStyles: {
     flex: 1,
-    width: "60%",
-    backgroundColor: "#2A4337",
+    width: "70%",
+    // backgroundColor: "#2A4337",
     borderWidth: 2,
     borderColor: "#2A4337",
   },
-  contentContainerStyle: { flex: 1, backgroundColor: "#2A4337" },
-  drawerItem: {},
-  drawerLabel: { color: "white", marginLeft: -16 },
+  contentContainerStyle: { flex: 1, backgroundColor: theme.colors.primary },
+  drawerLabel: { color: theme.colors.gray2, marginLeft: -16 },
 });

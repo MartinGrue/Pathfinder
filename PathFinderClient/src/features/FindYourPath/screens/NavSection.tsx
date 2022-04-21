@@ -14,7 +14,7 @@ export default () => {
         </View>
         <View style={styles.directionText}>
           <Typography size={16} small gray2>
-            02:21:56
+            In 800 metres
           </Typography>
           <Typography size={22} bold primary>
             02:21:56
@@ -26,10 +26,10 @@ export default () => {
 };
 const styles = StyleSheet.create({
   routingContainer: {
-      flex: 1,
-      backgroundColor:"grey"
+    flex: 1,
+    backgroundColor: "white",
     // flex: 1.2,
-    // justifyContent: "center",
+    justifyContent: "center",
   },
   routingContainer2: {
     marginRight: theme.sizes.base * 2,

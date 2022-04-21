@@ -14,7 +14,7 @@ export default () => {
             xml={moonIcon}
             width="50%"
             height="50%"
-            fill={theme.colors.gray2}
+            fill={theme.colors.primary}
           />
         </View>
         <Typography size={16} medium gray2>
@@ -30,7 +30,7 @@ export default () => {
             xml={cursorIcon}
             width="50%"
             height="50%"
-            fill={theme.colors.gray2}
+            fill={theme.colors.primary}
           />
         </View>
       </View>
@@ -49,11 +49,10 @@ const styles = StyleSheet.create({
   },
   infoLeft: {
     flexDirection: "row",
-    backgroundColor: "red",
   },
   infoRight: {
     flexDirection: "row",
-    backgroundColor: "green",
+    // backgroundColor: "green",
   },
   icon: {
     backgroundColor: theme.colors.white2,

@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: width,
     height: 65,
-    backgroundColor: "#00000000",
+    // backgroundColor: "#00000000",
     position: "absolute",
     bottom: 0,
     left: 0,
