@@ -5,6 +5,7 @@ import {
   DrawerContentScrollView,
   DrawerContentComponentProps,
   DrawerItem,
+  DrawerNavigationOptions,
 } from "@react-navigation/drawer";
 
 import { AntDesign } from "@expo/vector-icons";
@@ -80,29 +81,26 @@ const DrawerContent = ({ props }: DrawerComponentProps) => {
 
 export default () => {
   const Drawer = createDrawerNavigator<DrawerParamList>();
-
+  const screenOptions: DrawerNavigationOptions = {
+    header: () => <></>,
+    drawerType: "slide",
+    swipeEdgeWidth: 80,
+    overlayColor: "transparent",
+    drawerStyle: styles.drawerStyles,
+    sceneContainerStyle: {
+      backgroundColor: "#2A4337",
+    },
+  };
   return (
     <Drawer.Navigator
       initialRouteName="FindYoutPathStackNavigatior"
-      screenOptions={{
-        header: () => <></>,
-        drawerType: "slide",
-        swipeEdgeWidth: 80,
-        overlayColor: "transparent",
-        drawerStyle: styles.drawerStyles,
-        sceneContainerStyle: {
-          backgroundColor: "#2A4337",
-        },
-      }}
+      screenOptions={screenOptions}
       drawerContent={(props) => <DrawerContent props={props}></DrawerContent>}
     >
       <Drawer.Screen name="FindYoutPathStackNavigatior">
-        {(props) => (
-          
-          <DrawerScreen {...props}>
-            <FindYoutPathStackNavigatior
-              {...props}
-            ></FindYoutPathStackNavigatior>
+        {() => (
+          <DrawerScreen>
+            <FindYoutPathStackNavigatior />
           </DrawerScreen>
         )}
       </Drawer.Screen>
@@ -116,8 +114,8 @@ export default () => {
           )}
         </Drawer.Screen> */}
       <Drawer.Screen name="Options">
-        {(props) => (
-          <DrawerScreen {...props}>
+        {() => (
+          <DrawerScreen>
             <View></View>
           </DrawerScreen>
         )}

@@ -40,6 +40,8 @@ interface SingInUpFormProps {
 export type Values = Record<"email" | "password", string>;
 
 const SubmitButton = ({ signStatus }: { signStatus: signStatusType }) => {
+  const authContext = useContext(AuthContext);
+
   const { isValid, handleSubmit, values, resetForm, validateForm } =
     useFormikContext<Values>();
 
@@ -48,14 +50,15 @@ const SubmitButton = ({ signStatus }: { signStatus: signStatusType }) => {
       <TouchableOpacity
         activeOpacity={0.9}
         style={[styles.button]}
-        disabled={!isValid}
-        onPress={() => {
-          validateForm(values).then(() => {
-            handleSubmit();
-            console.log(isValid);
-            resetForm;
-          });
-        }}
+        onPress={() => authContext?.signin(values)}
+        // disabled={!isValid}
+        // onPress={() => {
+        //   validateForm(values).then(() => {
+        //     handleSubmit();
+        //     console.log(isValid);
+        //     resetForm;
+        //   });
+        // }}
       >
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>{signStatus}</Text>
       </TouchableOpacity>

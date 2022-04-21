@@ -14,6 +14,7 @@ import Svg, { Image } from "react-native-svg";
 import { RootStackParamList } from "../navigation/AuthNavigator";
 import SignInUpForm from "./SignInUpForm";
 import { RectButton } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const img = require("../../../../assets/backgroundImages/715e8b73080499.5bfdacd4b40c6.jpg");
 
@@ -90,91 +91,96 @@ export default ({ navigation }: SingInProps) => {
   };
   const SignInPress: () => void = () => {
     setsignStatus("Sign IN");
-    console.log("hi")
+    console.log("hi");
   };
   const CancelPress: () => void = () => {
     setsignStatus(undefined);
   };
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "flex-end",
-      }}
-    >
-      <View style={[StyleSheet.absoluteFill]}>
-        <Svg
-          height={height}
-          width={width}
-          viewBox="0 0 1200 743"
-          preserveAspectRatio="xMinYMid slice"
-        >
-          <Image href={img} />
-        </Svg>
-      </View>
+    <SafeAreaView style={{flex:1}}>
       <View
         style={{
-          height: height / 2,
-          width: (width * 3) / 4,
+          flex: 1,
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "flex-end",
         }}
       >
-        <View
-          style={{
-            position: "absolute",
-            top: height / 4,
-            width: "100%",
-            flex: 1,
-            flexDirection: "column",
-            alignItems: "stretch",
-            justifyContent: "center",
-          }}
-        >
-          
-          <Animated.View style={[buttonStyle]}>
-            <RectButton {...{ onPress: SignUpPress, style: styles.button }}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign UP</Text>
-            </RectButton>
-          </Animated.View>
-
-          <Animated.View style={[buttonStyle]}>
-            <RectButton {...{ onPress: SignInPress, style: styles.button }}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>Sign IN</Text>
-            </RectButton>
-          </Animated.View>
+        <View style={[StyleSheet.absoluteFill]}>
+          <Svg
+            height={height}
+            width={width}
+            viewBox="0 0 1200 743"
+            preserveAspectRatio="xMinYMid slice"
+          >
+            <Image href={img} />
+          </Svg>
         </View>
-
         <View
           style={{
-            position: "absolute",
-            width: "100%",
-            top: isKeyboardVisible ? 100 : 0,
+            height: height / 2,
+            width: (width * 3) / 4,
           }}
         >
-          <Animated.View style={[animatedFormStyle]}>
-            {!isKeyboardVisible && (
-              <RectButton
-                {...{ onPress: CancelPress, style: styles.cancelBtn }}
-              >
-                <Animated.View style={[animatedCloseBtnStyle]}>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                    }}
-                  >
-                    X
-                  </Text>
-                </Animated.View>
+          <View
+            style={{
+              position: "absolute",
+              top: height / 4,
+              width: "100%",
+              flex: 1,
+              flexDirection: "column",
+              alignItems: "stretch",
+              justifyContent: "center",
+            }}
+          >
+            <Animated.View style={[buttonStyle]}>
+              <RectButton {...{ onPress: SignUpPress, style: styles.button }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign UP
+                </Text>
               </RectButton>
-            )}
-            <View style={{ marginTop: 20 }}>
-              <SignInUpForm signStatus={signStatus}></SignInUpForm>
-            </View>
-          </Animated.View>
+            </Animated.View>
+
+            <Animated.View style={[buttonStyle]}>
+              <RectButton {...{ onPress: SignInPress, style: styles.button }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Sign IN
+                </Text>
+              </RectButton>
+            </Animated.View>
+          </View>
+
+          <View
+            style={{
+              position: "absolute",
+              width: "100%",
+              top: isKeyboardVisible ? 100 : 0,
+            }}
+          >
+            <Animated.View style={[animatedFormStyle]}>
+              {!isKeyboardVisible && (
+                <RectButton
+                  {...{ onPress: CancelPress, style: styles.cancelBtn }}
+                >
+                  <Animated.View style={[animatedCloseBtnStyle]}>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                      }}
+                    >
+                      X
+                    </Text>
+                  </Animated.View>
+                </RectButton>
+              )}
+              <View style={{ marginTop: 20 }}>
+                <SignInUpForm signStatus={signStatus}></SignInUpForm>
+              </View>
+            </Animated.View>
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

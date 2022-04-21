@@ -2,13 +2,16 @@ import { Dimensions, Image, ImageStyle, StyleSheet, View } from "react-native";
 import * as React from "react";
 import { theme } from "../constants/theme";
 
-export interface ISavedPath {
+export interface IPath {
   id: number;
   name: string;
   source: any;
   difficulty: string;
 }
-export const savedPaths: ISavedPath[] = [
+
+// const imageSource = require("../../assets/backgroundImages/715e8b73080499.5bfdacd4b40c6.jpg");
+
+export const savedPaths: IPath[] = [
   {
     id: 0,
     name: "DevilsPark",
@@ -82,12 +85,12 @@ const styles = StyleSheet.create({
   },
 });
 export interface PathCardProps {
-  savedPath: ISavedPath;
+  path: IPath;
 }
-export default ({ savedPath }: PathCardProps) => {
+export default ({ path }: PathCardProps) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={savedPath.source} />
+      <Image style={styles.image} source={path.source} />
     </View>
   );
 };

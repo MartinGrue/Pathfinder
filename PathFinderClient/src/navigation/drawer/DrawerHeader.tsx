@@ -16,7 +16,8 @@ import TopViewCurve from "../../constants/TopViewCurve";
 import { theme } from "../../constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/core";
-import { DrawerActions } from "@react-navigation/native";
+import { DrawerActions, useRoute } from "@react-navigation/native";
+import { TabNavigatorRouteProp } from "../../features/FindYourPath/navigation/FindYourPathButtomTabNavigator";
 
 const { width } = Dimensions.get("window");
 const DRAWER_HEIGHT = 50;
@@ -25,6 +26,9 @@ interface DrawerHeaderProps {
 }
 const DrawerHeader = () => {
   const navigation = useNavigation();
+  const route = useRoute<TabNavigatorRouteProp>();
+  console.log("path in header: ",route.path);
+
   return (
     <View style={styles.headerContainer}>
       <View style={[styles.headerNavigationContainer]}>

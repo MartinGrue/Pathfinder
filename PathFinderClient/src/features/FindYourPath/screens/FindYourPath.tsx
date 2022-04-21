@@ -1,36 +1,29 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Animated,
-} from "react-native";
-import PathCard, { savedPaths, ISavedPath } from "../../../components/PathCard";
+import { StyleSheet, Text, View, ScrollView, Animated } from "react-native";
+import PathCard, { savedPaths, IPath } from "../../../components/PathCard";
 import { theme } from "../../../constants/theme";
-import Typography from "../../../components/Typography";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackParamList } from "../navigation/FindYoutPathStackNavigatior";
 import {
-  RectButton,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import TopViewCurve from "../../../constants/TopViewCurve";
+import { useNavigation } from "@react-navigation/core";
+import { Path } from "react-native-svg";
 
-interface FindYourPathProps {
-  navigation: StackNavigationProp<StackParamList, keyof StackParamList>;
-}
-export default ({ navigation }: FindYourPathProps) => {
+export default () => {
+  const navigation =
+    useNavigation<StackNavigationProp<StackParamList, keyof StackParamList>>();
+
   const tabs = ["Easy", "Moderate", "Difficult", "Extreme"];
+
   const [active, setactive] = useState<string>("Easy");
-  const [activePaths, setactivePaths] = useState<ISavedPath[]>(
+  const [activePaths, setactivePaths] = useState<IPath[]>(
     savedPaths.filter((path) => path.difficulty === "Easy")
   );
-  const animatePress = (savedPath: ISavedPath) => {
-    navigation.navigate("FindYourPathButtomTabNavigator", { savedPath });
+  const onCardPress = (path: IPath) => {
+    navigation.navigate("FindYourPathButtomTabNavigator", { path });
   };
   const handleTab = (tab: string) => {
     setactive(tab);
@@ -38,7 +31,6 @@ export default ({ navigation }: FindYourPathProps) => {
     setactivePaths(filtered);
   };
   const renderTab = (tab: string) => {
-    console.log(tab);
     const isActive = active === tab;
     return (
       <TouchableOpacity
@@ -47,12 +39,12 @@ export default ({ navigation }: FindYourPathProps) => {
         style={[styles.tab]}
       >
         <Text
-        // style={{
-        //   marginVertical: 4,
-        //   fontSize: 16,
-        //   fontWeight: "500",
-        //   // color: isActive ? theme.colors.secondary : theme.colors.gray,
-        // }}
+          style={{
+            marginVertical: 4,
+            fontSize: 16,
+            fontWeight: "500",
+            // color: isActive ? theme.colors.secondary : theme.colors.gray,
+          }}
         >
           {tab}
         </Text>
@@ -69,46 +61,25 @@ export default ({ navigation }: FindYourPathProps) => {
       </TouchableOpacity>
     );
   };
-  const renderCard = (savedPath: ISavedPath) => {
+  const rndColor = () => {
+    var x = Math.floor(Math.random() * 256);
+    var y = Math.floor(Math.random() * 256);
+    var z = Math.floor(Math.random() * 256);
+    return "rgb(" + x + "," + y + "," + z + ")";
+  };
+  const renderCard = (path: IPath) => {
     return (
       //Todo: scale animation on press
-      <TouchableWithoutFeedback
-        key={savedPath.id}
-        onPress={() => animatePress(savedPath)}
-      >
-        <View style={[styles.image, { paddingTop: savedPath.id % 2 ? 0 : 30 }]}>
-          <PathCard {...{ savedPath }}></PathCard>
+      <TouchableWithoutFeedback key={path.id} onPress={() => onCardPress(path)}>
+        <View style={[styles.image, { paddingTop: path.id % 2 ? 0 : 30 }]}>
+          <PathCard {...{ path }}></PathCard>
         </View>
       </TouchableWithoutFeedback>
     );
   };
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.header}>
-        <Animated.View>
-          <RectButton
-            {...{
-              onPress: () => {
-                console.log("hi");
-              },
-              style: {
-                marginBottom: 20,
-                backgroundColor: "white",
-                height: 50,
-                borderRadius: 35,
-                alignItems: "center",
-                justifyContent: "center",
-                marginVertical: 5,
-                shadowOffset: { width: 2, height: 2 },
-                shadowColor: "black",
-                shadowOpacity: 0.2,
-                elevation: 10,
-              },
-            }}
-          >
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>GO BACK</Text>
-          </RectButton>
-        </Animated.View>
         <Text style={styles.headerText}>Find Your Path</Text>
       </View>
       <View style={styles.tabsContainer}>
@@ -117,7 +88,7 @@ export default ({ navigation }: FindYourPathProps) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: (activePaths.length / 2) * 90,
+          // paddingBottom: (activePaths.length / 2) * 90,
         }}
       >
         <View style={styles.imageContainer}>
@@ -160,10 +131,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   imageContainer: {
+    flex: 1,
     backgroundColor: "magenta",
     flexWrap: "wrap",
     flexDirection: "row",
-    paddingHorizontal: theme.sizes.base,
+    justifyContent: "center",
     paddingVertical: theme.sizes.base,
   },
   image: {

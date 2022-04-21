@@ -1,6 +1,6 @@
 import createDataContext from "./createDataContext";
 import agent from "../app/api/agent";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthState, AuthActions } from "./IAuthContext";
 
 const authReducer = (state: AuthState, action: AuthActions) => {
@@ -58,7 +58,7 @@ const signin = (dispatch: React.Dispatch<AuthActions>) => {
     try {
       // const token = await agent.User.signin({ email, password });
       const token = "test";
-
+      console.log("test");
       await AsyncStorage.setItem("token", JSON.stringify(token));
       dispatch({ type: "signin", payload: token });
     } catch (error) {}

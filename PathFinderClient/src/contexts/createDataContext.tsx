@@ -23,12 +23,6 @@ const createDataContext = (
       },
       {} as IAuthContextMethods
     );
-    // const boundActions2 = {
-    //   signin: ({email,password})=>new Promise<void>((resolve, reject) => {}),
-    //   signup: actions.signup(dispatch),
-    //   tryLocalSignin: actions.tryLocalSignin(dispatch),
-    //   signout: actions.signout(dispatch),
-    // };
     return (
       <Context.Provider value={{ state, ...boundActions }}>
         {children}

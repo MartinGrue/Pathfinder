@@ -1,7 +1,5 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { DrawerParamList } from "./Drawer";
-import { DrawerNavigationProp } from "@react-navigation/drawer/lib/typescript/src/types";
 import Animated, {
   interpolate,
   SharedValue,
@@ -10,11 +8,7 @@ import Animated, {
 import { useDrawerProgress } from "@react-navigation/drawer";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface DrawerScreenProps {
-  children: JSX.Element;
-  navigation: DrawerNavigationProp<DrawerParamList, keyof DrawerParamList>;
-}
-export default ({ children }: DrawerScreenProps) => {
+export default ({ children }: { children: React.ReactNode }) => {
   const progress = useDrawerProgress() as Readonly<SharedValue<number>>;
 
   const animatedScreenStyle = useAnimatedStyle(() => {
