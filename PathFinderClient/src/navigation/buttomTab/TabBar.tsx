@@ -1,53 +1,16 @@
 import React from "react";
 import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import * as shape from "d3-shape";
 import BottomViewCurve from "../../constants/BottomViewCurve";
 const { width } = Dimensions.get("window");
 const height = 20;
 
-const getPath = (): string => {
-  const draw = shape.line().curve(shape.curveBasis)([
-    [0, 0],
-    [0, height],
-
-    [0, height],
-    [0, height],
-
-    [width, height],
-    [width, height],
-
-    [width, 0],
-    [width, 0],
-
-    [width, height],
-    [(width * 3) / 4, height],
-
-    [(width * 1) / 4, height],
-    [(width * 1) / 4, height],
-
-    [0, height],
-    [0, 0],
-  ]);
-
-  return `${draw}`;
-};
-const d = getPath();
-export default ({
-  style,
-  navigation,
-  activeTintColor,
-  inactiveTintColor,
-  state,
-  descriptors,
-}: BottomTabBarProps) => {
+export default ({ navigation, state, descriptors }: BottomTabBarProps) => {
   return (
     <View style={styles.container}>
-      {/* <Svg width={width * 2} height={30}>
-        <Path fill={"#2A4337"} d={d} />
-      </Svg> */}
       <BottomViewCurve
-        {...{ width, height }}
+        width={width * 1.001}
+        height={30}
         color={"#2A4337"}
       ></BottomViewCurve>
       <View pointerEvents="box-none" style={styles.content}>
@@ -78,9 +41,7 @@ export default ({
             <TouchableOpacity
               key={index}
               accessibilityRole="button"
-              accessibilityStates={isFocused ? ["selected"] : []}
               accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
               onPress={onPress}
             >
               {options.tabBarIcon &&

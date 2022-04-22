@@ -17,7 +17,7 @@ export default () => {
             In 800 metres
           </Typography>
           <Typography size={22} bold primary>
-            02:21:56
+            Turn Right
           </Typography>
         </View>
       </View>

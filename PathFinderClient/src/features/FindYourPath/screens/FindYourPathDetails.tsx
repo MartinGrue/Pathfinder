@@ -51,10 +51,10 @@ export default () => {
       <View style={{ flex: 0.25 }}>
         <TopInfo></TopInfo>
       </View>
-      <View style={{ flex: 2 }}>
+      <View style={{ flex: 1.8 }}>
         <SvgSection></SvgSection>
       </View>
-      <View style={{ flex: 0.5 }}>
+      <View style={{ flex: 0.7 }}>
         <MiddleInfo></MiddleInfo>
       </View>
       <View style={{ flex: 1 }}>
@@ -73,5 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginBottom: 45,
     backgroundColor: theme.colors.white,
+    // backgroundColor: theme.colors.primary,
   },
 });

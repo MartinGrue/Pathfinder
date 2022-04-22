@@ -5,13 +5,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import {
-  getDrawerStatusFromState,
-  useDrawerProgress,
-  useDrawerStatus,
-} from "@react-navigation/drawer";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useDrawerProgress, useDrawerStatus } from "@react-navigation/drawer";
 
 export default ({ children }: { children: React.ReactNode }) => {
   const progress = useDrawerProgress() as Readonly<SharedValue<number>>;
@@ -27,16 +21,21 @@ export default ({ children }: { children: React.ReactNode }) => {
   });
   // console.log("drawerStatus: ", progress);
   return (
-      <Animated.View
-        style={[
-          StyleSheet.flatten([animatedScreenStyle]),
-          StyleSheet.absoluteFill,
-          {
-            overflow: "hidden",
-          },
-        ]}
+    <Animated.View
+      style={[
+        StyleSheet.flatten([animatedScreenStyle]),
+        StyleSheet.absoluteFill,
+        {
+          overflow: "hidden",
+        },
+      ]}
+    >
+      <View
+        pointerEvents={drawerStatus === "open" ? "none" : "auto"}
+        style={{ flex: 1 }}
       >
-        <View pointerEvents={drawerStatus === "open" ? "none" : "auto"} style={{ flex: 1 }}>{children}</View>
-      </Animated.View>
+        {children}
+      </View>
+    </Animated.View>
   );
 };
