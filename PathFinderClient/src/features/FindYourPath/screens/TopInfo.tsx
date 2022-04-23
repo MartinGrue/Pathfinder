@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   },
   infoRight: {
     flexDirection: "row",
-    // backgroundColor: "green",
   },
   icon: {
     backgroundColor: theme.colors.white2,

@@ -76,8 +76,6 @@ export default ({ signStatus }: SingInUpFormProps) => {
     validationSchema,
     initialValues: { email: "", password: "" },
     onSubmit: (values: Values) => {
-      console.log(values);
-      console.log(signStatus);
       signStatus === "Sign IN" && authContext?.signin(values);
       signStatus === "Sign UP" && authContext?.signup(values);
     },

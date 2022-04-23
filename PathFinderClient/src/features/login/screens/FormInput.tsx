@@ -1,19 +1,14 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { FormikErrors, FormikTouched } from "formik/dist/types";
+import { View } from "react-native";
 import { Input } from "@rneui/themed";
 import { Values } from "./SignInUpForm";
-import { useFormikContext, Formik, Form, Field } from "formik";
+import { useFormikContext } from "formik";
 
 interface FormInputProps {
   name: keyof Values;
-
   placeholder: string;
   secureTextEntry: boolean | undefined;
   iconName: string;
-  // value: string;
-  // error: string | undefined;
-  // touched: boolean | undefined;
 }
 export default ({
   name,
@@ -23,7 +18,6 @@ export default ({
 }: FormInputProps) => {
   const { handleChange, setFieldTouched, values, touched, errors } =
     useFormikContext<Values>();
-  console.log("name: ", values);
   return (
     <View>
       <Input
@@ -51,5 +45,3 @@ export default ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({});

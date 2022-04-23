@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Animated } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import PathCard, { savedPaths, IPath } from "../../../components/PathCard";
 import { theme } from "../../../constants/theme";
 
@@ -9,24 +9,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import {
-  RouteProp,
-  useNavigation,
-  useNavigationState,
-  useRoute,
-} from "@react-navigation/core";
-import { Path } from "react-native-svg";
+import { useNavigation } from "@react-navigation/core";
 import { Context } from "../../../contexts/AuthContext";
-import {
-  TabNavigatorRouteProp,
-  TabParamList,
-} from "../navigation/FindYourPathButtomTabNavigator";
 
 export default () => {
   const navigation =
     useNavigation<StackNavigationProp<StackParamList, keyof StackParamList>>();
-  const navState = useNavigationState((s) => s);
-  const { setHeaderText, state } = useContext(Context)!;
+  const { setHeaderText } = useContext(Context)!;
 
   const tabs = ["Easy", "Moderate", "Difficult", "Extreme"];
 
@@ -56,7 +45,7 @@ export default () => {
             marginVertical: 4,
             fontSize: 16,
             fontWeight: "500",
-            // color: isActive ? theme.colors.secondary : theme.colors.gray,
+            color: isActive ? theme.colors.secondary : theme.colors.gray,
           }}
         >
           {tab}
@@ -73,12 +62,6 @@ export default () => {
         ></View>
       </TouchableOpacity>
     );
-  };
-  const rndColor = () => {
-    var x = Math.floor(Math.random() * 256);
-    var y = Math.floor(Math.random() * 256);
-    var z = Math.floor(Math.random() * 256);
-    return "rgb(" + x + "," + y + "," + z + ")";
   };
   const renderCard = (path: IPath) => {
     return (
@@ -99,14 +82,7 @@ export default () => {
       <View style={styles.tabsContainer}>
         <View style={styles.tabs}>{tabs.map((tab) => renderTab(tab))}</View>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          {
-            // paddingBottom: (activePaths.length / 2) * 90,
-          }
-        }
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
           {activePaths.map((savedPath) => renderCard(savedPath))}
         </View>

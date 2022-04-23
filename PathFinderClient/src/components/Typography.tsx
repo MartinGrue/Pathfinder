@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { StyleSheet, Text, View, StyleProp, TextStyle } from "react-native";
+import { StyleSheet, Text, StyleProp, TextStyle } from "react-native";
 import { theme } from "../constants/theme";
 
 interface TextProps {
@@ -84,7 +84,6 @@ export default ({
   children,
 }: Partial<TextProps>) => {
   const textStyles: StyleProp<TextStyle> = [
-
     styles.text,
     h1 && styles.h1,
     h2 && styles.h2,

@@ -1,4 +1,4 @@
-import { Dimensions, Image, ImageStyle, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import * as React from "react";
 import { theme } from "../constants/theme";
 

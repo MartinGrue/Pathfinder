@@ -1,5 +1,4 @@
 import createDataContext from "./createDataContext";
-import agent from "../app/api/agent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthState, AuthActions } from "./IAuthContext";
 
@@ -27,13 +26,13 @@ const authReducer = (state: AuthState, action: AuthActions) => {
 const signup = (dispatch: React.Dispatch<AuthActions>) => {
   return async ({ email, password }: { email: string; password: string }) => {
     try {
-      const token = await agent.User.signup({ email, password });
+      // const token = await agent.User.signup({ email, password });
+      const token = "test";
       const stringToken = JSON.stringify(token);
       await AsyncStorage.setItem("token", stringToken);
       dispatch({ type: "signup", payload: stringToken });
     } catch (error) {
       dispatch({ type: "add_error", payload: "Error in sign up" });
-      console.log("Error in sign up");
     }
   };
 };
@@ -43,8 +42,6 @@ const tryLocalSignin = (dispatch: React.Dispatch<AuthActions>) => {
 
     const token = await AsyncStorage.getItem("token");
     if (token) {
-      console.log("token found local");
-      console.log("this is a token in store: " + token);
       dispatch({ type: "signin", payload: token });
       dispatch({ type: "setloading", payload: false });
       return true;
@@ -60,7 +57,6 @@ const signin = (dispatch: React.Dispatch<AuthActions>) => {
     try {
       // const token = await agent.User.signin({ email, password });
       const token = "test";
-      console.log("test");
       await AsyncStorage.setItem("token", JSON.stringify(token));
       dispatch({ type: "signin", payload: token });
     } catch (error) {}

@@ -1,15 +1,12 @@
 import React from "react";
-// import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabBar from "../../../navigation/buttomTab/TabBar";
 import FindYourPathMap from "../screens/FindYourPathMap";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { StackParamList } from "./FindYoutPathStackNavigatior";
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import FindYourPathDetails from "../screens/FindYourPathDetails";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { View } from "react-native";
-import DrawerHeader from "../../../navigation/drawer/DrawerHeader";
 import { IPath } from "../../../components/PathCard";
 
 //Specifying undefined means that the route doesn't have params
@@ -19,31 +16,11 @@ export type TabParamList = {
   };
   FindYourPathMap: undefined;
 };
-// interface ISubNavigator<T, K extends keyof T> {
-//   screen: K;
-//   params?: T[K];
-// }
-// export type TabParamList = {
-//   FindYourPathDetails: ISubNavigator<
-//     StackParamList,
-//     "FindYourPathButtomTabNavigator"
-//   >;
-//   FindYourPathMap: undefined;
-// };
 
 export type TabNavigatorRouteProp = RouteProp<
   StackParamList,
   "FindYourPathButtomTabNavigator"
 >;
-
-// type TabNavigatorNavigationProp = StackNavigationProp<
-//   StackParamList,
-//   "FindYourPathButtomTabNavigator"
-// >;
-// interface TabNavigatonProp {
-//   route: TabNavigatorRouteProp;
-//   navigation: TabNavigatorNavigationProp;
-// }
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -61,8 +38,8 @@ export default () => {
         }}
       >
         {(props) => (
-          <View style={{ flex: 1, backgroundColor:"white" }}>
-            <FindYourPathDetails></FindYourPathDetails>
+          <View style={{ flex: 1, backgroundColor: "white" }}>
+            <FindYourPathDetails />
           </View>
         )}
       </Tab.Screen>

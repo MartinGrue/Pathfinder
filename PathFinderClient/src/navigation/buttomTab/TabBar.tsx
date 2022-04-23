@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import BottomViewCurve from "../../constants/BottomViewCurve";
 const { width } = Dimensions.get("window");
-const height = 20;
+// const height = 20;
 
 export default ({ navigation, state, descriptors }: BottomTabBarProps) => {
   return (

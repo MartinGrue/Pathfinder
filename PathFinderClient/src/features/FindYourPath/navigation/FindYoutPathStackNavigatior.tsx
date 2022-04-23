@@ -16,8 +16,8 @@ const Stack = createStackNavigator<StackParamList>();
 export default () => {
   return (
     <Stack.Navigator
-      // initialRouteName="FindYourPath"
-      initialRouteName="FindYourPathButtomTabNavigator"
+      initialRouteName="FindYourPath"
+      // initialRouteName="FindYourPathButtomTabNavigator"
     >
       <Stack.Screen
         name="FindYourPath"

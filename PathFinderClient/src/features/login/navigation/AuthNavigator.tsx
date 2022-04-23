@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import NavigationService from "../../../utils/NavigationService";
 import SignIn from "../screens/SignIn";
 import InitScreen from "../screens/InitScreen";
 import Drawer from "../../../navigation/drawer/Drawer";
@@ -29,10 +28,7 @@ export default () => {
   }
   return (
     <NavigationContainer
-      ref={(navigatorRef) => {
-        NavigationService.setTopLevelNavigator(navigatorRef);
-      }}
-      //This is needed to prevent some white pixel flickering on drawer movement
+      //This theme is needed to prevent some white pixel flickering on drawer movement
       theme={{
         dark: false,
         colors: {

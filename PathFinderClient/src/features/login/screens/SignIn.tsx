@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Keyboard } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import Animated, {
   Easing,
   Extrapolate,
@@ -11,7 +10,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Image } from "react-native-svg";
-import { RootStackParamList } from "../navigation/AuthNavigator";
 import SignInUpForm from "./SignInUpForm";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,12 +18,12 @@ const img = require("../../../../assets/backgroundImages/715e8b73080499.5bfdacd4
 
 const { width, height } = Dimensions.get("window");
 
-interface SingInProps {
-  navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>;
-}
+// interface SingInProps {
+//   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>;
+// }
 export type signStatusType = "Sign UP" | "Sign IN" | undefined;
 
-export default ({ navigation }: SingInProps) => {
+export default () => {
   const easing = Easing.inOut(Easing.ease);
 
   const [signStatus, setsignStatus] = useState<signStatusType>(undefined);
@@ -91,13 +89,12 @@ export default ({ navigation }: SingInProps) => {
   };
   const SignInPress: () => void = () => {
     setsignStatus("Sign IN");
-    console.log("hi");
   };
   const CancelPress: () => void = () => {
     setsignStatus(undefined);
   };
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,

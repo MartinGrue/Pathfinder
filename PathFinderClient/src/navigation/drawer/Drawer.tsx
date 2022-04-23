@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -12,11 +12,8 @@ import { AntDesign } from "@expo/vector-icons";
 import DrawerScreen from "./DrawerScreen";
 
 import FindYoutPathStackNavigatior from "../../features///FindYourPath/navigation/FindYoutPathStackNavigatior";
-import CreateNewPathStackNavigator from "../../features/CreateNewPath/navigation/CreateNewPathStackNavigator";
 import Typography from "../../components/Typography";
 import { Avatar } from "@rneui/base";
-// import SelectOptions from "../../features/Options/screens/SelectOptions";
-// import OptionsStackNavigator from "../../features/Options/navigation/OptionsStackNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../../constants/theme";
 import { SvgXml } from "react-native-svg";
@@ -158,12 +155,11 @@ export default () => {
         style={{ flex: 1, backgroundColor: theme.colors.primary }}
         edges={["bottom"]}
       >
-        {/* <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.white2 }}> */}
         <Drawer.Navigator
           initialRouteName="FindYoutPathStackNavigatior"
           screenOptions={screenOptions}
           drawerContent={(props) => (
-            <DrawerContent props={props}></DrawerContent>
+            <DrawerContent {...{ props }}></DrawerContent>
           )}
         >
           <Drawer.Screen name="FindYoutPathStackNavigatior">
@@ -173,24 +169,7 @@ export default () => {
               </DrawerScreen>
             )}
           </Drawer.Screen>
-          {/* <Drawer.Screen name="CreateNewPath">
-          {(props) => (
-            <DrawerScreen {...{ ...props, animatedScreenStyle }}>
-              <CreateNewPathStackNavigator
-                {...props}
-              ></CreateNewPathStackNavigator>
-            </DrawerScreen>
-          )}
-        </Drawer.Screen> */}
-          <Drawer.Screen name="Options">
-            {() => (
-              <DrawerScreen>
-                <View></View>
-              </DrawerScreen>
-            )}
-          </Drawer.Screen>
         </Drawer.Navigator>
-        {/* </SafeAreaView> */}
       </SafeAreaView>
     </>
   );

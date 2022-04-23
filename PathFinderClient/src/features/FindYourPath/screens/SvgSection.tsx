@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { theme } from "../../../constants/theme";
 import Svg, { Path, Rect, Circle, Image, ClipPath, G } from "react-native-svg";
@@ -126,8 +126,6 @@ const SvgCircle = () => {
   );
 };
 export default () => {
-  const route = useRoute<TabNavigatorRouteProp>();
-  const { path } = route.params;
   return (
     <View style={styles.svgContainer}>
       <SvgCircle></SvgCircle>
