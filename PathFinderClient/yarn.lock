@@ -1616,13 +1616,13 @@
     "@types/react" "*"
 
 "@types/react-native@~0.67.12":
-  version "0.64.3"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.64.3.tgz#02b3eec685e51995a90468382f6bb5d9fff20257"
-  integrity sha512-gOQfWlp5Z5MS4RRvH1u9HfnL7QUspiGyYuGWgxL4lXi7hIKriAVSMtdIToJF+8cED8MemFe45PmQeSvDeSTgSA==
+  version "0.67.17"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.67.17.tgz#afebc3fff1d6314840c13b7936e17fa350eb7aae"
+  integrity sha512-HYo9XbYPwyf5L7FWhRjawbDQ4ma5k/bEzxrpDjG2olwLbXR/IR5ZghCmUUIcEtHB9KDg0QIAs+WriddtOKVmFg==
   dependencies:
-    "@types/react" "*"
+    "@types/react" "^17"
 
-"@types/react@*", "@types/react@17.0.43":
+"@types/react@*", "@types/react@17.0.43", "@types/react@^17":
   version "17.0.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
   integrity sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==
@@ -2505,9 +2505,9 @@ decamelize@^1.2.0:
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
 decode-uri-component@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-  integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
+  integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
 
 deepmerge@^2.1.1:
   version "2.2.1"
